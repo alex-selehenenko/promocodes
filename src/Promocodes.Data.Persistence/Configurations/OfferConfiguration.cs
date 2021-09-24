@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Promocodes.Data.Core.Entities;
-using System;
 
 namespace Promocodes.Data.Persistence.Configurations
 {
@@ -24,12 +23,10 @@ namespace Promocodes.Data.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(o => o.Enabled)
-                .IsRequired()
-                .HasDefaultValue(true);
+                .IsRequired();
 
             builder.Property(o => o.IsDeleted)
-                .IsRequired()
-                .HasDefaultValue(false);
+                .IsRequired();
 
             builder.Property(o => o.StartDate)
                 .IsRequired();

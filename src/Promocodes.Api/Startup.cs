@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Promocodes.Data.Persistence.DependencyInjection;
 
 namespace Promocodes.Api
 {
@@ -14,6 +11,7 @@ namespace Promocodes.Api
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddPersistence(@"Data Source=(localdb)\MSSQLLocalDb;Database=PromocodesDb;Trusted_Connection=true");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

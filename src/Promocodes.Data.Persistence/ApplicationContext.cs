@@ -6,7 +6,7 @@ namespace Promocodes.Data.Persistence
 {
     public class ApplicationContext : DbContext
     {
-        private const string DefaultConnectionString = "";
+        private const string DefaultConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Database=PromocodesDb;Trusted_Connection=true";
 
         public DbSet<Category> Categories { get; set; }
 

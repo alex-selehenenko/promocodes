@@ -8,9 +8,9 @@ namespace Promocodes.Data.Persistence
     {
         private readonly ApplicationContext _context;
 
-        public UnitOfWork(ApplicationContext _context)
+        public UnitOfWork(ApplicationContext context)
         {
-
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IOfferRepository OfferRepository => throw new NotImplementedException();
