@@ -1,4 +1,4 @@
-﻿namespace Promocodes.Data.Entities.Pagination
+﻿namespace Promocodes.Data.Core.Common
 {
     public interface IPage<T>
     {
