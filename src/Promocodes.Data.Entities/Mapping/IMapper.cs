@@ -7,8 +7,6 @@ namespace Promocodes.Data.Entities.Mapping
         where TEntity : EntityBase
         where TDto : DtoBase
     {
-        TEntity Map(TDto dto);
-
         TDto Map(TEntity entity);
     }
 }
