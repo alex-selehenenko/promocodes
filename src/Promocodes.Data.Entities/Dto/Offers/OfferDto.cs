@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Promocodes.Core.Entities
+namespace Promocodes.Data.Entities.Dto.Offers
 {
-    public class Offer : EntityBase
+    public class OfferDto : DtoBase
     {
         public string Name { get; set; }
 
@@ -15,14 +14,10 @@ namespace Promocodes.Core.Entities
 
         public DateTime StartDate { get; set; }
 
-        public DateTime ExpireDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public bool IsDeleted { get; set; }
 
         public int ShopId { get; set; }
-
-        public Shop Shop { get; set; }
-
-        public List<User> Users { get; set; } = new();
     }
 }

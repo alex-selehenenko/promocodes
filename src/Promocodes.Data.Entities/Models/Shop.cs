@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Promocodes.Core.Entities
+namespace Promocodes.Data.Entities.Models
 {
     public class Shop : EntityBase
     {

@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Promocodes.Core.Entities
+namespace Promocodes.Data.Entities.Shared
 {
-    public abstract class EntityBase
+    public abstract class IdentifiableBase
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public override bool Equals(object obj)
         {
-            return obj is EntityBase entity &&
+            return obj is IdentifiableBase entity &&
                    GetType() == obj.GetType() &&
                    Id == entity.Id;
         }
@@ -18,12 +18,12 @@ namespace Promocodes.Core.Entities
             return HashCode.Combine(Id, GetType());
         }
 
-        public static bool operator ==(EntityBase left, EntityBase right)
+        public static bool operator ==(IdentifiableBase left, IdentifiableBase right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(EntityBase left, EntityBase right)
+        public static bool operator !=(IdentifiableBase left, IdentifiableBase right)
         {
             return !(left == right);
         }

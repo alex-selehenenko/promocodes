@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Promocodes.Core.Entities
+namespace Promocodes.Data.Entities.Models
 {
     public class Category : EntityBase
     {
         public string Name { get; set; }
 
-        public List<Shop> Shops { get; set; }
+        public List<Shop> Shops { get; set; } = new();
     }
 }
