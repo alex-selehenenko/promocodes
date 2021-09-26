@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Persistence.Configurations;
+using Promocodes.Data.Persistence.SeedData;
 
 namespace Promocodes.Data.Persistence
 {
-    public class ApplicationContext : DbContext
+    public class PromocodesDbContext : DbContext
     {
         private const string DefaultConnectionString = "Data Source=(localdb)\\MSSQLLocalDb;Database=PromocodesDb";
 
@@ -18,7 +19,7 @@ namespace Promocodes.Data.Persistence
 
         public DbSet<User> Users { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public PromocodesDbContext(DbContextOptions<PromocodesDbContext> options) : base(options)
         {
         }
 
@@ -29,6 +30,8 @@ namespace Promocodes.Data.Persistence
                         .ApplyConfiguration(new OfferConfiguration())
                         .ApplyConfiguration(new ReviewConfiguration())
                         .ApplyConfiguration(new UserConfiguration());
+
+            modelBuilder.Seed();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

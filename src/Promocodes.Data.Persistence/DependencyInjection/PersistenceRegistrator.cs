@@ -9,7 +9,7 @@ namespace Promocodes.Data.Persistence.DependencyInjection
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString)
         {
-            return services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString))
+            return services.AddDbContext<PromocodesDbContext>(options => options.UseSqlServer(connectionString))
                            .AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

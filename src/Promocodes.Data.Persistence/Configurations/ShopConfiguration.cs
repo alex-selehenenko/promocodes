@@ -10,6 +10,9 @@ namespace Promocodes.Data.Persistence.Configurations
         {
             builder.HasKey(s => s.Id);
 
+            builder.Property(s => s.Id)
+                .UseIdentityColumn();
+
             builder.HasIndex(e => e.Name, "UQ_Shop_Name")
                 .IsUnique();
 
@@ -22,6 +25,10 @@ namespace Promocodes.Data.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            builder.Property(s => s.Description)
+                .IsRequired()
+                .HasMaxLength(500);
 
             builder.Property(s => s.Rating)
                 .IsRequired();

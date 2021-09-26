@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,8 +27,9 @@ namespace Promocodes.Data.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "SQL_Latin1_General_CP1_CI_AS"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Site = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Site = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Rating = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +42,8 @@ namespace Promocodes.Data.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Phone = table.Column<string>(type: "varchar(11)", unicode: false, maxLength: 11, nullable: false)
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(type: "varchar(14)", unicode: false, maxLength: 14, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,21 +54,21 @@ namespace Promocodes.Data.Persistence.Migrations
                 name: "CategoryShop",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    ShopsId = table.Column<int>(type: "int", nullable: false)
+                    ShopId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryShop", x => new { x.CategoriesId, x.ShopsId });
+                    table.PrimaryKey("PK_CategoryShop", x => new { x.ShopId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_CategoryShop_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_CategoryShop_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryShop_Shops_ShopsId",
-                        column: x => x.ShopsId,
+                        name: "FK_CategoryShop_Shops_ShopId",
+                        column: x => x.ShopId,
                         principalTable: "Shops",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -82,6 +84,7 @@ namespace Promocodes.Data.Persistence.Migrations
                     Enabled = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Promocode = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Discount = table.Column<float>(type: "real", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -151,10 +154,56 @@ namespace Promocodes.Data.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoryShop_ShopsId",
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { -1, "Electronics" },
+                    { -2, "Baby" },
+                    { -3, "Clothes" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Shops",
+                columns: new[] { "Id", "Description", "Name", "Rating", "Site" },
+                values: new object[,]
+                {
+                    { -1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Electron Plus", 0f, "https://eee-plus.com.ua" },
+                    { -2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Baby boom", 0f, "https://b-a-b-y-boom.com.ua" },
+                    { -3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Zebra", 0f, "https://zebrrra.biz.ua" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Phone", "UserName" },
+                values: new object[,]
+                {
+                    { -1, "+380991234567", "alex" },
+                    { -2, "+380931112233", "serg" },
+                    { -3, "+380661234545", "jess" },
+                    { -4, "+380501112233", "qwerty" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "CategoryShop",
-                column: "ShopsId");
+                columns: new[] { "CategoryId", "ShopId" },
+                values: new object[] { -1, -1 });
+
+            migrationBuilder.InsertData(
+                table: "CategoryShop",
+                columns: new[] { "CategoryId", "ShopId" },
+                values: new object[] { -2, -2 });
+
+            migrationBuilder.InsertData(
+                table: "CategoryShop",
+                columns: new[] { "CategoryId", "ShopId" },
+                values: new object[] { -3, -3 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryShop_CategoryId",
+                table: "CategoryShop",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_ShopId",

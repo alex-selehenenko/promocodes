@@ -8,8 +8,8 @@ using Promocodes.Data.Persistence;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PromocodesDbContext))]
+    partial class PromocodesDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -21,17 +21,34 @@ namespace Promocodes.Data.Persistence.Migrations
 
             modelBuilder.Entity("CategoryShop", b =>
                 {
-                    b.Property<int>("CategoriesId")
+                    b.Property<int>("ShopId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShopsId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoriesId", "ShopsId");
+                    b.HasKey("ShopId", "CategoryId");
 
-                    b.HasIndex("ShopsId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("CategoryShop");
+
+                    b.HasData(
+                        new
+                        {
+                            ShopId = -1,
+                            CategoryId = -1
+                        },
+                        new
+                        {
+                            ShopId = -2,
+                            CategoryId = -2
+                        },
+                        new
+                        {
+                            ShopId = -3,
+                            CategoryId = -3
+                        });
                 });
 
             modelBuilder.Entity("OfferUser", b =>
@@ -54,6 +71,8 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
@@ -64,6 +83,23 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Name = "Baby"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Name = "Clothes"
+                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
@@ -71,6 +107,8 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
@@ -118,6 +156,8 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreationTime")
@@ -153,10 +193,14 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -179,6 +223,32 @@ namespace Promocodes.Data.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Shops");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                            Name = "Electron Plus",
+                            Rating = 0f,
+                            Site = "https://eee-plus.com.ua"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                            Name = "Baby boom",
+                            Rating = 0f,
+                            Site = "https://b-a-b-y-boom.com.ua"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                            Name = "Zebra",
+                            Rating = 0f,
+                            Site = "https://zebrrra.biz.ua"
+                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.User", b =>
@@ -186,13 +256,19 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(11)
+                        .HasMaxLength(14)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(11)");
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -200,19 +276,45 @@ namespace Promocodes.Data.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Phone = "+380991234567",
+                            UserName = "alex"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Phone = "+380931112233",
+                            UserName = "serg"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Phone = "+380661234545",
+                            UserName = "jess"
+                        },
+                        new
+                        {
+                            Id = -4,
+                            Phone = "+380501112233",
+                            UserName = "qwerty"
+                        });
                 });
 
             modelBuilder.Entity("CategoryShop", b =>
                 {
                     b.HasOne("Promocodes.Data.Core.Entities.Category", null)
                         .WithMany()
-                        .HasForeignKey("CategoriesId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", null)
                         .WithMany()
-                        .HasForeignKey("ShopsId")
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

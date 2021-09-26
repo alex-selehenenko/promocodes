@@ -10,6 +10,9 @@ namespace Promocodes.Data.Persistence.Configurations
         {
             builder.HasKey(o => o.Id);
 
+            builder.Property(o => o.Id)
+                .UseIdentityColumn();
+
             builder.Property(o => o.Name)
                 .HasMaxLength(50)
                 .IsRequired();

@@ -5,7 +5,7 @@ namespace Promocodes.Data.Persistence.Repositories
 {
     public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
-        public CategoryRepository(ApplicationContext context) : base(context)
+        public CategoryRepository(PromocodesDbContext context) : base(context)
         {
         }
     }

@@ -5,7 +5,7 @@ namespace Promocodes.Data.Persistence.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(ApplicationContext context) : base(context)
+        public UserRepository(PromocodesDbContext context) : base(context)
         {
         }
     }

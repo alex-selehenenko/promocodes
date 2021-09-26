@@ -11,9 +11,9 @@ namespace Promocodes.Data.Persistence.Repositories
         private IUserRepository _userRepository;
         private IReviewRepository _reviewRepository;
 
-        private readonly ApplicationContext _context;
+        private readonly PromocodesDbContext _context;
 
-        public UnitOfWork(ApplicationContext context)
+        public UnitOfWork(PromocodesDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }

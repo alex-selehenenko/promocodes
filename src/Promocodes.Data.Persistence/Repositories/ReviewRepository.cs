@@ -5,7 +5,7 @@ namespace Promocodes.Data.Persistence.Repositories
 {
     public class ReviewRepository : RepositoryBase<Review>, IReviewRepository
     {
-        public ReviewRepository(ApplicationContext context) : base(context)
+        public ReviewRepository(PromocodesDbContext context) : base(context)
         {
         }
     }

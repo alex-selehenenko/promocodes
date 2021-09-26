@@ -9,9 +9,9 @@ namespace Promocodes.Data.Persistence.Repositories
 {
     public abstract class RepositoryBase<T> : IRepository<T> where T : EntityBase
     {
-        protected ApplicationContext Context { get; }
+        protected PromocodesDbContext Context { get; }
 
-        public RepositoryBase(ApplicationContext context)
+        public RepositoryBase(PromocodesDbContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }

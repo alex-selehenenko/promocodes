@@ -10,6 +10,9 @@ namespace Promocodes.Data.Persistence.Configurations
         {
             builder.HasKey(r => r.Id);
 
+            builder.Property(r => r.Id)
+                .UseIdentityColumn();
+
             builder.Property(r => r.Stars)
                 .IsRequired()
                 .HasDefaultValue(5);

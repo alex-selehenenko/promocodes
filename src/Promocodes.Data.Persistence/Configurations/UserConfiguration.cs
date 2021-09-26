@@ -10,13 +10,19 @@ namespace Promocodes.Data.Persistence.Configurations
         {
             builder.HasKey(u => u.Id);
 
+            builder.Property(u => u.Id)
+                .UseIdentityColumn();
+
             builder.HasIndex(u => u.Phone, "UQ_User_Phone")
                 .IsUnique();
 
             builder.Property(u => u.Phone)
                 .IsRequired()
-                .HasMaxLength(11)
+                .HasMaxLength(14)
                 .IsUnicode(false);
+
+            builder.Property(u => u.UserName)
+                .HasMaxLength(50);
         }
     }
 }

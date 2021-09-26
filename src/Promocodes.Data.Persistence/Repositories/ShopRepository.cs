@@ -5,7 +5,7 @@ namespace Promocodes.Data.Persistence.Repositories
 {
     public class ShopRepository : RepositoryBase<Shop>, IShopRepository
     {
-        public ShopRepository(ApplicationContext context) : base(context)
+        public ShopRepository(PromocodesDbContext context) : base(context)
         {
         }
     }
