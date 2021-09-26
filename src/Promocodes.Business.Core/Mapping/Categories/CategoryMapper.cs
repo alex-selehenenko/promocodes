@@ -4,7 +4,7 @@ using System;
 
 namespace Promocodes.Business.Core.Mapping.Categories
 {
-    public class CategoryMapper : IMapper<Category, CategoryDto>
+    public class CategoryMapper : IEntityToDtoMapper<Category, CategoryDto>
     {
         public CategoryDto Map(Category entity)
         {

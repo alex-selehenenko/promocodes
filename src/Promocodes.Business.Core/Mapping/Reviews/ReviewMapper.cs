@@ -4,7 +4,7 @@ using System;
 
 namespace Promocodes.Business.Core.Mapping.Reviews
 {
-    public class ReviewMapper : IMapper<Review, ReviewDto>
+    public class ReviewMapper : IEntityToDtoMapper<Review, ReviewDto>
     {
         public ReviewDto Map(Review entity)
         {

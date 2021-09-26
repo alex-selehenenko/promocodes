@@ -6,7 +6,7 @@ namespace Promocodes.Business.Core.ServiceInterfaces
     {
         void Create(OfferDto offer);
 
-        void Edit(OfferDto offer);
+        void Edit(EditOfferDto offer);
 
         void Toogle(int offerId);
 

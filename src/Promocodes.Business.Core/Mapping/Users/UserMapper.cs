@@ -4,7 +4,7 @@ using System;
 
 namespace Promocodes.Business.Core.Mapping.Users
 {
-    public class UserMapper : IMapper<User, UserDto>
+    public class UserMapper : IEntityToDtoMapper<User, UserDto>
     {
         public UserDto Map(User entity)
         {

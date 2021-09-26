@@ -10,8 +10,6 @@ namespace Promocodes.Business.Core.Dto.Reviews
 
         public DateTime CreationTime { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         public int? ShopId { get; set; }
 
         public int? UserId { get; set; }
