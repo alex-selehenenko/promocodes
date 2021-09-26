@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Promocodes.Business.Core\Promocodes.Business.Core.csproj" />
+    <ProjectReference Include="..\Promocodes.Business.Services\Promocodes.Business.Services.csproj" />
     <ProjectReference Include="..\Promocodes.Data.Persistence\Promocodes.Data.Persistence.csproj" />
   </ItemGroup>
 
