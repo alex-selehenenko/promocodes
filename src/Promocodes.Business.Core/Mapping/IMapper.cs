@@ -1,4 +1,4 @@
-﻿using Promocodes.Business.Dto;
+﻿using Promocodes.Business.Core.Dto;
 using Promocodes.Data.Core.Entities;
 
 namespace Promocodes.Business.Core.Mapping

@@ -1,6 +1,7 @@
-﻿using Promocodes.Business.Dto.Offers;
+﻿using Promocodes.Business.Core.Dto.Offers;
 using Promocodes.Data.Core.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Promocodes.Business.Core.Mapping.Offers
 {

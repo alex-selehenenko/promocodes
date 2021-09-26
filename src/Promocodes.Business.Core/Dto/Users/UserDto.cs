@@ -1,4 +1,4 @@
-﻿namespace Promocodes.Business.Dto.Users
+﻿namespace Promocodes.Business.Core.Dto.Users
 {
     public class UserDto : DtoBase
     {

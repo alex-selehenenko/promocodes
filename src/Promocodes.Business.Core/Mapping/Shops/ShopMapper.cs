@@ -1,6 +1,8 @@
-﻿using Promocodes.Business.Dto.Shops;
+﻿using Promocodes.Business.Core.Dto.Shops;
 using Promocodes.Data.Core.Entities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Promocodes.Business.Core.Mapping.Shops
 {
@@ -16,8 +18,24 @@ namespace Promocodes.Business.Core.Mapping.Shops
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
-                Site = entity.Site
+                Site = entity.Site,
+                Rating = CountRating(entity.Reviews)
             };
+        }
+
+        private static float CountRating(IEnumerable<Review> reviews)
+        {
+            if (reviews is null || !reviews.Any())
+                return 0f;
+
+            int totalStars = 0;
+            int count = 0;
+            foreach (var review in reviews)
+            {
+                totalStars += review.Stars;
+                count++;
+            }
+            return totalStars / count;
         }
     }
 }

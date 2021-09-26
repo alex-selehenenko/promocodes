@@ -1,4 +1,4 @@
-﻿namespace Promocodes.Business.Dto.Categories
+﻿namespace Promocodes.Business.Core.Dto.Categories
 {
     public class CategoryDto : DtoBase
     {

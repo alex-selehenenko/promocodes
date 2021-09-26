@@ -10,6 +10,8 @@ namespace Promocodes.Data.Core.Entities
 
         public string Site { get; set; }
 
+        public float Rating { get; set; }
+
         public List<Offer> Offers { get; set; } = new();
 
         public List<Review> Reviews { get; set; } = new();

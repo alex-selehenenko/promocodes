@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Promocodes.Business.Dto.Reviews
+namespace Promocodes.Business.Core.Dto.Reviews
 {
     public class ReviewDto : DtoBase
     {
-        public int Stars { get; set; }
+        public byte Stars { get; set; }
 
         public string Text { get; set; }
 
@@ -12,8 +12,8 @@ namespace Promocodes.Business.Dto.Reviews
 
         public bool IsDeleted { get; set; }
 
-        public int ShopId { get; set; }
+        public int? ShopId { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
     }
 }

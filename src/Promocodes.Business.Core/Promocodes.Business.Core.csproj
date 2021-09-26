@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Promocodes.Data.Core\Promocodes.Data.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

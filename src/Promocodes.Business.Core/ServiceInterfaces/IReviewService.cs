@@ -1,4 +1,4 @@
-﻿using Promocodes.Business.Dto.Reviews;
+﻿using Promocodes.Business.Core.Dto.Reviews;
 
 namespace Promocodes.Business.Core.ServiceInterfaces
 {
@@ -6,6 +6,8 @@ namespace Promocodes.Business.Core.ServiceInterfaces
     {
         void Add(ReviewDto review);
 
-        void Edit(ReviewDto review);
+        void Edit(EditReviewDto review);
+
+        void Delete(int reviewId);
     }
 }

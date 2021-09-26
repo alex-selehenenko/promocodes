@@ -10,7 +10,7 @@ using Promocodes.Data.Persistence;
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210924184223_initial")]
+    [Migration("20210925214151_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,7 +99,7 @@ namespace Promocodes.Data.Persistence.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("ShopId")
+                    b.Property<int?>("ShopId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -122,20 +122,20 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ShopId")
+                    b.Property<int?>("ShopId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Stars")
+                    b.Property<byte>("Stars")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(5);
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)5);
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -233,8 +233,7 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Offers")
                         .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Shop");
                 });
@@ -244,14 +243,11 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Reviews")
                         .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Promocodes.Data.Core.Entities.User", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Shop");
 

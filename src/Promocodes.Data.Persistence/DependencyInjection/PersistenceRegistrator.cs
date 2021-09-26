@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Promocodes.Data.Core.Common;
+using Promocodes.Data.Core.RepositoryInterfaces;
+using Promocodes.Data.Persistence.Repositories;
 
 namespace Promocodes.Data.Persistence.DependencyInjection
 {

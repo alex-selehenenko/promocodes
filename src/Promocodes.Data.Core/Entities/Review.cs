@@ -4,15 +4,15 @@ namespace Promocodes.Data.Core.Entities
 {
     public class Review : EntityBase
     {
-        public int Stars { get; set; }
+        public byte Stars { get; set; }
 
         public string Text { get; set; }
 
         public DateTime CreationTime { get; set; }
 
-        public int ShopId { get; set; }
+        public int? ShopId { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public Shop Shop { get; set; }
 

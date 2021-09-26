@@ -1,6 +1,4 @@
-﻿using Promocodes.Data.Core.RepositoryInterfaces;
-
-namespace Promocodes.Data.Core.Common
+﻿namespace Promocodes.Data.Core.RepositoryInterfaces
 {
     public interface IUnitOfWork
     {

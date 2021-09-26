@@ -1,4 +1,4 @@
-﻿using Promocodes.Business.Dto.Offers;
+﻿using Promocodes.Business.Core.Dto.Offers;
 
 namespace Promocodes.Business.Core.ServiceInterfaces
 {

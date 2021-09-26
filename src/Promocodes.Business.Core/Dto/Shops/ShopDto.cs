@@ -1,4 +1,4 @@
-﻿namespace Promocodes.Business.Dto.Shops
+﻿namespace Promocodes.Business.Core.Dto.Shops
 {
     public class ShopDto : DtoBase
     {
@@ -7,5 +7,7 @@
         public string Description { get; set; }
 
         public string Site { get; set; }
+
+        public float Rating { get; set; }
     }
 }

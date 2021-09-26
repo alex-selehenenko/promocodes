@@ -22,6 +22,19 @@ namespace Promocodes.Data.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            builder.Property(s => s.Rating)
+                .IsRequired();
+
+            builder.HasMany(s => s.Offers)
+                .WithOne(s => s.Shop)
+                .HasForeignKey(o => o.ShopId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasMany(s => s.Reviews)
+                .WithOne(r => r.Shop)
+                .HasForeignKey(r => r.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

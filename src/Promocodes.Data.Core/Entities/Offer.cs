@@ -13,13 +13,15 @@ namespace Promocodes.Data.Core.Entities
 
         public string Promocode { get; set; }
 
+        public float Discount { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
 
         public bool IsDeleted { get; set; }
 
-        public int ShopId { get; set; }
+        public int? ShopId { get; set; }
 
         public Shop Shop { get; set; }
 

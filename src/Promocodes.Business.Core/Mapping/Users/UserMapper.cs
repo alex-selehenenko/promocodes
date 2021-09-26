@@ -1,4 +1,4 @@
-﻿using Promocodes.Business.Dto.Users;
+﻿using Promocodes.Business.Core.Dto.Users;
 using Promocodes.Data.Core.Entities;
 using System;
 
