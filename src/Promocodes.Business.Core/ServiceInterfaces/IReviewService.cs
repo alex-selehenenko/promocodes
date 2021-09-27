@@ -1,13 +1,14 @@
 ﻿using Promocodes.Business.Core.Dto.Reviews;
+using System.Threading.Tasks;
 
 namespace Promocodes.Business.Core.ServiceInterfaces
 {
     public interface IReviewService
     {
-        void Add(ReviewDto review);
+        Task AddAsync(ReviewDto review);
 
-        void Edit(EditReviewDto review);
+        Task EditAsync(EditReviewDto review);
 
-        void Delete(int reviewId);
+        Task DeleteAsync(int reviewId);
     }
 }

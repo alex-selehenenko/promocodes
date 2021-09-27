@@ -1,22 +1,20 @@
 ﻿using Promocodes.Business.Core.Dto.Offers;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Promocodes.Business.Core.ServiceInterfaces
 {
     public interface IOfferService
     {
-        void Create(OfferDto offer);
+        Task CreateAsync(OfferDto offer);
 
-        void Edit(EditOfferDto offer);
+        Task EditAsync(EditOfferDto offer);
 
-        void Toogle(int offerId);
+        Task ToogleAsync(int offerId);
 
-        void Delete(int offerId);
+        Task DeleteAsync(int offerId);
 
-        void Restore(int offerId);        
+        Task RestoreAsync(int offerId);        
 
-        void Take(int offerId, int userId);
-
-        IEnumerable<OfferDto> GetAllOffers();
+        Task TakeAsync(int offerId, int userId);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Promocodes.Business.Core.Dto.Reviews;
 using Promocodes.Business.Core.ServiceInterfaces;
 using System;
 

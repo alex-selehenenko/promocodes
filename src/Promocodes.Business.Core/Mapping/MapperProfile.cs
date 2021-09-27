@@ -23,21 +23,18 @@ namespace Promocodes.Business.Core.Mapping
         {
             CreateMap<OfferDto, Offer>();
             CreateMap<Offer, OfferDto>();
-            CreateMap<EditOfferDto, Offer>();
         }
 
         private void CreateReviewMaps()
         {
             CreateMap<ReviewDto, Review>();
             CreateMap<Review, ReviewDto>();
-            CreateMap<EditReviewDto, Review>();
         }
 
         private void CreateShopMaps()
         {
             CreateMap<ShopDto, Shop>();
             CreateMap<Shop, ShopDto>();
-            CreateMap<EditShopDto, Shop>();
         }
 
         private void CreateUserMaps()

@@ -20,6 +20,9 @@ namespace Promocodes.Data.Core.Common
 
         public static bool operator ==(IdentifiableBase left, IdentifiableBase right)
         {
+            if (left is null || right is null)
+                return left is null && right is null;
+
             return left.Equals(right);
         }
 

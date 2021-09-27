@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using Promocodes.Data.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
@@ -18,47 +18,35 @@ namespace Promocodes.Data.Persistence.Repositories
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public virtual void Add(T entity)
+        public virtual async Task AddAsync(T entity)
         {
-            Context.Set<T>().Add(entity);
+            await Context.AddAsync(entity);
         }
 
         public virtual void Update(params T[] entities)
         {
-            Context.Set<T>().UpdateRange(entities);
+            Context.UpdateRange(entities);
         }
 
         public virtual void Remove(params T[] entities)
         {
-            Context.Set<T>().RemoveRange(entities);
+            Context.RemoveRange(entities);
         }
 
-        public virtual T FindById(int id)
+        public virtual async Task<T> FindByIdAsync(int id)
         {
-            return Context.Set<T>()
-                .AsNoTracking()
-                .FindById(id);
+            var entity = await Context.Set<T>().FindAsync(id);
+            return entity;
         }
 
-        public virtual IEnumerable<T> FindAll(int skip, int take)
+        public virtual async Task<IEnumerable<T>> FindAllAsync(int skip, int take)
         {
-            return Context.Set<T>()
+            var entities = await Context.Set<T>()
                 .AsNoTracking()
-                .FindAll(skip, take);
-        }
-
-        public virtual IEnumerable<T> FindAll()
-        {
-            return Context.Set<T>()
-                .AsNoTracking()
-                .ToList();
-        }
-
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate)
-        {
-            return Context.Set<T>()
-                .AsNoTracking()
-                .Where(predicate);
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
+            return entities;
         }
     }
 }

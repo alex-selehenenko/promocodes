@@ -1,24 +1,19 @@
 ﻿using Promocodes.Data.Core.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Promocodes.Data.Core.RepositoryInterfaces
 {
     public interface IRepository<T> where T : EntityBase
     {
-        void Add(T entity);
+        Task AddAsync(T entity);
 
         void Update(params T[] entities);
 
         void Remove(params T[] entities);
 
-        T FindById(int id);
+        Task<T> FindByIdAsync(int id);
 
-        IEnumerable<T> FindAll(int skip, int take);
-
-        IEnumerable<T> FindAll();
-
-        IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> FindAllAsync(int skip, int take);
     }
 }
