@@ -5,7 +5,7 @@ namespace Promocodes.Data.Core.Entities
 {
     public class Offer : EntityBase
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public bool Enabled { get; set; }
 

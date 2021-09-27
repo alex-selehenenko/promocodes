@@ -2,7 +2,7 @@
 
 namespace Promocodes.Data.Core.Exceptions
 {
-    public class InvalidDataException : ApplicationException
+    public class InvalidEntityDataException : ApplicationException
     {
     }
 }

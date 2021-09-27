@@ -1,4 +1,6 @@
-﻿namespace Promocodes.Data.Core.RepositoryInterfaces
+﻿using System.Threading.Tasks;
+
+namespace Promocodes.Data.Core.RepositoryInterfaces
 {
     public interface IUnitOfWork
     {
@@ -12,6 +14,6 @@
 
         ICategoryRepository CategoryRepository { get; }
 
-        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

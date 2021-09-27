@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.Validation;
 
 namespace Promocodes.Data.Persistence.Configurations
 {
@@ -13,16 +14,16 @@ namespace Promocodes.Data.Persistence.Configurations
             builder.Property(o => o.Id)
                 .UseIdentityColumn();
 
-            builder.Property(o => o.Name)
-                .HasMaxLength(50)
+            builder.Property(o => o.Title)
+                .HasMaxLength(OfferValidator.MaxTitleLength)
                 .IsRequired();
 
             builder.Property(o => o.Promocode)
-                .HasMaxLength(30)
+                .HasMaxLength(OfferValidator.MaxPromocodeLength)
                 .IsRequired();
 
             builder.Property(o => o.Description)
-                .HasMaxLength(200)
+                .HasMaxLength(OfferValidator.MaxDescriptionLength)
                 .IsRequired();
 
             builder.Property(o => o.Enabled)

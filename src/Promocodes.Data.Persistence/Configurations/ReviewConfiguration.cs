@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.Validation;
 
 namespace Promocodes.Data.Persistence.Configurations
 {
@@ -14,11 +15,10 @@ namespace Promocodes.Data.Persistence.Configurations
                 .UseIdentityColumn();
 
             builder.Property(r => r.Stars)
-                .IsRequired()
-                .HasDefaultValue(5);
+                .IsRequired();
 
             builder.Property(r => r.Text)
-                .HasMaxLength(500)
+                .HasMaxLength(ReviewValidator.MaxTextLength)
                 .IsRequired();
 
             builder.Property(r => r.CreationTime)

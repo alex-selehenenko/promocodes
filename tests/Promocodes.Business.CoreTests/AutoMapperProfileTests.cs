@@ -136,9 +136,9 @@ namespace Promocodes.Business.CoreTests
             Assert.IsTrue(actual);
         }
 
-        private bool CheckOffer(Offer entity, OfferDto dto) =>
+        private static bool CheckOffer(Offer entity, OfferDto dto) =>
             dto.Id == entity.Id &&
-            dto.Name == entity.Name &&
+            dto.Title == entity.Title &&
             dto.Promocode == entity.Promocode &&
             dto.ShopId == entity.ShopId &&
             dto.StartDate == entity.StartDate &&
@@ -147,12 +147,12 @@ namespace Promocodes.Business.CoreTests
             dto.Discount == entity.Discount &&
             dto.Enabled == entity.Enabled;
 
-        private bool CheckUser(User entity, UserDto dto) =>
+        private static bool CheckUser(User entity, UserDto dto) =>
             dto.Id == entity.Id &&
             dto.UserName == entity.UserName &&
             dto.Phone == entity.Phone;
 
-        private bool CheckReview(Review entity, ReviewDto dto) =>
+        private static bool CheckReview(Review entity, ReviewDto dto) =>
             dto.Id == entity.Id &&
             dto.CreationTime == entity.CreationTime &&
             dto.ShopId == entity.ShopId &&
@@ -160,14 +160,14 @@ namespace Promocodes.Business.CoreTests
             dto.Text == entity.Text &&
             dto.UserId == entity.UserId;
 
-        private bool CheckShop(Shop entity, ShopDto dto) =>
+        private static bool CheckShop(Shop entity, ShopDto dto) =>
             dto.Id == entity.Id &&
             dto.Description == entity.Description &&
             dto.Name == entity.Name &&
             dto.Rating == entity.Rating &&
             dto.Site == entity.Site;
 
-        private bool CheckCategory(Category entity, CategoryDto dto) =>
+        private static bool CheckCategory(Category entity, CategoryDto dto) =>
             dto.Id == entity.Id &&
             dto.Name == entity.Name;
     }

@@ -4,7 +4,7 @@ namespace Promocodes.Business.Core.Dto.Offers
 {
     public class OfferDto : DtoBase
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public bool Enabled { get; set; }
 

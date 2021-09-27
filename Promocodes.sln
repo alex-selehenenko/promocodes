@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.Core", "src\Promocodes.Data.Core\Promocodes.Data.Core.csproj", "{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promocodes.Data.CoreTests", "tests\Promocodes.Data.CoreTests\Promocodes.Data.CoreTests.csproj", "{A6C4BBD8-FA84-4C96-A3FE-E00C25C6B04B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promocodes.Business.CoreTests", "tests\Promocodes.Business.CoreTests\Promocodes.Business.CoreTests.csproj", "{79AB279E-11A9-4B73-BEBB-863378F240CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business.CoreTests", "tests\Promocodes.Business.CoreTests\Promocodes.Business.CoreTests.csproj", "{79AB279E-11A9-4B73-BEBB-863378F240CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +41,6 @@ Global
 		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6C4BBD8-FA84-4C96-A3FE-E00C25C6B04B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6C4BBD8-FA84-4C96-A3FE-E00C25C6B04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6C4BBD8-FA84-4C96-A3FE-E00C25C6B04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6C4BBD8-FA84-4C96-A3FE-E00C25C6B04B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79AB279E-11A9-4B73-BEBB-863378F240CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79AB279E-11A9-4B73-BEBB-863378F240CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79AB279E-11A9-4B73-BEBB-863378F240CE}.Release|Any CPU.ActiveCfg = Release|Any CPU

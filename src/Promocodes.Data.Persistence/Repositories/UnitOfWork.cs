@@ -1,5 +1,6 @@
 ﻿using Promocodes.Data.Core.RepositoryInterfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
@@ -74,9 +75,9 @@ namespace Promocodes.Data.Persistence.Repositories
             }
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Promocodes.Business.CoreTests.Helpers
         private static Offer InitializeOffer() => new()
         {
             Id = 1,
-            Name = "Name",
+            Title = "Name",
             Description = "Description",
             Promocode = "Promocode",
             Discount = 0.5f,
@@ -110,7 +110,7 @@ namespace Promocodes.Business.CoreTests.Helpers
         private static OfferDto InitializeOfferDto() => new()
         {
             Id = 1,
-            Name = "Name",
+            Title = "Name",
             Description = "Description",
             Promocode = "Promocode",
             Discount = 0.5f,

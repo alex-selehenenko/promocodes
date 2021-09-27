@@ -12,7 +12,7 @@ namespace Promocodes.Business.Core.Mapping
             if (entity is null)
                 throw new ArgumentNullException(nameof(entity));
 
-            entity.Name = dto.Name;
+            entity.Title = dto.Title;
             entity.Description = dto.Description;
             entity.Discount = dto.Discount;
             entity.StartDate = dto.StartDate;
