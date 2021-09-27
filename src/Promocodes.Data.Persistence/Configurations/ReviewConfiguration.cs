@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
-using Promocodes.Data.Core.Validation;
 
 namespace Promocodes.Data.Persistence.Configurations
 {
@@ -18,7 +18,7 @@ namespace Promocodes.Data.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(r => r.Text)
-                .HasMaxLength(ReviewValidator.MaxTextLength)
+                .HasMaxLength(ReviewConstraints.MaxTextLength)
                 .IsRequired();
 
             builder.Property(r => r.CreationTime)

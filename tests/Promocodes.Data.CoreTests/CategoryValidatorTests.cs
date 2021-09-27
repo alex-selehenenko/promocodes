@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.Validation;
 using Promocodes.Data.CoreTests.Helpers;
@@ -31,7 +32,7 @@ namespace Promocodes.Data.CoreTests
             var category = new Category()
             {
                 Id = 1,
-                Name = new('a', CategoryValidator.NameMinLength)
+                Name = new('a', CategoryConstraints.NameMinLength)
             };
 
             var result = _validator.Validate(category);
@@ -50,13 +51,13 @@ namespace Promocodes.Data.CoreTests
 
             yield return new()
             {
-                Entity = new() { Id = 1, Name = new string('a', CategoryValidator.NameMaxLength + 1) },
+                Entity = new() { Id = 1, Name = new string('a', CategoryConstraints.NameMaxLength + 1) },
                 CaseName = "NameLengthGreaterMaxValue_Invalid"
             };
 
             yield return new()
             {
-                Entity = new() { Id = 1, Name = new string('a', CategoryValidator.NameMinLength - 1) },
+                Entity = new() { Id = 1, Name = new string('a', CategoryConstraints.NameMinLength - 1) },
                 CaseName = "NameLengthLessMinValue_Invalid"
             };
         }

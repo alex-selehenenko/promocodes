@@ -1,20 +1,21 @@
 ﻿using FluentValidation;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 
 namespace Promocodes.Data.Core.Validation
 {
     public class CategoryValidator : ValidatorBase<Category>
     {
-        public const int NameMinLength = 3;
-        public const int NameMaxLength = 50;
-
         public CategoryValidator()
         {
             RuleFor(c => c.Name)
                 .NotNull()
                 .WithMessage("Name was null")
-                .Length(NameMinLength, NameMaxLength)
-                .WithMessage(InvalidStringLengthMessage(nameof(Category.Name), NameMinLength, NameMaxLength));
+                .Length(CategoryConstraints.NameMinLength, CategoryConstraints.NameMaxLength)
+                .WithMessage(InvalidStringLengthMessage(
+                    nameof(Category.Name),
+                    CategoryConstraints.NameMinLength,
+                    CategoryConstraints.NameMaxLength));
         }
     }
 }

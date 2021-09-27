@@ -4,26 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FluentValidation;
+using Promocodes.Data.Core.DataConstraints;
 
 namespace Promocodes.Data.Core.Validation
 {
     public class ReviewValidator : ValidatorBase<Review>
     {
-        public const byte MinStars = 1;
-        public const byte MaxStars = 10;
-
-        public const int MinTextLength = 0;
-        public const int MaxTextLength = 500;
-
         public ReviewValidator()
         {
             RuleFor(r => r.Stars)
-                .InclusiveBetween(MinStars, MaxStars)
-                .WithMessage(OutOfRangeMessage(nameof(Review.Stars), MinStars, MaxStars));
+                .InclusiveBetween(ReviewConstraints.MinStars, ReviewConstraints.MaxStars)
+                .WithMessage(OutOfRangeMessage(
+                    nameof(Review.Stars),
+                    ReviewConstraints.MinStars,
+                    ReviewConstraints.MaxStars));
 
             RuleFor(r => r.Text)
-                .Length(MinTextLength, MaxTextLength)
-                .WithMessage(InvalidStringLengthMessage(nameof(Review.Text), MinTextLength, MaxTextLength));
+                .NotNull()
+                .WithMessage(NullValueMessage(nameof(Review.Text)))
+                .Length(ReviewConstraints.MinTextLength, ReviewConstraints.MaxTextLength)
+                .WithMessage(InvalidStringLengthMessage(
+                    nameof(Review.Text),
+                    ReviewConstraints.MinTextLength,
+                    ReviewConstraints.MaxTextLength));
         }
     }
 }
