@@ -26,7 +26,7 @@ namespace Promocodes.Data.Core.Validation
                 .WithMessage(InvalidStringLengthMessage(nameof(Shop.Description), DescriptionMinLength, DescriptionMaxLength));
 
             RuleFor(s => s.Rating)
-                .InclusiveBetween(0, 10)
+                .InclusiveBetween(MinRating, MaxRating)
                 .WithMessage(OutOfRangeMessage(nameof(Shop.Rating), MinRating, MaxRating));
 
             RuleFor(s => s.Site)

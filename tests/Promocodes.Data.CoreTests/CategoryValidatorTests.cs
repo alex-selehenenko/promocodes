@@ -31,10 +31,10 @@ namespace Promocodes.Data.CoreTests
             var category = new Category()
             {
                 Id = 1,
-                Name = "Correct name"
+                Name = new('a', CategoryValidator.NameMinLength)
             };
-            var result = _validator.Validate(category);
 
+            var result = _validator.Validate(category);
             var actual = result.IsValid;
 
             Assert.IsTrue(actual);

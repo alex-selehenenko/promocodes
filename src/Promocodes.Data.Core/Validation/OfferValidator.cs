@@ -37,12 +37,14 @@ namespace Promocodes.Data.Core.Validation
                 .WithMessage(OutOfRangeMessage(nameof(Offer.Discount), MinDiscount, MaxDiscount));
 
             RuleFor(o => o.Promocode)
+                .NotNull()
+                .WithMessage(NullValueMessage(nameof(Offer.Promocode)))
                 .Length(MinPromocodeLength, MaxPromocodeLength)
                 .WithMessage(InvalidStringLengthMessage(nameof(Offer.Promocode), MinPromocodeLength, MaxPromocodeLength));
 
             RuleFor(o => o.StartDate)
                 .Must((offer, startDate) => startDate < offer.ExpirationDate)
-                .WithMessage("Start date was greater expiration");
+                .WithMessage("Start date was greater expiration date");
 
             RuleFor(o => o.ExpirationDate)
                 .Must((offer, expirationDate) => expirationDate > offer.StartDate)

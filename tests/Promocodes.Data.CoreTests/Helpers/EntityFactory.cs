@@ -11,11 +11,11 @@ namespace Promocodes.Data.CoreTests.Helpers
             Description = new string('a', OfferValidator.MinDescriptionLength),
             Discount = 0.5f,
             Enabled = true,
-            ExpirationDate = new System.DateTime(2021, 09, 30),
+            ExpirationDate = new System.DateTime(2021, 01, 02),
             IsDeleted = false,
             Promocode = new('a', OfferValidator.MinPromocodeLength),
             Title = new string('a', OfferValidator.MinTitleLength),
-            StartDate = new System.DateTime(2021, 09, 29)
+            StartDate = new System.DateTime(2021, 01, 01)
         };
     }
 }

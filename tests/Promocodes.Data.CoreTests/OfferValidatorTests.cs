@@ -22,8 +22,8 @@ namespace Promocodes.Data.CoreTests
         }
 
         [Test]
-        [TestCaseSource(nameof(InvalidDescriptions))]
-        public void CheckInvalidDescriptions(EntityContainer<Offer> container)
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public void InvalidProperties(EntityContainer<Offer> container)
         {
             var result = _validator.Validate(container.Entity);
 
@@ -32,11 +32,7 @@ namespace Promocodes.Data.CoreTests
             Assert.IsFalse(actual);
         }
 
-        [Test]
-        [TestCase]
-        public 
-
-        public static IEnumerable<EntityContainer<Offer>> InvalidDescriptions()
+        public static IEnumerable<EntityContainer<Offer>> GetInvalidProperties()
         {
             Offer offer;
 
@@ -62,6 +58,62 @@ namespace Promocodes.Data.CoreTests
             {
                 Entity = offer,
                 CaseName = "DescriptionLengthGreaterMaxValue_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.Discount = OfferValidator.MinDiscount - 0.0000001f;
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "DiscountLessMinValue_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.Discount = OfferValidator.MaxDiscount + 0.0000001f;
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "DiscountGreaterMaxValue_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.Promocode = null;
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "PromocodeIsNull_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.Promocode = new('a', OfferValidator.MinPromocodeLength - 1);
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "PromocodeLengthLessMinValue_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.Promocode = new('a', OfferValidator.MaxPromocodeLength + 1);
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "PromocodeLengthGreaterMaxValue_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.StartDate = new System.DateTime(2021, 09, 20);
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "StartDateGreaterExpire_Invalid"
+            };
+
+            offer = _factory.GetOffer();
+            offer.ExpirationDate = new System.DateTime(2020, 12, 31);
+            yield return new()
+            {
+                Entity = offer,
+                CaseName = "ExpirationDateLessStartDate_Invalid"
             };
         }
     }
