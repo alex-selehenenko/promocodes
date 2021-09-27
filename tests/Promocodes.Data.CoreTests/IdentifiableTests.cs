@@ -31,7 +31,7 @@ namespace Promocodes.Data.CoreTests
         public void Equals_DifferentTypeSameId_False()
         {
             var left = new Category() { Id = 1 };
-            var right = new Offer() { Id = 2 };
+            var right = new Offer() { Id = 1 };
 
             var actual = left.Equals(right);
 
