@@ -4,6 +4,8 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
@@ -43,6 +45,20 @@ namespace Promocodes.Data.Persistence.Repositories
             return Context.Set<T>()
                 .AsNoTracking()
                 .FindAll(skip, take);
+        }
+
+        public virtual IEnumerable<T> FindAll()
+        {
+            return Context.Set<T>()
+                .AsNoTracking()
+                .ToList();
+        }
+
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate)
+        {
+            return Context.Set<T>()
+                .AsNoTracking()
+                .Where(predicate);
         }
     }
 }

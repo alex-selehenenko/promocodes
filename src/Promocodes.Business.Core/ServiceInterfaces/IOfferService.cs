@@ -1,4 +1,5 @@
 ﻿using Promocodes.Business.Core.Dto.Offers;
+using System.Collections.Generic;
 
 namespace Promocodes.Business.Core.ServiceInterfaces
 {
@@ -15,5 +16,7 @@ namespace Promocodes.Business.Core.ServiceInterfaces
         void Restore(int offerId);        
 
         void Take(int offerId, int userId);
+
+        IEnumerable<OfferDto> GetAllOffers();
     }
 }

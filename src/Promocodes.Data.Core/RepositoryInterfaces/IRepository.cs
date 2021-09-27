@@ -1,5 +1,7 @@
 ﻿using Promocodes.Data.Core.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Promocodes.Data.Core.RepositoryInterfaces
 {
@@ -14,5 +16,9 @@ namespace Promocodes.Data.Core.RepositoryInterfaces
         T FindById(int id);
 
         IEnumerable<T> FindAll(int skip, int take);
+
+        IEnumerable<T> FindAll();
+
+        IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate);
     }
 }

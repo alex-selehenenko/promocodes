@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Promocodes.Data.Core.Entities;
-using System.Collections.Generic;
 
 namespace Promocodes.Data.Persistence.Configurations
 {

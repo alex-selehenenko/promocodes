@@ -1,19 +1,22 @@
-﻿using Promocodes.Business.Core.Dto.Offers;
-using Promocodes.Business.Core.Mapping;
+﻿using AutoMapper;
+using Promocodes.Business.Core.Dto.Offers;
 using Promocodes.Business.Core.ServiceInterfaces;
+using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Promocodes.Business.Services.Implementation
 {
     public class OfferService : ServiceBase, IOfferService
     {
-        public OfferService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public OfferService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
         }
 
         public void Create(OfferDto dto)
         {
-            var entity = dto.Map();
+            var entity = Mapper.Map<Offer>(dto);
 
             UnitOfWork.OfferRepository.Add(entity);
             UnitOfWork.SaveChanges();
@@ -28,14 +31,17 @@ namespace Promocodes.Business.Services.Implementation
             UnitOfWork.SaveChanges();
         }
 
-        public void Edit(EditOfferDto offerDto)
+        public void Edit(EditOfferDto dto)
         {
-            var offer = UnitOfWork.OfferRepository
-                .FindById(offerDto.Id)
-                .ApplyEdits(offerDto);
+            var editedOffer = Mapper.Map<Offer>(dto);
 
-            UnitOfWork.OfferRepository.Update(offer);
+            UnitOfWork.OfferRepository.Update(editedOffer);
             UnitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<OfferDto> GetAllOffers()
+        {
+            return UnitOfWork.OfferRepository.FindAll().Select(o => Mapper.Map<OfferDto>(o));
         }
 
         public void Restore(int offerId)

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Promocodes.Data.Persistence.DependencyInjection;
 using Promocodes.Business.Services.DependencyInjection;
+using Promocodes.Business.Core.DependencyInjection;
 
 namespace Promocodes.Api
 {
@@ -24,6 +25,8 @@ namespace Promocodes.Api
             services.AddControllers();
 
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
+            
+            services.AddMapper();
             services.AddBusinessServices();
         }
 

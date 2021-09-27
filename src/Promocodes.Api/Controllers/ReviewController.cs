@@ -14,29 +14,5 @@ namespace Promocodes.Api.Controllers
         {
             _reviewService = reviewService ?? throw new ArgumentNullException(nameof(reviewService));
         }
-
-        [HttpPost]
-        [Route("{controller}/add")]
-        public IActionResult Add(ReviewDto dto)
-        {
-            _reviewService.Add(dto);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("{controller}/update")]
-        public IActionResult Update(EditReviewDto dto)
-        {
-            _reviewService.Edit(dto);
-            return Ok();
-        }
-
-        [HttpDelete]
-        [Route("{controller}/update")]
-        public IActionResult Remove(int id)
-        {
-            _reviewService.Delete(id);
-            return Ok();
-        }
     }
 }

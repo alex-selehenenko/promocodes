@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Promocodes.Business.Core.Dto.Offers;
 using Promocodes.Business.Core.ServiceInterfaces;
 using System;
+using System.Collections.Generic;
 
 namespace Promocodes.Api.Controllers
 {
@@ -12,14 +14,6 @@ namespace Promocodes.Api.Controllers
         public OfferController(IOfferService offerService)
         {
             _offerService = offerService ?? throw new ArgumentNullException(nameof(offerService));
-        }
-
-        [HttpPut]
-        [Route("{controller}/toogle/offerId")]
-        public IActionResult Toogle(int offerId)
-        {
-            _offerService.Toogle(offerId);
-            return Ok();
         }
     }
 }

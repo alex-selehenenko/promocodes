@@ -1,4 +1,5 @@
-﻿using Promocodes.Data.Core.RepositoryInterfaces;
+﻿using AutoMapper;
+using Promocodes.Data.Core.RepositoryInterfaces;
 using System;
 
 namespace Promocodes.Business.Services.Implementation
@@ -7,9 +8,12 @@ namespace Promocodes.Business.Services.Implementation
     {
         protected IUnitOfWork UnitOfWork { get; }
 
-        protected ServiceBase(IUnitOfWork unitOfWork)
+        protected IMapper Mapper { get; }
+
+        protected ServiceBase(IUnitOfWork unitOfWork, IMapper mapper)
         {
             UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }        
     }
 }
