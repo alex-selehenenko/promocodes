@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.Core", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business.CoreTests", "tests\Promocodes.Business.CoreTests\Promocodes.Business.CoreTests.csproj", "{79AB279E-11A9-4B73-BEBB-863378F240CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promocodes.Data.CoreTests", "tests\Promocodes.Data.CoreTests\Promocodes.Data.CoreTests.csproj", "{6C69E008-96D4-4C27-9C7B-9C2EC70EB58C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{79AB279E-11A9-4B73-BEBB-863378F240CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79AB279E-11A9-4B73-BEBB-863378F240CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79AB279E-11A9-4B73-BEBB-863378F240CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C69E008-96D4-4C27-9C7B-9C2EC70EB58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C69E008-96D4-4C27-9C7B-9C2EC70EB58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C69E008-96D4-4C27-9C7B-9C2EC70EB58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C69E008-96D4-4C27-9C7B-9C2EC70EB58C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ namespace Promocodes.Data.Core.Validation
         public const int MinDescriptionLength = 50;
         public const int MaxDescriptionLength = 200;
 
-        public const int MinTitleLength = 10;
+        public const int MinTitleLength = 3;
         public const int MaxTitleLength = 100;
 
         public const int MinPromocodeLength = 3;
@@ -21,15 +21,19 @@ namespace Promocodes.Data.Core.Validation
         public OfferValidator()
         {
             RuleFor(o => o.Title)
+                .NotNull()
+                .WithMessage(NullValueMessage(nameof(Offer.Title)))
                 .Length(MinTitleLength, MaxTitleLength)
                 .WithMessage(InvalidStringLengthMessage(nameof(Offer.Title), MinTitleLength, MaxTitleLength));
 
             RuleFor(o => o.Description)
+                .NotNull()
+                .WithMessage(NullValueMessage(nameof(Offer.Description)))
                 .Length(MinDescriptionLength, MaxDescriptionLength)
                 .WithMessage(InvalidStringLengthMessage(nameof(Offer.Description), MinDescriptionLength, MaxDescriptionLength));
 
             RuleFor(o => o.Discount)
-                .ExclusiveBetween(MinDiscount, MaxDiscount)
+                .InclusiveBetween(MinDiscount, MaxDiscount)
                 .WithMessage(OutOfRangeMessage(nameof(Offer.Discount), MinDiscount, MaxDiscount));
 
             RuleFor(o => o.Promocode)

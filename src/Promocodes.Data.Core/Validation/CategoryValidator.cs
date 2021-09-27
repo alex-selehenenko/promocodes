@@ -11,6 +11,8 @@ namespace Promocodes.Data.Core.Validation
         public CategoryValidator()
         {
             RuleFor(c => c.Name)
+                .NotNull()
+                .WithMessage("Name was null")
                 .Length(NameMinLength, NameMaxLength)
                 .WithMessage(InvalidStringLengthMessage(nameof(Category.Name), NameMinLength, NameMaxLength));
         }

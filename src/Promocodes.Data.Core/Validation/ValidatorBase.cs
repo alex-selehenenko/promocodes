@@ -10,5 +10,8 @@ namespace Promocodes.Data.Core.Validation
 
         protected string OutOfRangeMessage(string property, object from, object to) =>
             string.Format("{0} value must be between {1} and {2}", property, from, to);
+
+        protected string NullValueMessage(string property) =>
+            $"{property} was null";
     }
 }
