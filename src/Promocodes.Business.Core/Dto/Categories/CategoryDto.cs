@@ -2,7 +2,7 @@
 
 namespace Promocodes.Business.Core.Dto.Categories
 {
-    public class CategoryDto : IntegerIdentityDto, IDtoBase
+    public class CategoryDto : IdentityBase<int>, IDtoBase
     {
         public string Name { get; set; }
     }

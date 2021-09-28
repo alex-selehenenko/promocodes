@@ -3,7 +3,7 @@ using System;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Review : IntegerIdentity, IEntity
+    public class Review : IdentityBase<int>, IEntity
     {
         public byte Stars { get; set; }
 

@@ -43,14 +43,14 @@ namespace Promocodes.Data.Persistence.Repositories
             return await DbSet.Skip(skip).Take(take).ToListAsync();
         }
 
-        public virtual async Task<TEntity> FindAsync(TKey key)
-        {
-            return await DbSet.FindAsync(key);
-        }
-
         public virtual async Task<TEntity> FindAsync(ISpecification<TEntity> specification)
         {
             return await DbSet.Specify(specification).FirstOrDefaultAsync();
+        }
+
+        public virtual async Task<TEntity> FindAsync(TKey key)
+        {
+            return await DbSet.FindAsync(key);
         }
 
         public virtual void Remove(params TEntity[] entities)
@@ -61,6 +61,6 @@ namespace Promocodes.Data.Persistence.Repositories
         public virtual void Update(params TEntity[] entities)
         {
             DbSet.UpdateRange(entities);
-        }
+        }        
     }
 }

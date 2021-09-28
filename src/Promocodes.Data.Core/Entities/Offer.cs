@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Offer : IntegerIdentity, IEntity
+    public class Offer : IdentityBase<int>, IEntity
     {
         public string Title { get; set; }
 

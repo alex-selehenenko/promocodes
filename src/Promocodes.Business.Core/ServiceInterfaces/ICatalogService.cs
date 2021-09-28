@@ -8,6 +8,6 @@ namespace Promocodes.Business.Core.ServiceInterfaces
     {
         Task<IEnumerable<Shop>> FindShopsAsync(int categoryId, int skip, int take);
 
-        Task<IEnumerable<Shop>> FindShopsAsync(char nameFirstLetter, int skip, int take);
+        Task<IEnumerable<Shop>> FindShopsAsync(char nameFirstChar, int skip, int take);
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Promocodes.Business.Core.Dto.Shops
+﻿using Promocodes.Data.Core.Common;
+
+namespace Promocodes.Business.Core.Dto.Shops
 {
-    public class ShopDto : IntegerIdentityDto, IDtoBase
+    public class ShopDto : IdentityBase<int>, IDtoBase
     {
         public string Name { get; set; }
 

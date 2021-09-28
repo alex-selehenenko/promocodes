@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Promocodes.Data.Core.Common;
+using System;
 
 namespace Promocodes.Business.Core.Dto.Offers
 {
-    public class OfferDto : IntegerIdentityDto, IDtoBase
+    public class OfferDto : IdentityBase<int>, IDtoBase
     {
         public string Title { get; set; }
 
