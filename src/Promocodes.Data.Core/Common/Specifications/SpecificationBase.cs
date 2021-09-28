@@ -13,11 +13,15 @@ namespace Promocodes.Data.Core.Common.Specifications
 
         public List<string> ThenIncludes { get; protected set; } = new();
 
-        public SpecificationBase(Expression<Func<T, bool>> criteria)
+        public SpecificationBase(Expression<Func<T, bool>> criteria) : this()
+        {            
+            Criteria = criteria;            
+        }
+
+        public SpecificationBase()
         {
             Includes = new();
             ThenIncludes = new();
-            Criteria = criteria;            
         }
 
         protected virtual void AddInclude(Expression<Func<T, object>> include)

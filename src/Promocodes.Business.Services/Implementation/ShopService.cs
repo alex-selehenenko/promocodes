@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class CatalogService : ServiceBase, ICatalogService
+    public class ShopService : ServiceBase, IShopService
     {
-        public CatalogService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        public ShopService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
         }
 
-        public async Task<IEnumerable<ShopDto>> FindShopsAsync(int categoryId, int skip, int take)
+        public async Task<IEnumerable<ShopDto>> FindShopsAsync(int categoryId)
         {
             var entities = await UnitOfWork.ShopRepository
-                .FindAllAsync(new ShopSpecification(categoryId), skip, take);
+                .FindAllAsync(new ShopSpecification(categoryId));
 
             if (!entities.Any())
                 throw new EntityNotFoundException($"Shops with category id: {categoryId} were not found");
@@ -27,10 +27,10 @@ namespace Promocodes.Business.Services.Implementation
             return entities.Select(Mapper.Map<ShopDto>);
         }
 
-        public async Task<IEnumerable<ShopDto>> FindShopsAsync(char nameFirstLetter, int skip, int take)
+        public async Task<IEnumerable<ShopDto>> FindShopsAsync(char nameFirstLetter)
         {
             var entities = await UnitOfWork.ShopRepository
-                .FindAllAsync(new ShopSpecification(nameFirstLetter), skip, take);
+                .FindAllAsync(new ShopSpecification(nameFirstLetter));
 
             if (!entities.Any())
                 throw new EntityNotFoundException($"Shops starts with {nameFirstLetter} were not found");

@@ -2,6 +2,7 @@
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Persistence.Configurations;
 using Promocodes.Data.Persistence.SeedData;
+using System;
 
 namespace Promocodes.Data.Persistence
 {
@@ -37,9 +38,11 @@ namespace Promocodes.Data.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.LogTo(Console.WriteLine);
+
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(DefaultConnectionString);
+                optionsBuilder.UseSqlServer(DefaultConnectionString);                
             }
         }
     }

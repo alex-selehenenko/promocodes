@@ -11,8 +11,10 @@ namespace Promocodes.Business.Services.Specifications
             Includes.Add(c => c.Categories);
         }
 
-        public ShopSpecification(char nameFirstChar) : base(shop => shop.Name.StartsWith(nameFirstChar))
+        public ShopSpecification(char nameFirstChar)
         {
+            var ch = nameFirstChar.ToString();
+            Criteria = s => s.Name.StartsWith(ch);
         }
     }
 }

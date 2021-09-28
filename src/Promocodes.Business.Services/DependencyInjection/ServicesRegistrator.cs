@@ -8,7 +8,8 @@ namespace Promocodes.Business.Services.DependencyInjection
     {
         public static IServiceCollection AddBusinessServices(this IServiceCollection services) => services
             .AddScoped<IReviewService, ReviewService>()
-            .AddScoped<IOfferService, OfferService>();
+            .AddScoped<IOfferService, OfferService>()
+            .AddScoped<IShopService, ShopService>();
 
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Promocodes.Data.Persistence.DependencyInjection;
 using Promocodes.Business.Services.DependencyInjection;
 using Promocodes.Business.Core.DependencyInjection;
+using Promocodes.Api.Middlewares;
 
 namespace Promocodes.Api
 {
@@ -36,8 +37,13 @@ namespace Promocodes.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseMiddleware<ExceptionHandlerMiddleware>();
+            }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();            
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

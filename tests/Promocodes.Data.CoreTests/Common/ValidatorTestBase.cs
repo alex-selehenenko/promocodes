@@ -5,7 +5,7 @@ using Promocodes.Data.CoreTests.Helpers;
 
 namespace Promocodes.Data.CoreTests.Common
 {
-    public abstract class ValidatorTestBase<T> where T : IEntity
+    public abstract class ValidatorTestBase<T> where T : class, IEntity
     {
         protected IValidator<T> Validator { get; set; }
         
