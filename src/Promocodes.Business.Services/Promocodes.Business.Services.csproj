@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Promocodes.Business.Core\Promocodes.Business.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Specifications\" />
-  </ItemGroup>
-
 </Project>

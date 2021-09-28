@@ -26,12 +26,7 @@ namespace Promocodes.Data.Persistence.Repositories
         public virtual async Task AddAsync(TEntity entity)
         {
             await DbSet.AddAsync(entity);
-        }
-
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification)
-        {
-            return await DbSet.Specify(specification).ToListAsync();
-        }
+        }        
 
         public virtual async Task<IEnumerable<TEntity>> FindAllAsync()
         {
@@ -46,6 +41,16 @@ namespace Promocodes.Data.Persistence.Repositories
         public virtual async Task<TEntity> FindAsync(ISpecification<TEntity> specification)
         {
             return await DbSet.Specify(specification).FirstOrDefaultAsync();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification, int skip, int take)
+        {
+            return await DbSet.Specify(specification).Skip(skip).Take(take).ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification)
+        {
+            return await DbSet.Specify(specification).ToListAsync();
         }
 
         public virtual async Task<TEntity> FindAsync(TKey key)

@@ -1,21 +1,41 @@
-﻿using Promocodes.Business.Core.ServiceInterfaces;
-using Promocodes.Data.Core.Entities;
-using System;
+﻿using AutoMapper;
+using Promocodes.Business.Core.Dto.Shops;
+using Promocodes.Business.Core.ServiceInterfaces;
+using Promocodes.Business.Services.Exceptions;
+using Promocodes.Business.Services.Specifications;
+using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class CatalogService : ICatalogService
+    public class CatalogService : ServiceBase, ICatalogService
     {
-        public Task<IEnumerable<Shop>> FindShopsAsync(int categoryId, int skip, int take)
+        public CatalogService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
-            throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Shop>> FindShopsAsync(char nameFirstLetter, int skip, int take)
+        public async Task<IEnumerable<ShopDto>> FindShopsAsync(int categoryId, int skip, int take)
         {
-            throw new NotImplementedException();
+            var entities = await UnitOfWork.ShopRepository
+                .FindAllAsync(new ShopSpecification(categoryId), skip, take);
+
+            if (!entities.Any())
+                throw new EntityNotFoundException($"Shops with category id: {categoryId} were not found");
+
+            return entities.Select(Mapper.Map<ShopDto>);
+        }
+
+        public async Task<IEnumerable<ShopDto>> FindShopsAsync(char nameFirstLetter, int skip, int take)
+        {
+            var entities = await UnitOfWork.ShopRepository
+                .FindAllAsync(new ShopSpecification(nameFirstLetter), skip, take);
+
+            if (!entities.Any())
+                throw new EntityNotFoundException($"Shops starts with {nameFirstLetter} were not found");
+
+            return entities.Select(Mapper.Map<ShopDto>);
         }
     }
 }
