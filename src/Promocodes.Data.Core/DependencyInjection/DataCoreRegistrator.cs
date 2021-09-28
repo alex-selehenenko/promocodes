@@ -2,11 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Promocodes.Data.Core.DependencyInjection
 {
@@ -14,9 +9,11 @@ namespace Promocodes.Data.Core.DependencyInjection
     {
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
-            return services
-                .AddScoped<IValidator<User>, UserEntityValidator>()
-                .AddScoped<IValidator<Review>, ReviewValidator>();
+            return services.AddScoped<IValidator<User>, UserEntityValidator>()
+                           .AddScoped<IValidator<Review>, ReviewValidator>()
+                           .AddScoped<IValidator<Shop>, ShopValidator>()
+                           .AddScoped<IValidator<Offer>, OfferValidator>()
+                           .AddScoped<IValidator<Category>, CategoryValidator>();
         }
     }
 }
