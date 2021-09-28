@@ -1,6 +1,6 @@
 ﻿namespace Promocodes.Business.Core.Dto.Reviews
 {
-    public class EditReviewDto : DtoBase
+    public class EditReviewDto : IntegerIdentityDto, IDtoBase
     {
         public string Text { get; set; }
 

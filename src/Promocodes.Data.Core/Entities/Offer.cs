@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Promocodes.Data.Core.Common;
+using System;
 using System.Collections.Generic;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Offer : EntityBase
+    public class Offer : IntegerIdentity, IEntity
     {
         public string Title { get; set; }
 

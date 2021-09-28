@@ -3,7 +3,7 @@ using Promocodes.Data.Core.Entities;
 
 namespace Promocodes.Data.Core.Validation
 {
-    public class ValidatorBase<T> : AbstractValidator<T> where T : EntityBase
+    public class ValidatorBase<T> : AbstractValidator<T> where T : IEntity
     {
         protected string InvalidStringLengthMessage(string property, int min, int max) =>
             $"{property} length must be between {min} and {max}";

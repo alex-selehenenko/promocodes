@@ -1,52 +1,66 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Promocodes.Data.Core.Common;
+using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
+using Promocodes.Data.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
-    public abstract class RepositoryBase<T> : IRepository<T> where T : EntityBase
+    public abstract class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : IdentityBase<TKey>, IEntity
     {
         protected PromocodesDbContext Context { get; }
+        
+        protected DbSet<TEntity> DbSet { get; }
 
         public RepositoryBase(PromocodesDbContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
+            DbSet = context.Set<TEntity>();
         }
 
-        public virtual async Task AddAsync(T entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            await Context.AddAsync(entity);
+            await DbSet.AddAsync(entity);
         }
 
-        public virtual void Update(params T[] entities)
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification)
         {
-            Context.UpdateRange(entities);
+            return await DbSet.Specify(specification).ToListAsync();
         }
 
-        public virtual void Remove(params T[] entities)
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync()
         {
-            Context.RemoveRange(entities);
+            return await DbSet.ToListAsync();
         }
 
-        public virtual async Task<T> FindByIdAsync(int id)
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(int skip, int take)
         {
-            var entity = await Context.Set<T>().FindAsync(id);
-            return entity;
+            return await DbSet.Skip(skip).Take(take).ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<T>> FindAllAsync(int skip, int take)
+        public virtual async Task<TEntity> FindAsync(TKey key)
         {
-            var entities = await Context.Set<T>()
-                .AsNoTracking()
-                .Skip(skip)
-                .Take(take)
-                .ToListAsync();
-            return entities;
+            return await DbSet.FindAsync(key);
+        }
+
+        public virtual async Task<TEntity> FindAsync(ISpecification<TEntity> specification)
+        {
+            return await DbSet.Specify(specification).FirstOrDefaultAsync();
+        }
+
+        public virtual void Remove(params TEntity[] entities)
+        {
+            DbSet.RemoveRange(entities);
+        }
+
+        public virtual void Update(params TEntity[] entities)
+        {
+            DbSet.UpdateRange(entities);
         }
     }
 }

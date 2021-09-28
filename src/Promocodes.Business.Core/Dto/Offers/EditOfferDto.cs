@@ -2,7 +2,7 @@
 
 namespace Promocodes.Business.Core.Dto.Offers
 {
-    public class EditOfferDto : DtoBase
+    public class EditOfferDto : IntegerIdentityDto, IDtoBase
     {
         public string Title { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Promocodes.Business.Core.Dto.Reviews
 {
-    public class ReviewDto : DtoBase
+    public class ReviewDto : IntegerIdentityDto, IDtoBase
     {
         public byte Stars { get; set; }
 

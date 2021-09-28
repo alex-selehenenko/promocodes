@@ -21,6 +21,7 @@ namespace Promocodes.Data.Persistence
 
         public PromocodesDbContext(DbContextOptions<PromocodesDbContext> options) : base(options)
         {
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

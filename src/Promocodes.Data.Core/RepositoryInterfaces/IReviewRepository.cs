@@ -2,7 +2,7 @@
 
 namespace Promocodes.Data.Core.RepositoryInterfaces
 {
-    public interface IReviewRepository : IRepository<Review>
+    public interface IReviewRepository : IRepository<Review, int>
     {
     }
 }

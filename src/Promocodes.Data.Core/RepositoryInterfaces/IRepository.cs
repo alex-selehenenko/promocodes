@@ -1,19 +1,27 @@
-﻿using Promocodes.Data.Core.Entities;
+﻿using Promocodes.Data.Core.Common;
+using Promocodes.Data.Core.Common.Specifications;
+using Promocodes.Data.Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Promocodes.Data.Core.RepositoryInterfaces
 {
-    public interface IRepository<T> where T : EntityBase
+    public interface IRepository<TEntity, TKey> where TEntity : IdentityBase<TKey>, IEntity
     {
-        Task AddAsync(T entity);
+        Task AddAsync(TEntity entity);
 
-        void Update(params T[] entities);
+        void Update(params TEntity[] entities);
 
-        void Remove(params T[] entities);
+        void Remove(params TEntity[] entities);
 
-        Task<T> FindByIdAsync(int id);
+        Task<TEntity> FindAsync(TKey key);
 
-        Task<IEnumerable<T>> FindAllAsync(int skip, int take);
+        Task<TEntity> FindAsync(ISpecification<TEntity> specification);
+
+        Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification);
+
+        Task<IEnumerable<TEntity>> FindAllAsync();
+
+        Task<IEnumerable<TEntity>> FindAllAsync(int skip, int take);
     }
 }

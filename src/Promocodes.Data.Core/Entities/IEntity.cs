@@ -2,7 +2,7 @@
 
 namespace Promocodes.Data.Core.Entities
 {
-    public abstract class EntityBase : IdentifiableBase
+    public interface IEntity
     {
     }
 }

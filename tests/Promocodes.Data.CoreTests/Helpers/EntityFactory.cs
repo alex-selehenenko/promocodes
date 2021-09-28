@@ -7,7 +7,7 @@ namespace Promocodes.Data.CoreTests.Helpers
 {
     internal class EntityFactory
     {
-        public static T Get<T>() where T : EntityBase
+        public static T Get<T>() where T : IEntity
         {
             var factory = new Dictionary<Type, Func<object>>()
             {

@@ -2,7 +2,7 @@
 
 namespace Promocodes.Business.Core.Dto
 {
-    public abstract class DtoBase : IdentifiableBase
+    public abstract class IntegerIdentityDto : IdentityBase<int>
     {
     }
 }

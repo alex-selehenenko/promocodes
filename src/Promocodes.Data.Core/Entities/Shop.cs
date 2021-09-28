@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Promocodes.Data.Core.Common;
+using System.Collections.Generic;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Shop : EntityBase
+    public class Shop : IntegerIdentity, IEntity
     {
         public string Name { get; set; }
 

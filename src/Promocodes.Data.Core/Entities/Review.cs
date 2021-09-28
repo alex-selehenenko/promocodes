@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Promocodes.Data.Core.Common;
+using System;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Review : EntityBase
+    public class Review : IntegerIdentity, IEntity
     {
         public byte Stars { get; set; }
 
