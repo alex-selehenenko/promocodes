@@ -15,7 +15,7 @@ namespace Promocodes.Data.Core.DependencyInjection
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
             return services
-                .AddScoped<IValidator<User>, UserValidator>()
+                .AddScoped<IValidator<User>, UserEntityValidator>()
                 .AddScoped<IValidator<Review>, ReviewValidator>();
         }
     }

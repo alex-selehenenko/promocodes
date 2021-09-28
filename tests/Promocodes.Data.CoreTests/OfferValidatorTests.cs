@@ -16,19 +16,6 @@ namespace Promocodes.Data.CoreTests
             Validator = new OfferValidator();
         }
 
-        [Test]
-        public void CorrectOfferData_Valid()
-        {
-            CheckValidProperties();
-        }
-
-        [Test]
-        [TestCaseSource(nameof(GetInvalidProperties))]
-        public void InvalidProperties(ValidatorTestCase<Offer> container)
-        {
-            CheckInvalidProperties(container);
-        }
-
         public static IEnumerable<ValidatorTestCase<Offer>> GetInvalidProperties()
         {
             // Description cases
@@ -80,6 +67,19 @@ namespace Promocodes.Data.CoreTests
             offer = New();
             offer.ExpirationDate = new System.DateTime(2020, 12, 31);
             yield return TestCase(offer, "Expiration date less start", expectedErrors: 2);
+        }
+
+        [Test]
+        public override void ValidProperties_True()
+        {
+            CheckValidProperties();
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public override void InvalidProperties_True(ValidatorTestCase<Offer> testCase)
+        {
+            CheckInvalidProperties(testCase);
         }
     }
 }

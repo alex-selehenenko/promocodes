@@ -14,19 +14,21 @@ namespace Promocodes.Data.Core.Validation
         {
             RuleFor(r => r.Stars)
                 .InclusiveBetween(ReviewConstraints.MinStars, ReviewConstraints.MaxStars)
-                .WithMessage(OutOfRangeMessage(
-                    nameof(Review.Stars),
-                    ReviewConstraints.MinStars,
-                    ReviewConstraints.MaxStars));
+                .WithMessage( r => 
+                    OutOfRangeMessage(
+                        nameof(r.Stars),
+                        ReviewConstraints.MinStars,
+                        ReviewConstraints.MaxStars));
 
             RuleFor(r => r.Text)
                 .NotNull()
                 .WithMessage(NullValueMessage(nameof(Review.Text)))
                 .Length(ReviewConstraints.MinTextLength, ReviewConstraints.MaxTextLength)
-                .WithMessage(InvalidStringLengthMessage(
-                    nameof(Review.Text),
-                    ReviewConstraints.MinTextLength,
-                    ReviewConstraints.MaxTextLength));
+                .WithMessage( r => 
+                    InvalidStringLengthMessage(
+                        nameof(r.Text),
+                        ReviewConstraints.MinTextLength,
+                        ReviewConstraints.MaxTextLength));
         }
     }
 }

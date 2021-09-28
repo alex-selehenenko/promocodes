@@ -12,10 +12,11 @@ namespace Promocodes.Data.Core.Validation
                 .NotNull()
                 .WithMessage("Name was null")
                 .Length(CategoryConstraints.NameMinLength, CategoryConstraints.NameMaxLength)
-                .WithMessage(InvalidStringLengthMessage(
-                    nameof(Category.Name),
-                    CategoryConstraints.NameMinLength,
-                    CategoryConstraints.NameMaxLength));
+                .WithMessage(c => 
+                    InvalidStringLengthMessage(
+                        nameof(c.Name),
+                        CategoryConstraints.NameMinLength,
+                        CategoryConstraints.NameMaxLength));
         }
     }
 }

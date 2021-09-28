@@ -16,19 +16,6 @@ namespace Promocodes.Data.CoreTests
             Validator = new CategoryValidator();
         }
 
-        [Test]
-        [TestCaseSource(nameof(GetInvalidProperties))]
-        public void InvalidProperties(ValidatorTestCase<Category> container)
-        {
-            CheckInvalidProperties(container);
-        }        
-
-        [Test]
-        public void CorrectProperties_Valid()
-        {
-            CheckValidProperties();
-        }
-
         public static IEnumerable<ValidatorTestCase<Category>> GetInvalidProperties()
         {
             var category = New();
@@ -42,6 +29,19 @@ namespace Promocodes.Data.CoreTests
             category = New();
             category.Name = New(CategoryConstraints.NameMinLength - 1);
             yield return StringLengthTestCase(category, nameof(Category.Name), false);
+        }
+
+        [Test]
+        public override void ValidProperties_True()
+        {
+            CheckValidProperties();
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public override void InvalidProperties_True(ValidatorTestCase<Category> testCase)
+        {
+            CheckInvalidProperties(testCase);
         }
     }    
 }

@@ -16,19 +16,6 @@ namespace Promocodes.Data.CoreTests
             Validator = new ShopValidator();
         }
 
-        [Test]
-        public void CheckValidData()
-        {
-            CheckValidProperties();
-        }
-
-        [Test]
-        [TestCaseSource(nameof(GetInvalidProperties))]
-        public void InvalidProperties(ValidatorTestCase<Shop> testCase)
-        {
-            CheckInvalidProperties(testCase);
-        }
-
         public static IEnumerable<ValidatorTestCase<Shop>> GetInvalidProperties()
         {
             // Name cases
@@ -91,6 +78,19 @@ namespace Promocodes.Data.CoreTests
             shop = New();
             shop.Description = New(ShopConstraints.DescriptionMaxLength + 1);
             yield return StringLengthTestCase(shop, property);
+        }
+
+        [Test]
+        public override void ValidProperties_True()
+        {
+            CheckValidProperties();
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public override void InvalidProperties_True(ValidatorTestCase<Shop> testCase)
+        {
+            CheckInvalidProperties(testCase);
         }
     }
 }

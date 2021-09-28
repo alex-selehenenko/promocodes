@@ -13,7 +13,9 @@ namespace Promocodes.Data.CoreTests.Helpers
             {
                 [typeof(Offer)] = () => GetOffer(),
                 [typeof(Review)] = () => GetReview(),
-                [typeof(Category)] = () => GetCategory()
+                [typeof(Category)] = () => GetCategory(),
+                [typeof(Shop)] = () => GetShop(),
+                [typeof(User)] =() => GetUser()
             };
             return (T)factory[typeof(T)]();
         }
@@ -51,6 +53,13 @@ namespace Promocodes.Data.CoreTests.Helpers
             Description = new('d', ShopConstraints.DescriptionMinLength),
             Site = @"https://mysite.com",
             Rating = ShopConstraints.MinRating
+        };
+
+        public static User GetUser() => new()
+        {
+            Id = 1,
+            UserName = new('n', UserConstraints.MinUserNameLength),
+            Phone = "+380631112233"
         };
     }
 }

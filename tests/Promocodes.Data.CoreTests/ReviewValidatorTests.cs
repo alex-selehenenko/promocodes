@@ -16,19 +16,6 @@ namespace Promocodes.Data.CoreTests
             Validator = new ReviewValidator();
         }
 
-        [Test]
-        public void CorrectReviewData_Valid()
-        {
-            CheckValidProperties();
-        }
-
-        [Test]
-        [TestCaseSource(nameof(GetInvalidProperties))]
-        public void InvalidProperties(ValidatorTestCase<Review> testCase)
-        {
-            CheckInvalidProperties(testCase);
-        }
-
         public static IEnumerable<ValidatorTestCase<Review>> GetInvalidProperties()
         {
             // Text cases
@@ -56,6 +43,19 @@ namespace Promocodes.Data.CoreTests
             review = New();
             review.Stars = ReviewConstraints.MaxStars + 1;
             yield return OutOfRangeTestCase(review, property, true);
+        }
+
+        [Test]
+        public override void ValidProperties_True()
+        {
+            CheckValidProperties();
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public override void InvalidProperties_True(ValidatorTestCase<Review> testCase)
+        {
+            CheckInvalidProperties(testCase);
         }
     }
 }

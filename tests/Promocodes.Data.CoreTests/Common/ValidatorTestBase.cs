@@ -5,25 +5,31 @@ using Promocodes.Data.CoreTests.Helpers;
 
 namespace Promocodes.Data.CoreTests.Common
 {
-    public class ValidatorTestBase<T> where T : EntityBase
+    public abstract class ValidatorTestBase<T> where T : EntityBase
     {
-        protected IValidator<T> Validator { get; set; }        
+        protected IValidator<T> Validator { get; set; }
+        
+        protected static string InvalidDataSource { get; set; }
 
-        public void CheckInvalidProperties(ValidatorTestCase<T> testCase)
-        {
-            var result = Validator.Validate(testCase.Entity);
+        public abstract void ValidProperties_True();
 
-            var actual = !result.IsValid && result.Errors.Count == testCase.ExpectedErrors;
+        public abstract void InvalidProperties_True(ValidatorTestCase<T> testCase);
 
-            Assert.IsTrue(actual);
-        }
-
-        public void CheckValidProperties()
+        protected virtual void CheckValidProperties()
         {
             var entity = EntityFactory.Get<T>();
             var result = Validator.Validate(entity);
 
             var actual = result.IsValid;
+
+            Assert.IsTrue(actual);
+        }
+
+        protected virtual void CheckInvalidProperties(ValidatorTestCase<T> testCase)
+        {
+            var result = Validator.Validate(testCase.Entity);
+
+            var actual = !result.IsValid && result.Errors.Count == testCase.ExpectedErrors;
 
             Assert.IsTrue(actual);
         }
