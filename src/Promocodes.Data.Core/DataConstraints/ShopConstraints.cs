@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Promocodes.Data.Core.DataConstraints
+﻿namespace Promocodes.Data.Core.DataConstraints
 {
-    class ShopConstraints
+    public class ShopConstraints
     {
+        public const int NameMinLength = 3;
+        public const int NameMaxLength = 50;
+
+        public const int DescriptionMinLength = 50;
+        public const int DescriptionMaxLength = 500;
+
+        public const float MinRating = 0f;
+        public const float MaxRating = 10f;
     }
 }

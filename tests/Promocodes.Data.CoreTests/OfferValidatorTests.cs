@@ -2,119 +2,84 @@
 using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.Validation;
+using Promocodes.Data.CoreTests.Common;
 using Promocodes.Data.CoreTests.Helpers;
 using System.Collections.Generic;
 
 namespace Promocodes.Data.CoreTests
 {
-    public class OfferValidatorTests
+    public class OfferValidatorTests : ValidatorTestBase<Offer>
     {
-        private readonly OfferValidator _validator = new();        
+        [SetUp]
+        public void SetUp()
+        {
+            Validator = new OfferValidator();
+        }
 
         [Test]
         public void CorrectOfferData_Valid()
         {
-            var result = _validator.Validate(EntityFactory.GetOffer());
-
-            var actual = result.IsValid;
-
-            Assert.IsTrue(actual);
+            CheckValidProperties();
         }
 
         [Test]
         [TestCaseSource(nameof(GetInvalidProperties))]
-        public void InvalidProperties(EntityContainer<Offer> container)
+        public void InvalidProperties(ValidatorTestCase<Offer> container)
         {
-            var result = _validator.Validate(container.Entity);
-
-            var actual = result.IsValid;
-
-            Assert.IsFalse(actual);
+            CheckInvalidProperties(container);
         }
 
-        public static IEnumerable<EntityContainer<Offer>> GetInvalidProperties()
+        public static IEnumerable<ValidatorTestCase<Offer>> GetInvalidProperties()
         {
-            Offer offer;
+            // Description cases
+            var property = nameof(Offer.Description);
 
-            offer = EntityFactory.GetOffer();
+            var offer = New();
             offer.Description = null;
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "NullDescription_Invalid"
-            };
+            yield return NullTestCase(offer, property);
 
-            offer = EntityFactory.GetOffer();
-            offer.Description = new('a', OfferConstraints.MinDescriptionLength - 1);
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "DescriptionLEngthLessMinValue_Invalid"
-            };
+            offer = New();
+            offer.Description = New(OfferConstraints.MinDescriptionLength - 1);
+            yield return StringLengthTestCase(offer, property, false);
 
-            offer = EntityFactory.GetOffer();
-            offer.Description = new('a', OfferConstraints.MaxDescriptionLength + 1);
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "DescriptionLengthGreaterMaxValue_Invalid"
-            };
+            offer = New();
+            offer.Description = New(OfferConstraints.MaxDescriptionLength + 1);
+            yield return StringLengthTestCase(offer, property);
 
-            offer = EntityFactory.GetOffer();
+            // Discount cases
+            property = nameof(Offer.Discount);
+
+            offer = New();
             offer.Discount = OfferConstraints.MinDiscount - 0.0000001f;
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "DiscountLessMinValue_Invalid"
-            };
+            yield return OutOfRangeTestCase(offer, property, false);
 
             offer = EntityFactory.GetOffer();
             offer.Discount = OfferConstraints.MaxDiscount + 0.0000001f;
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "DiscountGreaterMaxValue_Invalid"
-            };
+            yield return OutOfRangeTestCase(offer, property, true);
 
-            offer = EntityFactory.GetOffer();
+            // Promocode cases
+            property = nameof(Offer.Promocode);
+
+            offer = New();
             offer.Promocode = null;
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "PromocodeIsNull_Invalid"
-            };
+            yield return NullTestCase(offer, property);
 
-            offer = EntityFactory.GetOffer();
-            offer.Promocode = new('a', OfferConstraints.MinPromocodeLength - 1);
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "PromocodeLengthLessMinValue_Invalid"
-            };
+            offer = New();
+            offer.Promocode = New(OfferConstraints.MinPromocodeLength - 1);
+            yield return StringLengthTestCase(offer, property, false);
 
-            offer = EntityFactory.GetOffer();
-            offer.Promocode = new('a', OfferConstraints.MaxPromocodeLength + 1);
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "PromocodeLengthGreaterMaxValue_Invalid"
-            };
+            offer = New();
+            offer.Promocode = New(OfferConstraints.MaxPromocodeLength + 1);
+            yield return StringLengthTestCase(offer, property);
 
-            offer = EntityFactory.GetOffer();
+            // Dates cases
+            offer = New();
             offer.StartDate = new System.DateTime(2021, 09, 20);
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "StartDateGreaterExpire_Invalid"
-            };
+            yield return TestCase(offer, "Start date greater expire", expectedErrors: 2);
 
-            offer = EntityFactory.GetOffer();
+            offer = New();
             offer.ExpirationDate = new System.DateTime(2020, 12, 31);
-            yield return new()
-            {
-                Entity = offer,
-                CaseName = "ExpirationDateLessStartDate_Invalid"
-            };
+            yield return TestCase(offer, "Expiration date less start", expectedErrors: 2);
         }
     }
 }

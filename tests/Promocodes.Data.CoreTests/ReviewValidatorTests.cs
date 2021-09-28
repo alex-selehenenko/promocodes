@@ -1,68 +1,61 @@
-﻿using FluentValidation;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.Validation;
+using Promocodes.Data.CoreTests.Common;
 using Promocodes.Data.CoreTests.Helpers;
 using System.Collections.Generic;
 
 namespace Promocodes.Data.CoreTests
 {
-    public class ReviewValidatorTests
+    public class ReviewValidatorTests : ValidatorTestBase<Review>
     {
-        private readonly IValidator<Review> _validator = new ReviewValidator();
+        [SetUp]
+        public void SetUp()
+        {
+            Validator = new ReviewValidator();
+        }
 
         [Test]
         public void CorrectReviewData_Valid()
         {
-            var result = _validator.Validate(EntityFactory.GetReview());
-
-            var actual = result.IsValid;
-
-            Assert.IsTrue(actual);
+            CheckValidProperties();
         }
 
-        public static IEnumerable<EntityContainer<Review>> GetInvalidProperties()
+        [Test]
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public void InvalidProperties(ValidatorTestCase<Review> testCase)
         {
-            var review = EntityFactory.GetReview();
+            CheckInvalidProperties(testCase);
+        }
+
+        public static IEnumerable<ValidatorTestCase<Review>> GetInvalidProperties()
+        {
+            // Text cases
+            var property = nameof(Review.Text);
+
+            var review = New();
             review.Text = null;
-            yield return new()
-            {
-                Entity = review,
-                CaseName = "NullText_Invalid"
-            };
+            yield return NullTestCase(review, property);
 
-            review = EntityFactory.GetReview();
-            review.Text = new('a', ReviewConstraints.MinTextLength - 1);
-            yield return new()
-            {
-                Entity = review,
-                CaseName = "TextLengthLessMin_Invalid"
-            };
+            review = New();
+            review.Text = New(ReviewConstraints.MinTextLength - 1);
+            yield return StringLengthTestCase(review, property, false);
 
-            review = EntityFactory.GetReview();
-            review.Text = new('a', ReviewConstraints.MaxTextLength + 1);
-            yield return new()
-            {
-                Entity = review,
-                CaseName = "TextLengthGreaterMax_Invalid"
-            };
+            review = New();
+            review.Text = New(ReviewConstraints.MaxTextLength + 1);
+            yield return StringLengthTestCase(review, property);
 
-            review = EntityFactory.GetReview();
+            // Stars cases
+            property = nameof(Review.Stars);
+
+            review = New();
             review.Stars = ReviewConstraints.MinStars - 1;
-            yield return new()
-            {
-                Entity = review,
-                CaseName = "StarsLessMinValue_Invalid"
-            };
+            yield return OutOfRangeTestCase(review, property, false);
 
-            review = EntityFactory.GetReview();
+            review = New();
             review.Stars = ReviewConstraints.MaxStars + 1;
-            yield return new()
-            {
-                Entity = review,
-                CaseName = "StarsGreaterMaxValue_Invalid"
-            };
+            yield return OutOfRangeTestCase(review, property, true);
         }
     }
 }

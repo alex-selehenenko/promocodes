@@ -2,64 +2,46 @@ using NUnit.Framework;
 using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.Validation;
+using Promocodes.Data.CoreTests.Common;
 using Promocodes.Data.CoreTests.Helpers;
 using System.Collections.Generic;
 
 namespace Promocodes.Data.CoreTests
 {
-    public class CategoryValidatorTests
+    public class CategoryValidatorTests : ValidatorTestBase<Category>
     {
-        private CategoryValidator _validator;
-
         [SetUp]
         public void Setup()
         {
-            _validator = new CategoryValidator();
+            Validator = new CategoryValidator();
         }
 
         [Test]
-        [TestCaseSource(nameof(GetCategoryWithInvalidname))]
-        public void InvalidCategoryName(EntityContainer<Category> container)
+        [TestCaseSource(nameof(GetInvalidProperties))]
+        public void InvalidProperties(ValidatorTestCase<Category> container)
         {
-            var result = _validator.Validate(container.Entity);
-
-            Assert.IsFalse(result.IsValid);
+            CheckInvalidProperties(container);
         }        
 
         [Test]
-        public void CorrectName_Valid()
+        public void CorrectProperties_Valid()
         {
-            var category = new Category()
-            {
-                Id = 1,
-                Name = new('a', CategoryConstraints.NameMinLength)
-            };
-
-            var result = _validator.Validate(category);
-            var actual = result.IsValid;
-
-            Assert.IsTrue(actual);
+            CheckValidProperties();
         }
 
-        public static IEnumerable<EntityContainer<Category>> GetCategoryWithInvalidname()
+        public static IEnumerable<ValidatorTestCase<Category>> GetInvalidProperties()
         {
-            yield return new()
-            {
-                Entity = new() { Id = 1, Name = null },
-                CaseName = "NullName_Invalid"
-            };
+            var category = New();
+            category.Name = null;
+            yield return NullTestCase(category, nameof(Category.Name));
 
-            yield return new()
-            {
-                Entity = new() { Id = 1, Name = new string('a', CategoryConstraints.NameMaxLength + 1) },
-                CaseName = "NameLengthGreaterMaxValue_Invalid"
-            };
+            category = New();
+            category.Name = New(CategoryConstraints.NameMaxLength + 1);
+            yield return StringLengthTestCase(category, nameof(Category.Name));
 
-            yield return new()
-            {
-                Entity = new() { Id = 1, Name = new string('a', CategoryConstraints.NameMinLength - 1) },
-                CaseName = "NameLengthLessMinValue_Invalid"
-            };
+            category = New();
+            category.Name = New(CategoryConstraints.NameMinLength - 1);
+            yield return StringLengthTestCase(category, nameof(Category.Name), false);
         }
     }    
 }
