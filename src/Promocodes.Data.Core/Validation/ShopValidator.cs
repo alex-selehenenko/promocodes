@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using System;
 
@@ -6,47 +7,38 @@ namespace Promocodes.Data.Core.Validation
 {
     public class ShopValidator : ValidatorBase<Shop>
     {
-        public const int NameMinLength = 3;
-        public const int NameMaxLength = 50;
-
-        public const int DescriptionMinLength = 50;
-        public const int DescriptionMaxLength = 500;
-
-        public const float MinRating = 0f;
-        public const float MaxRating = 10f;
-
         public ShopValidator()
         {
             RuleFor(s => s.Name)
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage(s => NullValueMessage(nameof(s.Name)))
-                .Length(NameMinLength, NameMaxLength)
+                .Length(ShopConstraints.NameMinLength, ShopConstraints.NameMaxLength)
                 .WithMessage(s => 
                     InvalidStringLengthMessage(
                         nameof(s.Name),
-                        NameMinLength,
-                        NameMaxLength));
+                        ShopConstraints.NameMinLength,
+                        ShopConstraints.NameMaxLength));
 
             RuleFor(s => s.Description)
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage(s => NullValueMessage(nameof(s.Description)))
-                .Length(DescriptionMinLength, DescriptionMaxLength)
+                .Length(ShopConstraints.DescriptionMinLength, ShopConstraints.DescriptionMaxLength)
                 .WithMessage(s =>
                     InvalidStringLengthMessage(
                         nameof(s.Description),
-                        DescriptionMinLength,
-                        DescriptionMaxLength));
+                        ShopConstraints.DescriptionMinLength,
+                        ShopConstraints.DescriptionMaxLength));
 
             RuleFor(s => s.Rating)
                 .Cascade(CascadeMode.Stop)
-                .InclusiveBetween(MinRating, MaxRating)
+                .InclusiveBetween(ShopConstraints.MinRating, ShopConstraints.MaxRating)
                 .WithMessage(s =>
                     OutOfRangeMessage(
                         nameof(s.Rating),
-                        MinRating,
-                        MaxRating));
+                        ShopConstraints.MinRating,
+                        ShopConstraints.MaxRating));
 
             RuleFor(s => s.Site)
                 .Cascade(CascadeMode.Stop)

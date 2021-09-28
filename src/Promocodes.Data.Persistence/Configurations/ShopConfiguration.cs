@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.Validation;
 
@@ -20,7 +21,7 @@ namespace Promocodes.Data.Persistence.Configurations
             builder.Property(s => s.Name)
                 .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .IsRequired()
-                .HasMaxLength(ShopValidator.NameMaxLength);
+                .HasMaxLength(ShopConstraints.NameMaxLength);
 
             builder.Property(s => s.Site)
                 .IsRequired()
@@ -28,7 +29,7 @@ namespace Promocodes.Data.Persistence.Configurations
 
             builder.Property(s => s.Description)
                 .IsRequired()
-                .HasMaxLength(ShopValidator.DescriptionMaxLength);
+                .HasMaxLength(ShopConstraints.DescriptionMaxLength);
 
             builder.Property(s => s.Rating)
                 .IsRequired();

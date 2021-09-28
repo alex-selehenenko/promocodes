@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 
 namespace Promocodes.Data.Persistence.Configurations
@@ -18,11 +19,11 @@ namespace Promocodes.Data.Persistence.Configurations
 
             builder.Property(u => u.Phone)
                 .IsRequired()
-                .HasMaxLength(14)
+                .HasMaxLength(CommonConstraints.PhoneMaxLength)
                 .IsUnicode(false);
 
             builder.Property(u => u.UserName)
-                .HasMaxLength(50);
+                .HasMaxLength(UserConstraints.MaxUserNameLength);
         }
     }
 }
