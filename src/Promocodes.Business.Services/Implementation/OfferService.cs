@@ -3,7 +3,7 @@ using FluentValidation;
 using Promocodes.Business.Core.Dto.Offers;
 using Promocodes.Business.Core.Mapping;
 using Promocodes.Business.Core.ServiceInterfaces;
-using Promocodes.Business.Services.Exceptions;
+using Promocodes.Business.Core.Exceptions;
 using Promocodes.Business.Services.Specifications.Offers;
 using Promocodes.Business.Services.Specifications.Users;
 using Promocodes.Data.Core.Entities;

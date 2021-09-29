@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Promocodes.Api.Dto;
-using Promocodes.Business.Services.Exceptions;
+using Promocodes.Business.Core.Exceptions;
 using System;
 using System.Threading.Tasks;
 

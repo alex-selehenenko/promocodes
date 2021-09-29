@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using Promocodes.Business.Services.Exceptions;
-using Promocodes.Data.Core.Common;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System;
-using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Implementation
 {

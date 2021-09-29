@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Promocodes.Business.Services.Exceptions
+namespace Promocodes.Business.Core.Exceptions
 {
     [Serializable]
     public class EntityUpdateException : ApplicationException

@@ -2,7 +2,7 @@
 using FluentValidation;
 using Promocodes.Business.Core.Dto.Shops;
 using Promocodes.Business.Core.ServiceInterfaces;
-using Promocodes.Business.Services.Exceptions;
+using Promocodes.Business.Core.Exceptions;
 using Promocodes.Business.Services.Specifications;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
