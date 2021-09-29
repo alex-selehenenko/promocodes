@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Promocodes.Api.Dto;
 using Promocodes.Business.Services.Exceptions;
@@ -28,6 +29,16 @@ namespace Promocodes.Api.Middlewares
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
+            }
+            catch (EntityUpdateException ex)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
+            }
+            catch (ValidationException ex)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(ErrorJson(400, ex.Message));
             }
             catch (Exception ex)
             {

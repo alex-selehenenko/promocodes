@@ -39,5 +39,15 @@ namespace Promocodes.Business.Services.Implementation
 
             return entities.Select(Mapper.Map<ShopDto>);
         }
+
+        public async Task<IEnumerable<ShopDto>> GetAllAsync()
+        {
+            var entities = await UnitOfWork.ShopRepository.FindAllAsync();
+
+            if (!entities.Any())
+                throw new EntityNotFoundException($"Shops was not found");
+
+            return entities.Select(Mapper.Map<ShopDto>);
+        }
     }
 }

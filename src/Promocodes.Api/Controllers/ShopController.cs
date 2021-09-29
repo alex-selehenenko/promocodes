@@ -31,5 +31,12 @@ namespace Promocodes.Api.Controllers
             var shops = await _shopService.FindShopsAsync(character);
             return new JsonResult(shops);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
+        {
+            var shops = await _shopService.GetAllAsync();
+            return new JsonResult(shops);
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace Promocodes.Business.Core.ServiceInterfaces
         Task<IEnumerable<ShopDto>> FindShopsAsync(int categoryId);
 
         Task<IEnumerable<ShopDto>> FindShopsAsync(char nameFirstChar);
+
+        Task<IEnumerable<ShopDto>> GetAllAsync();
     }
 }
