@@ -38,10 +38,6 @@ namespace Promocodes.Api.Middlewares
             }
         }
 
-        private ErrorDto ErrorJson(int code, string message) => new()
-        {
-            StatusCode = code,
-            Message = message
-        };
+        private ErrorDto ErrorJson(int code, string message) => new(code, message);
     }
 }

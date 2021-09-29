@@ -4,6 +4,12 @@
     {
         public int StatusCode { get; set; }
 
-        public string Message { get; set; }
+        public string[] Messages { get; set; }
+
+        public ErrorDto(int statusCode, params string[] messages)
+        {
+            StatusCode = statusCode;
+            Messages = messages;
+        }
     }
 }
