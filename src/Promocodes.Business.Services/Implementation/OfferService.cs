@@ -15,19 +15,16 @@ using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class OfferService : ServiceBase, IOfferService
+    public class OfferService : ServiceBase<Offer>, IOfferService
     {
-        private readonly IValidator<Offer> _validator;
-
-        public OfferService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<Offer> validator) : base(mapper, unitOfWork)
+        public OfferService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<Offer> validator) : base(mapper, unitOfWork, validator)
         {
-            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         public async Task<OfferDto> CreateAsync(OfferDto dto)
         {
             var offer = Mapper.Map<Offer>(dto);
-            _validator.ValidateAndThrow(offer);
+            Validator.ValidateAndThrow(offer);
 
             await UnitOfWork.OfferRepository.AddAsync(offer);
             await UnitOfWork.SaveChangesAsync();
@@ -53,7 +50,7 @@ namespace Promocodes.Business.Services.Implementation
             var offer = await GetOfferAsync(dto.Id);
             offer.ApplyUpdate(dto);
 
-            _validator.ValidateAndThrow(offer);
+            Validator.ValidateAndThrow(offer);
 
             UnitOfWork.OfferRepository.Update(offer);
             await UnitOfWork.SaveChangesAsync();

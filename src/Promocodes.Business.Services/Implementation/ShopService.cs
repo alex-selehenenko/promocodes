@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Promocodes.Business.Core.Dto.Shops;
 using Promocodes.Business.Core.ServiceInterfaces;
 using Promocodes.Business.Services.Exceptions;
 using Promocodes.Business.Services.Specifications;
+using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class ShopService : ServiceBase, IShopService
+    public class ShopService : ServiceBase<Shop>, IShopService
     {
-        public ShopService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        public ShopService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<Shop> validator) : base(mapper, unitOfWork, validator)
         {
         }
 

@@ -1,14 +1,17 @@
 ﻿using Promocodes.Business.Core.Dto.Reviews;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Core.ServiceInterfaces
 {
     public interface IReviewService
     {
-        Task AddAsync(ReviewDto review);
+        Task<ReviewDto> AddAsync(ReviewDto review);
 
-        Task EditAsync(EditReviewDto review);
+        Task<ReviewDto> EditAsync(EditReviewDto review);
 
         Task DeleteAsync(int reviewId);
+
+        Task<IEnumerable<ReviewDto>> GetAll();
     }
 }

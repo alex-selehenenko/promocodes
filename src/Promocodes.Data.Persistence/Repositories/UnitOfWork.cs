@@ -1,5 +1,8 @@
-﻿using Promocodes.Data.Core.RepositoryInterfaces;
+﻿using Promocodes.Data.Core.Common;
+using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.RepositoryInterfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
