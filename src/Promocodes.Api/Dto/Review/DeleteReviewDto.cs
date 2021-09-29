@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Promocodes.Api.Dto.Review
+﻿namespace Promocodes.Api.Dto.Review
 {
     public class DeleteReviewDto
     {
-        public int ReviewId { get; }
+        public int ReviewId { get; set; }
     }
 }

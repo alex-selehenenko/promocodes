@@ -41,10 +41,11 @@ namespace Promocodes.Business.Services.Implementation
             Validator.ValidateAndThrow(review);
 
             await UnitOfWork.ReviewReposiotry.AddAsync(review);
-            await UpdateShopRatingAsync(review.ShopId.Value);
-
             await UnitOfWork.SaveChangesAsync();
-            
+
+            await UpdateShopRatingAsync(review.ShopId.Value);
+            await UnitOfWork.SaveChangesAsync();
+
             return Mapper.Map<ReviewDto>(review);
         }
 
@@ -65,8 +66,8 @@ namespace Promocodes.Business.Services.Implementation
             review.ApplyUpdate(dto);
 
             Validator.ValidateAndThrow(review);
-
             UnitOfWork.ReviewReposiotry.Update(review);
+            await UnitOfWork.SaveChangesAsync();
 
             if (review.ShopId.HasValue)
                 await UpdateShopRatingAsync(review.ShopId.Value);
