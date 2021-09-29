@@ -5,6 +5,7 @@ using System;
 namespace Promocodes.Api.Controllers
 {
     [ApiController]
+    [Route("api/review")]
     public class ReviewController : Controller
     {
         private readonly IReviewService _reviewService;

@@ -36,18 +36,18 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            ShopId = -1,
-                            CategoryId = -1
+                            ShopId = 1,
+                            CategoryId = 1
                         },
                         new
                         {
-                            ShopId = -2,
-                            CategoryId = -2
+                            ShopId = 2,
+                            CategoryId = 2
                         },
                         new
                         {
-                            ShopId = -3,
-                            CategoryId = -3
+                            ShopId = 3,
+                            CategoryId = 3
                         });
                 });
 
@@ -87,17 +87,17 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             Name = "Electronics"
                         },
                         new
                         {
-                            Id = -2,
+                            Id = 2,
                             Name = "Baby"
                         },
                         new
                         {
-                            Id = -3,
+                            Id = 3,
                             Name = "Clothes"
                         });
                 });
@@ -224,7 +224,7 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                             Name = "Electron Plus",
                             Rating = 0f,
@@ -232,7 +232,7 @@ namespace Promocodes.Data.Persistence.Migrations
                         },
                         new
                         {
-                            Id = -2,
+                            Id = 2,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                             Name = "Baby boom",
                             Rating = 0f,
@@ -240,7 +240,7 @@ namespace Promocodes.Data.Persistence.Migrations
                         },
                         new
                         {
-                            Id = -3,
+                            Id = 3,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                             Name = "Zebra",
                             Rating = 0f,
@@ -277,25 +277,25 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             Phone = "+380991234567",
                             UserName = "alex"
                         },
                         new
                         {
-                            Id = -2,
+                            Id = 2,
                             Phone = "+380931112233",
                             UserName = "serg"
                         },
                         new
                         {
-                            Id = -3,
+                            Id = 3,
                             Phone = "+380661234545",
                             UserName = "jess"
                         },
                         new
                         {
-                            Id = -4,
+                            Id = 4,
                             Phone = "+380501112233",
                             UserName = "qwerty"
                         });

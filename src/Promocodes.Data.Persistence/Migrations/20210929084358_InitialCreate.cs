@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace Promocodes.Data.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "SQL_Latin1_General_CP1_CI_AS"),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Site = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Site = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
                     Rating = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
@@ -80,7 +80,7 @@ namespace Promocodes.Data.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Enabled = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Promocode = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
@@ -107,7 +107,7 @@ namespace Promocodes.Data.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Stars = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)5),
+                    Stars = table.Column<byte>(type: "tinyint", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ShopId = table.Column<int>(type: "int", nullable: true),
@@ -159,9 +159,9 @@ namespace Promocodes.Data.Persistence.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { -1, "Electronics" },
-                    { -2, "Baby" },
-                    { -3, "Clothes" }
+                    { 1, "Electronics" },
+                    { 2, "Baby" },
+                    { 3, "Clothes" }
                 });
 
             migrationBuilder.InsertData(
@@ -169,9 +169,9 @@ namespace Promocodes.Data.Persistence.Migrations
                 columns: new[] { "Id", "Description", "Name", "Rating", "Site" },
                 values: new object[,]
                 {
-                    { -1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Electron Plus", 0f, "https://eee-plus.com.ua" },
-                    { -2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Baby boom", 0f, "https://b-a-b-y-boom.com.ua" },
-                    { -3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Zebra", 0f, "https://zebrrra.biz.ua" }
+                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Electron Plus", 0f, "https://eee-plus.com.ua" },
+                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Baby boom", 0f, "https://b-a-b-y-boom.com.ua" },
+                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Zebra", 0f, "https://zebrrra.biz.ua" }
                 });
 
             migrationBuilder.InsertData(
@@ -179,26 +179,26 @@ namespace Promocodes.Data.Persistence.Migrations
                 columns: new[] { "Id", "Phone", "UserName" },
                 values: new object[,]
                 {
-                    { -1, "+380991234567", "alex" },
-                    { -2, "+380931112233", "serg" },
-                    { -3, "+380661234545", "jess" },
-                    { -4, "+380501112233", "qwerty" }
+                    { 1, "+380991234567", "alex" },
+                    { 2, "+380931112233", "serg" },
+                    { 3, "+380661234545", "jess" },
+                    { 4, "+380501112233", "qwerty" }
                 });
 
             migrationBuilder.InsertData(
                 table: "CategoryShop",
                 columns: new[] { "CategoryId", "ShopId" },
-                values: new object[] { -1, -1 });
+                values: new object[] { 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "CategoryShop",
                 columns: new[] { "CategoryId", "ShopId" },
-                values: new object[] { -2, -2 });
+                values: new object[] { 2, 2 });
 
             migrationBuilder.InsertData(
                 table: "CategoryShop",
                 columns: new[] { "CategoryId", "ShopId" },
-                values: new object[] { -3, -3 });
+                values: new object[] { 3, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryShop_CategoryId",

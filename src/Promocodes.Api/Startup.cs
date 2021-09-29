@@ -7,12 +7,15 @@ using Promocodes.Data.Persistence.DependencyInjection;
 using Promocodes.Business.Services.DependencyInjection;
 using Promocodes.Business.Core.DependencyInjection;
 using Promocodes.Api.Middlewares;
+using Promocodes.Data.Core.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace Promocodes.Api
 {
     public class Startup
     {
         private const string ConnectionString = "LocalDb";
+        private const string ApiVersion = "v1";
 
         public IConfiguration Configuration { get; }
 
@@ -24,7 +27,23 @@ namespace Promocodes.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc(ApiVersion, new OpenApiInfo
+                {
+                    Version = ApiVersion,
+                    Title = "Promocodes API",
+                    Description = "Open API for promocodes aggregator web application",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Oleksandr Selehenenko",
+                        Email = "salex220289@gmail.com"
+                    }
+                });
+            });
+            
 
+            services.AddValidators();
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
             
             services.AddMapper();
@@ -37,12 +56,17 @@ namespace Promocodes.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseMiddleware<ExceptionHandlerMiddleware>();
-            }
 
-            app.UseHttpsRedirection();            
+            app.UseSwagger();
+
+            app.UseHttpsRedirection();
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", "Promocodes API");
+            });
 
             app.UseRouting();
 

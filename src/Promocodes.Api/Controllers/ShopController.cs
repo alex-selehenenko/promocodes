@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
 {
-    [Route("api/{controller}")]
+    [Route("api/shop")]
     [ApiController]
     public class ShopController : Controller
     {
