@@ -23,7 +23,7 @@ namespace Promocodes.Api.Controllers
         public async Task<IActionResult> PostAsync([FromBody] ReviewDto dto)
         {
             var review = await _reviewService.AddAsync(dto);
-            return new JsonResult(new CreateDto<ReviewDto>(review));
+            return new JsonResult(new CreateResponseDto<ReviewDto>(review));
         }
 
         [HttpPut]
@@ -34,7 +34,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteAsync([FromBody] DeleteReviewDto dto)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteReviewRequestDto dto)
         {
             await _reviewService.DeleteAsync(dto.ReviewId);
             return Ok();

@@ -49,6 +49,6 @@ namespace Promocodes.Api.Middlewares
             }
         }
 
-        private static ErrorDto ErrorJson(int code, string message) => new(code, message);
+        private static ErrorResponseDto ErrorJson(int code, string message) => new(code, message);
     }
 }

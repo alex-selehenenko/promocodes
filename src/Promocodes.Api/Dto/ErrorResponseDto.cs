@@ -1,12 +1,12 @@
 ﻿namespace Promocodes.Api.Dto
 {
-    public class ErrorDto
+    public class ErrorResponseDto
     {
         public int StatusCode { get; set; }
 
         public string[] Messages { get; set; }
 
-        public ErrorDto(int statusCode, params string[] messages)
+        public ErrorResponseDto(int statusCode, params string[] messages)
         {
             StatusCode = statusCode;
             Messages = messages;

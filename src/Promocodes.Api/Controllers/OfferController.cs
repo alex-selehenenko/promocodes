@@ -23,7 +23,7 @@ namespace Promocodes.Api.Controllers
         public async Task<IActionResult> Post([FromBody] OfferDto dto)
         {
             var createdOffer = await _offerService.CreateAsync(dto);
-            return new JsonResult(new CreateDto<OfferDto>(createdOffer));
+            return new JsonResult(new CreateResponseDto<OfferDto>(createdOffer));
         }
 
         [HttpGet]
@@ -38,12 +38,12 @@ namespace Promocodes.Api.Controllers
         public async Task<IActionResult> PutAsync([FromBody] EditOfferDto dto)
         {
             var updatedOffer = await _offerService.EditAsync(dto);
-            return new JsonResult(new CreateDto<OfferDto>(updatedOffer));
+            return new JsonResult(new CreateResponseDto<OfferDto>(updatedOffer));
         }
 
         [HttpPut]
         [Route("delete")]
-        public async Task<IActionResult> DeleteAsync([FromBody] PutOfferDto dto)
+        public async Task<IActionResult> DeleteAsync([FromBody] PutOfferRequestDto dto)
         {
             await _offerService.DeleteAsync(dto.Id);
             return Ok();
@@ -51,7 +51,7 @@ namespace Promocodes.Api.Controllers
 
         [HttpPut]
         [Route("restore")]
-        public async Task<IActionResult> RestoreAsync([FromBody] PutOfferDto dto)
+        public async Task<IActionResult> RestoreAsync([FromBody] PutOfferRequestDto dto)
         {
             await _offerService.RestoreAsync(dto.Id);
             return Ok();
@@ -59,7 +59,7 @@ namespace Promocodes.Api.Controllers
 
         [HttpPut]
         [Route("toogle")]
-        public async Task<IActionResult> ToogleAsync([FromBody] PutOfferDto dto)
+        public async Task<IActionResult> ToogleAsync([FromBody] PutOfferRequestDto dto)
         {
             await _offerService.ToogleAsync(dto.Id);
             return Ok();
@@ -67,7 +67,7 @@ namespace Promocodes.Api.Controllers
 
         [HttpPut]
         [Route("take")]
-        public async Task<IActionResult> TakeAsync([FromBody] TakeOfferDto dto)
+        public async Task<IActionResult> TakeAsync([FromBody] TakeOfferRequestDto dto)
         {
             await _offerService.TakeAsync(dto.OfferId, dto.UserId);
             return Ok();
