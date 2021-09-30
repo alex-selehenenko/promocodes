@@ -43,7 +43,9 @@ namespace Promocodes.Data.CoreTests.Helpers
         {
             Id = 1,
             Text = new('t', ReviewConstraints.MinTextLength),
-            Stars = 1
+            Stars = 1,
+            CreationTime = new DateTime(2021, 10, 10),
+            LastUpdateTime = new DateTime(2022, 10, 10)
         };
 
         public static Shop GetShop() => new()

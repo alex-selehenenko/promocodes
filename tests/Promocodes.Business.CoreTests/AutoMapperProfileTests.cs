@@ -26,6 +26,7 @@ namespace Promocodes.Business.CoreTests
                 .CreateMapper();
         }
 
+        #region Offers
         [Test]
         public void MapOffer_EntityToDto()
         {
@@ -49,6 +50,19 @@ namespace Promocodes.Business.CoreTests
         }
 
         [Test]
+        public void MapOffer_CreateDtoToEntity()
+        {
+            var dto = ModelsFactory.GetEntity<CreateOfferDto>();
+            var entity = _mapper.Map<Offer>(dto);
+
+            var actual = CheckCreateOffer(entity, dto);
+
+            Assert.IsTrue(actual);
+        }
+        #endregion
+
+        #region Reviews
+        [Test]
         public void MapReview_EntityToDto()
         {
             var entity = ModelsFactory.GetEntity<Review>();
@@ -71,6 +85,17 @@ namespace Promocodes.Business.CoreTests
         }
 
         [Test]
+        public void MapReview_CreateDtoToEntity()
+        {
+            var dto = ModelsFactory.GetEntity<CreateReviewDto>();
+            var entity = _mapper.Map<Review>(dto);
+
+            var acrual = CheckCreateReview(dto, entity);
+        }
+        #endregion
+
+        #region Shops
+        [Test]
         public void MapShop_EntityToDto()
         {
             var entity = ModelsFactory.GetEntity<Shop>();
@@ -91,7 +116,9 @@ namespace Promocodes.Business.CoreTests
 
             Assert.IsTrue(actual);
         }
+        #endregion
 
+        #region Categories
         [Test]
         public void MapCategory_EntityToDto()
         {
@@ -113,7 +140,9 @@ namespace Promocodes.Business.CoreTests
 
             Assert.IsTrue(actual);
         }
+        #endregion
 
+        #region User
         [Test]
         public void MapUser_EntityToDto()
         {
@@ -135,7 +164,9 @@ namespace Promocodes.Business.CoreTests
 
             Assert.IsTrue(actual);
         }
+        #endregion
 
+        #region Check Offer
         private static bool CheckOffer(Offer entity, OfferDto dto) =>
             dto.Id == entity.Id &&
             dto.Title == entity.Title &&
@@ -147,19 +178,48 @@ namespace Promocodes.Business.CoreTests
             dto.Discount == entity.Discount &&
             dto.Enabled == entity.Enabled;
 
+        private static bool CheckCreateOffer(Offer entity, CreateOfferDto dto) =>
+            entity.Id == default &&
+            entity.IsDeleted == false &&
+            entity.Enabled == dto.Enabled &&
+            entity.ExpirationDate == dto.ExpirationDate &&
+            entity.Discount == dto.Discount &&
+            entity.ShopId == dto.ShopId &&
+            entity.Promocode == dto.Promocode &&
+            entity.Description == dto.Description &&
+            entity.Title == dto.Title &&
+            entity.StartDate == dto.StartDate;
+
+        #endregion
+
+        #region Check User
         private static bool CheckUser(User entity, UserDto dto) =>
             dto.Id == entity.Id &&
             dto.UserName == entity.UserName &&
             dto.Phone == entity.Phone;
+        #endregion
 
+        #region Check Review
         private static bool CheckReview(Review entity, ReviewDto dto) =>
             dto.Id == entity.Id &&
             dto.CreationTime == entity.CreationTime &&
             dto.ShopId == entity.ShopId &&
             dto.Stars == entity.Stars &&
             dto.Text == entity.Text &&
-            dto.UserId == entity.UserId;
+            dto.UserId == entity.UserId &&
+            dto.CreationTime == dto.CreationTime &&
+            dto.LastUpdateTime == dto.LastUpdateTime;
 
+        private static bool CheckCreateReview(CreateReviewDto dto, Review entity) =>
+            entity.Id == default &&
+            entity.CreationTime == entity.LastUpdateTime &&
+            entity.Stars == dto.Stars &&
+            entity.Text == dto.Text &&
+            entity.UserId == dto.UserId &&
+            entity.ShopId == dto.ShopId;
+        #endregion
+
+        #region Check Shop
         private static bool CheckShop(Shop entity, ShopDto dto) =>
             dto.Id == entity.Id &&
             dto.Description == entity.Description &&
@@ -170,5 +230,6 @@ namespace Promocodes.Business.CoreTests
         private static bool CheckCategory(Category entity, CategoryDto dto) =>
             dto.Id == entity.Id &&
             dto.Name == entity.Name;
+        #endregion
     }
 }

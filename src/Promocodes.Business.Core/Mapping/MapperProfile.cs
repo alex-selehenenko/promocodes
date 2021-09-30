@@ -23,7 +23,7 @@ namespace Promocodes.Business.Core.Mapping
         {
             CreateMap<OfferDto, Offer>();
             CreateMap<Offer, OfferDto>();
-            CreateMap<CreateOfferDto, OfferDto>();
+            CreateMap<CreateOfferDto, Offer>();
         }
 
         private void CreateReviewMaps()

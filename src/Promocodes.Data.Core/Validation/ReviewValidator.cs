@@ -25,6 +25,11 @@ namespace Promocodes.Data.Core.Validation
                         nameof(r.Text),
                         ReviewConstraints.MinTextLength,
                         ReviewConstraints.MaxTextLength));
+
+            RuleFor(r => r.LastUpdateTime)
+                .Cascade(CascadeMode.Stop)
+                .Must((review, updateTime) => updateTime > review.CreationTime)
+                .WithMessage("Update time was less tham creation time");
         }
     }
 }

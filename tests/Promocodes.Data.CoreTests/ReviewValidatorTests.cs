@@ -43,6 +43,11 @@ namespace Promocodes.Data.CoreTests
             review = New();
             review.Stars = ReviewConstraints.MaxStars + 1;
             yield return OutOfRangeTestCase(review, property, true);
+
+            // Update time cases
+            review = New();
+            review.LastUpdateTime = new System.DateTime(2011, 11, 11);
+            yield return TestCase(review, "Update time less creation");
         }
 
         [Test]

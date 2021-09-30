@@ -20,5 +20,13 @@ namespace Promocodes.Data.Core.Entities
         public Shop Shop { get; set; }
 
         public User User { get; set; }
+
+        public Review()
+        {
+            var currentDate = DateTime.UtcNow;
+
+            CreationTime = currentDate;
+            LastUpdateTime = currentDate;
+        }
     }
 }

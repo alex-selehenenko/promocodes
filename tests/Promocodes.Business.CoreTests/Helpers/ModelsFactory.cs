@@ -3,6 +3,7 @@ using Promocodes.Business.Core.Dto.Offers;
 using Promocodes.Business.Core.Dto.Reviews;
 using Promocodes.Business.Core.Dto.Shops;
 using Promocodes.Business.Core.Dto.Users;
+using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,11 @@ namespace Promocodes.Business.CoreTests.Helpers
             {
                 [typeof(OfferDto)] = () => InitializeOfferDto(),
                 [typeof(Offer)] = () => InitializeOffer(),
+                [typeof(CreateOfferDto)] = () => InitializeCreateOfferDto(),
                 
                 [typeof(Review)] = () => InitializeReview(),
                 [typeof(ReviewDto)] = () => InitializeReviewDto(),
+                [typeof(CreateReviewDto)] = () => InitializeCreateReviewDto(),
                 
                 [typeof(Shop)] = () => InitializeShop(),
                 [typeof(ShopDto)] = () => InitializeShopDto(),
@@ -34,8 +37,7 @@ namespace Promocodes.Business.CoreTests.Helpers
             return (T)factory[typeof(T)]();
         }
 
-        // Categories
-
+        #region Category
         private static Category InitializeCategory() => new()
         {
             Id = 1,
@@ -47,10 +49,9 @@ namespace Promocodes.Business.CoreTests.Helpers
             Id = 1,
             Name = "Name"
         };
+        #endregion
 
-
-        // Shops
-
+        #region Shop
         private static Shop InitializeShop() => new()
         {
             Id = 1,
@@ -68,31 +69,39 @@ namespace Promocodes.Business.CoreTests.Helpers
             Site = "https://mysite.com",
             Rating = 5
         };
+        #endregion
 
-
-        //Reviews
-
+        #region Reviews
         private static Review InitializeReview() => new()
         {
             Id = 1,
-            Stars = 5,
+            Stars = ReviewConstraints.MinStars,
             Text = "Text",
             UserId = 1,
-            ShopId = 1
+            ShopId = 1,
+            CreationTime = new DateTime(2021, 10, 10),
+            LastUpdateTime = new DateTime(2022, 10, 10)
         };
 
         private static ReviewDto InitializeReviewDto() => new()
         {
             Id = 1,
-            Stars = 5,
+            Stars = ReviewConstraints.MinStars,
             Text = "Text",
             UserId = 1,
             ShopId = 1
         };
 
+        private static CreateReviewDto InitializeCreateReviewDto() => new()
+        {
+            Text = "Text",
+            Stars = ReviewConstraints.MinStars,
+            UserId = 1,
+            ShopId = 1
+        };
+        #endregion
 
-        // Offers
-
+        #region Offers
         private static Offer InitializeOffer() => new()
         {
             Id = 1,
@@ -121,9 +130,20 @@ namespace Promocodes.Business.CoreTests.Helpers
             ShopId = 1,
         };
 
+        private static CreateOfferDto InitializeCreateOfferDto() => new()
+        {
+            Title = "Title",
+            Description = "Description",
+            Promocode = "Promocode",
+            Discount = 0.5f,
+            StartDate = new System.DateTime(2021, 9, 27),
+            ExpirationDate = new System.DateTime(2021, 9, 30),
+            Enabled = true,
+            ShopId = 1
+        };
+        #endregion
 
-        // Users
-
+        #region Users
         private static User InitializeUser() => new()
         {
             Id = 1,
@@ -137,5 +157,6 @@ namespace Promocodes.Business.CoreTests.Helpers
             UserName = "UserName",
             Phone = "+380991112233"
         };
+        #endregion
     }
 }
