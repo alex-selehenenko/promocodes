@@ -2,7 +2,7 @@
 using Promocodes.Data.Core.Entities;
 using System.Linq;
 
-namespace Promocodes.Business.Services.Specifications
+namespace Promocodes.Business.Core.Specifications
 {
     public class ShopSpecification : SpecificationBase<Shop>
     {

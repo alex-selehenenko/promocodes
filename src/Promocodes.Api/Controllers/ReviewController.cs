@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto;
-using Promocodes.Api.Dto.Review;
 using Promocodes.Business.Core.Dto.Reviews;
 using Promocodes.Business.Core.ServiceInterfaces;
 using System;
@@ -20,13 +19,14 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] ReviewDto dto)
+        public async Task<IActionResult> PostAsync([FromBody] CreateReviewDto dto)
         {
-            var review = await _reviewService.AddAsync(dto);
-            return new JsonResult(new CreateResponseDto<ReviewDto>(review));
+            var review = await _reviewService.CreateAsync(dto);
+            return new JsonResult(review);
         }
 
         [HttpPut]
+        [Route("edit")]
         public async Task<IActionResult> PutAsync([FromBody] EditReviewDto dto)
         {
             var review = await _reviewService.EditAsync(dto);
@@ -34,10 +34,26 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteAsync([FromBody] DeleteReviewRequestDto dto)
+        public async Task<IActionResult> DeleteAsync([FromBody] RequestDtoBase<int> dto)
         {
-            await _reviewService.DeleteAsync(dto.ReviewId);
+            await _reviewService.DeleteAsync(dto.Id);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public async Task<IActionResult> GetAsync()
+        {
+            var reviews = await _reviewService.GetAllAsync();
+            return new JsonResult(reviews);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            var review = await _reviewService.GetAsync(id);
+            return new JsonResult(review);
         }
     }
 }

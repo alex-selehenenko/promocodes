@@ -2,7 +2,7 @@
 
 namespace Promocodes.Business.Core.Dto.Shops
 {
-    public class EditShopDto : IdentityBase<int>, IDtoBase
+    public class EditShopDto : IdentityBase<int>, IDto
     {
         public string Name { get; set; }
 

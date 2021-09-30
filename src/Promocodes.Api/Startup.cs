@@ -37,7 +37,7 @@ namespace Promocodes.Api
                     Contact = new OpenApiContact
                     {
                         Name = "Oleksandr Selehenenko",
-                        Email = "salex220289@gmail.com"
+                        Email = "alex.selegenenko@gmail.com"
                     }
                 });
             });

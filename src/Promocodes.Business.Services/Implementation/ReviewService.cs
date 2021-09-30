@@ -4,7 +4,6 @@ using Promocodes.Business.Core.Dto.Reviews;
 using Promocodes.Business.Core.Mapping;
 using Promocodes.Business.Core.ServiceInterfaces;
 using Promocodes.Business.Core.Exceptions;
-using Promocodes.Business.Services.Specifications.Shops;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System;
@@ -12,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Promocodes.Data.Core.Validation.Extensions;
-using Promocodes.Business.Services.Specifications.Reviews;
+using Promocodes.Business.Core.Specifications.Shops;
+using Promocodes.Business.Core.Specifications.Reviews;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -29,7 +29,7 @@ namespace Promocodes.Business.Services.Implementation
             _shopValidator = shopValidator ?? throw new ArgumentNullException(nameof(shopValidator));
         }
 
-        public async Task<ReviewDto> AddAsync(ReviewDto dto)
+        public async Task<ReviewDto> CreateAsync(CreateReviewDto dto)
         {
             if (!dto.ShopId.HasValue)
                 throw new EntityInstantiationException("Shop id was null");
@@ -38,20 +38,18 @@ namespace Promocodes.Business.Services.Implementation
                 throw new EntityInstantiationException("User id was null");
 
             var user = await UnitOfWork.UserRepository.FindAsync(dto.UserId.Value);
-
             if (user is null)
                 throw new EntityInstantiationException($"Can't create review. User with {dto.UserId.Value} was not found");
+
+            var shop = await UnitOfWork.ShopRepository.FindAsync(ShopWithReviewsSpecification.FindById(dto.ShopId.Value));
+            if (shop is null)
+                throw new EntityInstantiationException($"Can't create review. Shop with {dto.ShopId.Value} was not found");
 
             var review = Mapper.Map<Review>(dto);
             var validation = Validator.Validate(review);
 
             if (!validation.IsValid)
-                throw new EntityValidationException(validation.Errors.GetErrorMessages());
-
-            var shop = await UnitOfWork.ShopRepository.FindAsync(ShopWithReviewsSpecification.FindById(dto.ShopId.Value));
-
-            if (shop is null)
-                throw new EntityInstantiationException($"Can't create review. Shop with {dto.ShopId.Value} was not found");                     
+                throw new EntityValidationException(validation.Errors.GetErrorMessages());                                 
 
             shop.Reviews.Add(review);
             shop.Rating = CountShopRating(shop);
@@ -102,7 +100,7 @@ namespace Promocodes.Business.Services.Implementation
             return Mapper.Map<ReviewDto>(review);
         }
 
-        public async Task<IEnumerable<ReviewDto>> GetAll()
+        public async Task<IEnumerable<ReviewDto>> GetAllAsync()
         {
             var reviews = await UnitOfWork.ReviewReposiotry.FindAllAsync();
 
@@ -123,6 +121,12 @@ namespace Promocodes.Business.Services.Implementation
                 sum += review.Stars;
             }
             return sum / shop.Reviews.Count;
+        }
+
+        public async Task<ReviewDto> GetAsync(int id)
+        {
+            var review = await UnitOfWork.ReviewReposiotry.FindAsync(id);
+            return review is not null ? Mapper.Map<ReviewDto>(review) : throw new EntityNotFoundException("Review", id.ToString());
         }
     }
 }

@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Promocodes.Business.Services.Specifications.Shops
+namespace Promocodes.Business.Core.Specifications.Shops
 {
     public class ShopWithReviewsSpecification : SpecificationBase<Shop>
     {

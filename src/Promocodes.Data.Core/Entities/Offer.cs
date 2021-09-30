@@ -8,7 +8,7 @@ namespace Promocodes.Data.Core.Entities
     {
         public string Title { get; set; }
 
-        public bool Enabled { get; set; }
+        public bool Enabled { get; set; } = true;
 
         public string Description { get; set; }
 

@@ -20,7 +20,7 @@ namespace Promocodes.Api.Controllers
         [Route("category/{categoryId:int}")]
         public async Task<IActionResult> FindByCategoryIdAsync(int categoryId)
         {
-            var shops = await _shopService.FindShopsAsync(categoryId);
+            var shops = await _shopService.FindAsync(categoryId);
             return new JsonResult(shops);
         }
 
@@ -28,7 +28,7 @@ namespace Promocodes.Api.Controllers
         [Route("name/first-char/{character}")]
         public async Task<IActionResult> FindByNameChunks(char character)
         {
-            var shops = await _shopService.FindShopsAsync(character);
+            var shops = await _shopService.FindAsync(character);
             return new JsonResult(shops);
         }
 

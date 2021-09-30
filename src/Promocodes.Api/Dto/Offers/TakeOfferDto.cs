@@ -1,6 +1,6 @@
 ﻿namespace Promocodes.Api.Dto.Offers
 {
-    public class TakeOfferRequestDto
+    public class TakeOfferDto
     {
         public int UserId { get; set; }
 

@@ -3,12 +3,12 @@ using FluentValidation;
 using Promocodes.Business.Core.Dto.Shops;
 using Promocodes.Business.Core.ServiceInterfaces;
 using Promocodes.Business.Core.Exceptions;
-using Promocodes.Business.Services.Specifications;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Promocodes.Business.Core.Specifications;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -18,7 +18,7 @@ namespace Promocodes.Business.Services.Implementation
         {
         }
 
-        public async Task<IEnumerable<ShopDto>> FindShopsAsync(int categoryId)
+        public async Task<IEnumerable<ShopDto>> FindAsync(int categoryId)
         {
             var entities = await UnitOfWork.ShopRepository
                 .FindAllAsync(new ShopSpecification(categoryId));
@@ -29,7 +29,7 @@ namespace Promocodes.Business.Services.Implementation
             return entities.Select(Mapper.Map<ShopDto>);
         }
 
-        public async Task<IEnumerable<ShopDto>> FindShopsAsync(char nameFirstLetter)
+        public async Task<IEnumerable<ShopDto>> FindAsync(char nameFirstLetter)
         {
             var entities = await UnitOfWork.ShopRepository
                 .FindAllAsync(new ShopSpecification(nameFirstLetter));
@@ -48,6 +48,12 @@ namespace Promocodes.Business.Services.Implementation
                 throw new EntityNotFoundException($"Shops was not found");
 
             return entities.Select(Mapper.Map<ShopDto>);
+        }
+
+        public async Task<ShopDto> GetAsync(int id)
+        {
+            var shop = await UnitOfWork.ShopRepository.FindAsync(id);
+            return shop is not null ? Mapper.Map<ShopDto>(shop) : throw new EntityNotFoundException("Shop", id.ToString());
         }
     }
 }

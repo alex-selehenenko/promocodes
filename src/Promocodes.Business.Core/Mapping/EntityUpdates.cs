@@ -29,6 +29,7 @@ namespace Promocodes.Business.Core.Mapping
 
             entity.Stars = dto.Stars;
             entity.Text = dto.Text;
+            entity.LastUpdateTime = DateTime.UtcNow;
 
             return entity;
         }

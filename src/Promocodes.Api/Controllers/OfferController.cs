@@ -20,10 +20,10 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OfferDto dto)
+        public async Task<IActionResult> Post([FromBody] CreateOfferDto dto)
         {
-            var createdOffer = await _offerService.CreateAsync(dto);
-            return new JsonResult(new CreateResponseDto<OfferDto>(createdOffer));
+            var offer = await _offerService.CreateAsync(dto);
+            return new JsonResult(offer);
         }
 
         [HttpGet]
@@ -38,20 +38,20 @@ namespace Promocodes.Api.Controllers
         public async Task<IActionResult> PutAsync([FromBody] EditOfferDto dto)
         {
             var updatedOffer = await _offerService.EditAsync(dto);
-            return new JsonResult(new CreateResponseDto<OfferDto>(updatedOffer));
+            return new JsonResult(updatedOffer);
         }
 
         [HttpPut]
         [Route("delete")]
-        public async Task<IActionResult> DeleteAsync([FromBody] PutOfferRequestDto dto)
+        public async Task<IActionResult> DeleteAsync([FromBody] int offerId)
         {
-            await _offerService.DeleteAsync(dto.Id);
+            await _offerService.DeleteAsync(offerId);
             return Ok();
         }
 
         [HttpPut]
         [Route("restore")]
-        public async Task<IActionResult> RestoreAsync([FromBody] PutOfferRequestDto dto)
+        public async Task<IActionResult> RestoreAsync([FromBody] RequestDtoBase<int> dto)
         {
             await _offerService.RestoreAsync(dto.Id);
             return Ok();
@@ -59,7 +59,7 @@ namespace Promocodes.Api.Controllers
 
         [HttpPut]
         [Route("toogle")]
-        public async Task<IActionResult> ToogleAsync([FromBody] PutOfferRequestDto dto)
+        public async Task<IActionResult> ToogleAsync([FromBody] RequestDtoBase<int> dto)
         {
             await _offerService.ToogleAsync(dto.Id);
             return Ok();
@@ -67,9 +67,9 @@ namespace Promocodes.Api.Controllers
 
         [HttpPut]
         [Route("take")]
-        public async Task<IActionResult> TakeAsync([FromBody] TakeOfferRequestDto dto)
+        public async Task<IActionResult> TakeAsync([FromBody] TakeOfferDto dto)
         {
-            await _offerService.TakeAsync(dto.OfferId, dto.UserId);
+            await _offerService.TakeAsync(dto.UserId, dto.OfferId);
             return Ok();
         }
     }

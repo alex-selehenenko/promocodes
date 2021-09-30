@@ -3,7 +3,7 @@ using System;
 
 namespace Promocodes.Business.Core.Dto.Offers
 {
-    public class EditOfferDto : IdentityBase<int>, IDtoBase
+    public class EditOfferDto : IdentityBase<int>, IDto
     {
         public string Title { get; set; }
 

@@ -9,7 +9,9 @@ namespace Promocodes.Data.Core.Entities
 
         public string Text { get; set; }
 
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
+
+        public DateTime LastUpdateTime { get; set; } = DateTime.UtcNow;
 
         public int? ShopId { get; set; }
 

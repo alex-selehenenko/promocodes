@@ -4,14 +4,13 @@ using Promocodes.Business.Core.Dto.Offers;
 using Promocodes.Business.Core.Mapping;
 using Promocodes.Business.Core.ServiceInterfaces;
 using Promocodes.Business.Core.Exceptions;
-using Promocodes.Business.Services.Specifications.Offers;
-using Promocodes.Business.Services.Specifications.Users;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Promocodes.Business.Core.Specifications.Offers;
+using Promocodes.Business.Core.Specifications.Users;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -21,7 +20,7 @@ namespace Promocodes.Business.Services.Implementation
         {
         }
 
-        public async Task<OfferDto> CreateAsync(OfferDto dto)
+        public async Task<OfferDto> CreateAsync(CreateOfferDto dto)
         {
             var offer = Mapper.Map<Offer>(dto);
             Validator.ValidateAndThrow(offer);
@@ -66,6 +65,12 @@ namespace Promocodes.Business.Services.Implementation
                 throw new EntityNotFoundException("No offers found");
 
             return offers.Select(Mapper.Map<OfferDto>);
+        }
+
+        public async Task<OfferDto> GetAsync(int id)
+        {
+            var offer = await UnitOfWork.OfferRepository.FindAsync(id);
+            return offer is not null ? Mapper.Map<OfferDto>(offer) : throw new EntityNotFoundException("offer", id.ToString());
         }
 
         public async Task RestoreAsync(int offerId)
