@@ -28,7 +28,7 @@ namespace Promocodes.Data.Core.Validation
 
             RuleFor(r => r.LastUpdateTime)
                 .Cascade(CascadeMode.Stop)
-                .Must((review, updateTime) => updateTime > review.CreationTime)
+                .Must((review, updateTime) => updateTime >= review.CreationTime)
                 .WithMessage("Update time was less tham creation time");
         }
     }

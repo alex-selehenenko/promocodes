@@ -115,7 +115,7 @@ namespace Promocodes.Business.Services.Implementation
             if (shop.Reviews.Count == 0)
                 return 0f;
 
-            var sum = 0;
+            float sum = 0;
             foreach (var review in shop.Reviews)
             {
                 sum += review.Stars;

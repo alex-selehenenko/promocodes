@@ -35,10 +35,10 @@ namespace Promocodes.Api.Middlewares
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
             }
-            catch (ValidationException ex)
+            catch (EntityValidationException ex)
             {
                 context.Response.StatusCode = 400;
-                await context.Response.WriteAsJsonAsync(ErrorJson(400, ex.Message));
+                await context.Response.WriteAsJsonAsync(ErrorJson(400, ex.ValidationErrorMessages));
             }
             catch (Exception ex)
             {
@@ -49,6 +49,6 @@ namespace Promocodes.Api.Middlewares
             }
         }
 
-        private static ErrorResponseDto ErrorJson(int code, string message) => new(code, message);
+        private static ErrorResponseDto ErrorJson(int code, params string[] message) => new(code, message);
     }
 }
