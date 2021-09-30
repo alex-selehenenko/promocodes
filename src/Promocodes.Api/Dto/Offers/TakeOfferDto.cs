@@ -1,9 +1,7 @@
 ﻿namespace Promocodes.Api.Dto.Offers
 {
-    public class TakeOfferDto
+    public class TakeOfferDto : RequestDtoBase<int>
     {
         public int UserId { get; set; }
-
-        public int OfferId { get; set; }
     }
 }
