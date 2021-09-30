@@ -69,7 +69,7 @@ namespace Promocodes.Api.Controllers
         [Route("take")]
         public async Task<IActionResult> TakeAsync([FromBody] TakeOfferDto dto)
         {
-            await _offerService.TakeAsync(dto.UserId, dto.OfferId);
+            await _offerService.TakeAsync(dto.UserId, dto.Id);
             return Ok();
         }
     }
