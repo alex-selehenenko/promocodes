@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Promocodes.Business.Core.Exceptions
+namespace Promocodes.Business.Exceptions
 {
     [Serializable]
     public class EntityInstantiationException : ApplicationException

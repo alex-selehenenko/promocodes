@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Promocodes.Business.Core.Dto.Offers
+namespace Promocodes.Api.Dto.Offers
 {
-    public class CreateOfferDto
+    public class OfferPostDto
     {
         public string Title { get; set; }
 
@@ -18,6 +18,6 @@ namespace Promocodes.Business.Core.Dto.Offers
 
         public DateTime ExpirationDate { get; set; }
 
-        public int? ShopId { get; set; }
+        public int ShopId { get; set; }
     }
 }

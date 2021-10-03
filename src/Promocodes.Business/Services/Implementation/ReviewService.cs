@@ -1,13 +1,11 @@
-﻿using FluentValidation;
-using Promocodes.Business.Core.ServiceInterfaces;
-using Promocodes.Business.Core.Exceptions;
+﻿using Promocodes.Business.Exceptions;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Promocodes.Business.Core.Specifications.Shops;
-using Promocodes.Business.Core.Specifications.Reviews;
+using Promocodes.Business.Specifications.Shops;
+using Promocodes.Business.Specifications.Reviews;
+using Promocodes.Business.Services.Interfaces;
 
 namespace Promocodes.Business.Services.Implementation
 {

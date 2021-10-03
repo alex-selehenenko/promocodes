@@ -1,7 +1,7 @@
 ﻿using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
 
-namespace Promocodes.Business.Core.Specifications.Users
+namespace Promocodes.Business.Specifications.Users
 {
     public class UserWithOffersSpecification : SpecificationBase<User>
     {

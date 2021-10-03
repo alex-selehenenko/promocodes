@@ -1,11 +1,14 @@
-﻿using Promocodes.Data.Core.Common;
-using System;
+﻿using System;
 
-namespace Promocodes.Business.Core.Dto.Offers
+namespace Promocodes.Api.Dto.Offers
 {
-    public class EditOfferDto : IdentityBase<int>, IDto
+    public class OfferGetDto
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
+
+        public bool Enabled { get; set; }
 
         public string Description { get; set; }
 
@@ -16,5 +19,9 @@ namespace Promocodes.Business.Core.Dto.Offers
         public DateTime StartDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public int? ShopId { get; set; }
     }
 }

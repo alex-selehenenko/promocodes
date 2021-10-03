@@ -1,7 +1,7 @@
 ﻿using Promocodes.Data.Core.Entities;
 using System.Threading.Tasks;
 
-namespace Promocodes.Business.Core.ServiceInterfaces
+namespace Promocodes.Business.Services.Interfaces
 {
     public interface IReviewService
     {

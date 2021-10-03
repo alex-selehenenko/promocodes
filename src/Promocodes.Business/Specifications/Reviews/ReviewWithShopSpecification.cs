@@ -3,7 +3,7 @@ using Promocodes.Data.Core.Entities;
 using System;
 using System.Linq.Expressions;
 
-namespace Promocodes.Business.Core.Specifications.Reviews
+namespace Promocodes.Business.Specifications.Reviews
 {
     public class ReviewWithShopSpecification : SpecificationBase<Review>
     {

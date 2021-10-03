@@ -1,10 +1,11 @@
-﻿using Promocodes.Data.Core.Common;
-using System;
+﻿using System;
 
-namespace Promocodes.Business.Core.Dto.Reviews
+namespace Promocodes.Api.Dto.Reviews
 {
-    public class ReviewDto : IdentityBase<int>, IDto
+    public class ReviewGetDto
     {
+        public int Id { get; set; }
+
         public byte Stars { get; set; }
 
         public string Text { get; set; }

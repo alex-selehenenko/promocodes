@@ -1,10 +1,11 @@
-﻿using Promocodes.Business.Core.ServiceInterfaces;
-using Promocodes.Business.Core.Exceptions;
+﻿using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Promocodes.Business.Core.Specifications;
+using Promocodes.Business.Specifications;
+using System.Linq;
+using Promocodes.Business.Exceptions;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -16,12 +17,14 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<IEnumerable<Shop>> GetByCategoryIdAsync(int categoryId)
         {
-            return await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(categoryId));
+            var shops = await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(categoryId));
+            return shops.Any() ? shops : throw new EntityNotFoundException($"Shops of category id {categoryId} was not found");
         }
 
-        public async Task<IEnumerable<Shop>> GetByNameFirstCharAsync(char nameFirstLetter)
+        public async Task<IEnumerable<Shop>> GetByNameFirstCharAsync(char firstChar)
         {
-            return await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(nameFirstLetter));
+            var shops =  await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(firstChar));
+            return shops.Any() ? shops : throw new EntityNotFoundException($"Shops with name starts with char {firstChar} was not found");
         }
     }
 }

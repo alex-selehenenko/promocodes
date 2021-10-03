@@ -1,14 +1,14 @@
-﻿using Promocodes.Business.Core.ServiceInterfaces;
-using Promocodes.Business.Core.Exceptions;
+﻿using Promocodes.Business.Exceptions;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Threading.Tasks;
-using Promocodes.Business.Core.Specifications.Offers;
-using Promocodes.Business.Core.Specifications.Users;
+using Promocodes.Business.Specifications.Offers;
+using Promocodes.Business.Specifications.Users;
 using System;
 using System.Collections.Generic;
 using Promocodes.Business.Specifications.Shops;
 using System.Linq;
+using Promocodes.Business.Services.Interfaces;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -23,7 +23,7 @@ namespace Promocodes.Business.Services.Implementation
             var shop = await UnitOfWork.ShopRepository.FindAsync(new ShopWithOffersSpecification(shopId)) ??
                 throw new EntityNotFoundException("Shop", shopId.ToString());
 
-            return shop.Offers.Any() ? shop.Offers : throw new EntityNotFoundException($"Shop {shopId} doesn't have offers");
+            return shop.Offers.Any() ? shop.Offers : throw new EntityNotFoundException($"Shop {shopId} doesn't provide offers");
         }
 
         public async Task<Offer> AddAsync(Offer offer)

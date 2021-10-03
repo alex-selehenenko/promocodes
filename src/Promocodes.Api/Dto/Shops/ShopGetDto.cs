@@ -1,8 +1,8 @@
 ﻿using Promocodes.Data.Core.Common;
 
-namespace Promocodes.Business.Core.Dto.Shops
+namespace Promocodes.Api.Dto.Shops
 {
-    public class ShopDto : IdentityBase<int>, IDto
+    public class ShopGetDto : IdentityBase<int>
     {
         public string Name { get; set; }
 

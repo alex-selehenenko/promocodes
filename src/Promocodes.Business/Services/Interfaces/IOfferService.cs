@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Promocodes.Business.Core.ServiceInterfaces
+namespace Promocodes.Business.Services.Interfaces
 {
     public interface IOfferService
     {

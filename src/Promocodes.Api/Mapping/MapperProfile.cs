@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Promocodes.Business.Core.Dto.Categories;
-using Promocodes.Business.Core.Dto.Offers;
-using Promocodes.Business.Core.Dto.Reviews;
-using Promocodes.Business.Core.Dto.Shops;
-using Promocodes.Business.Core.Dto.Users;
+using Promocodes.Api.Dto.Offers;
+using Promocodes.Api.Dto.Reviews;
+using Promocodes.Api.Dto.Shops;
 using Promocodes.Data.Core.Entities;
 
 namespace Promocodes.Api.Mapping
@@ -13,42 +11,27 @@ namespace Promocodes.Api.Mapping
         public MapperProfile()
         {
             CreateOfferMaps();
-            CreateCategoryMaps();
             CreateShopMaps();
             CreateReviewMaps();
-            CreateUserMaps();
         }
 
         private void CreateOfferMaps()
         {
-            CreateMap<OfferDto, Offer>();
-            CreateMap<Offer, OfferDto>();
-            CreateMap<CreateOfferDto, Offer>();
+            CreateMap<OfferPostDto, Offer>();
+            CreateMap<OfferPutDto, Offer>();
+            CreateMap<Offer, OfferGetDto>();            
         }
 
         private void CreateReviewMaps()
         {
-            CreateMap<ReviewDto, Review>();
-            CreateMap<Review, ReviewDto>();
-            CreateMap<CreateReviewDto, Review>();
+            CreateMap<ReviewPostDto, Review>();
+            CreateMap<ReviewPutDto, Review>();
+            CreateMap<Review, ReviewGetDto>();
         }
 
         private void CreateShopMaps()
         {
-            CreateMap<ShopDto, Shop>();
-            CreateMap<Shop, ShopDto>();
-        }
-
-        private void CreateUserMaps()
-        {
-            CreateMap<UserDto, User>();
-            CreateMap<User, UserDto>();
-        }
-
-        private void CreateCategoryMaps()
-        {
-            CreateMap<CategoryDto, Category>();
-            CreateMap<Category, CategoryDto>();
+            CreateMap<Shop, ShopGetDto>();
         }
 
         public static MapperProfile Create() => new();
