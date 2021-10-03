@@ -1,34 +1,37 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Promocodes.Business.Core.Dto.Offers;
-using Promocodes.Business.Core.Mapping;
-using Promocodes.Business.Core.ServiceInterfaces;
+﻿using Promocodes.Business.Core.ServiceInterfaces;
 using Promocodes.Business.Core.Exceptions;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Promocodes.Business.Core.Specifications.Offers;
 using Promocodes.Business.Core.Specifications.Users;
+using System;
+using System.Collections.Generic;
+using Promocodes.Business.Specifications.Shops;
+using System.Linq;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class OfferService : ServiceBase<Offer>, IOfferService
+    public class OfferService : ServiceBase, IOfferService
     {
-        public OfferService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<Offer> validator) : base(mapper, unitOfWork, validator)
+        public OfferService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
-        public async Task<OfferDto> CreateAsync(CreateOfferDto dto)
+        public async Task<IEnumerable<Offer>> GetShopOffers(int shopId)
         {
-            var offer = Mapper.Map<Offer>(dto);
-            Validator.ValidateAndThrow(offer);
+            var shop = await UnitOfWork.ShopRepository.FindAsync(new ShopWithOffersSpecification(shopId)) ??
+                throw new EntityNotFoundException("Shop", shopId.ToString());
 
+            return shop.Offers.Any() ? shop.Offers : throw new EntityNotFoundException($"Shop {shopId} doesn't have offers");
+        }
+
+        public async Task<Offer> AddAsync(Offer offer)
+        {
             await UnitOfWork.OfferRepository.AddAsync(offer);
             await UnitOfWork.SaveChangesAsync();
 
-            return Mapper.Map<OfferDto>(offer);
+            return offer;
         }
 
         public async Task DeleteAsync(int offerId)
@@ -44,33 +47,18 @@ namespace Promocodes.Business.Services.Implementation
             await UnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<OfferDto> EditAsync(EditOfferDto dto)
+        public async Task EditAsync(int id, string title, string description, string promocode, float discount, DateTime start, DateTime expire)
         {
-            var offer = await GetOfferAsync(dto.Id);
-            offer.ApplyUpdate(dto);
-
-            Validator.ValidateAndThrow(offer);
+            var offer = await GetOfferAsync(id);
+            
+            offer.Description = description;
+            offer.Title = title;
+            offer.Promocode = promocode;
+            offer.Discount = discount;
+            offer.StartDate = start;
+            offer.ExpirationDate = expire;
 
             UnitOfWork.OfferRepository.Update(offer);
-            await UnitOfWork.SaveChangesAsync();
-
-            return Mapper.Map<OfferDto>(offer);
-        }
-
-        public async Task<IEnumerable<OfferDto>> GetAllAsync()
-        {
-            var offers = await UnitOfWork.OfferRepository.FindAllAsync();
-            
-            if (!offers.Any())
-                throw new EntityNotFoundException("No offers found");
-
-            return offers.Select(Mapper.Map<OfferDto>);
-        }
-
-        public async Task<OfferDto> GetAsync(int id)
-        {
-            var offer = await UnitOfWork.OfferRepository.FindAsync(id);
-            return offer is not null ? Mapper.Map<OfferDto>(offer) : throw new EntityNotFoundException("offer", id.ToString());
         }
 
         public async Task RestoreAsync(int offerId)

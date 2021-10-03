@@ -6,7 +6,7 @@ using Promocodes.Business.Core.Dto.Shops;
 using Promocodes.Business.Core.Dto.Users;
 using Promocodes.Data.Core.Entities;
 
-namespace Promocodes.Business.Core.Mapping
+namespace Promocodes.Api.Mapping
 {
     public class MapperProfile : Profile 
     {

@@ -9,6 +9,7 @@ using Promocodes.Business.Core.DependencyInjection;
 using Promocodes.Api.Middlewares;
 using Promocodes.Data.Core.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 namespace Promocodes.Api
 {
@@ -41,7 +42,13 @@ namespace Promocodes.Api
                     }
                 });
             });
-            
+
+            services.AddSingleton(
+               new MapperConfiguration(config =>
+               {
+                   config.AddProfile(MapperProfile.Create());
+               })
+               .CreateMapper());
 
             services.AddValidators();
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
