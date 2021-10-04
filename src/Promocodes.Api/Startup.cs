@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Promocodes.Data.Persistence.DependencyInjection;
 using Promocodes.Api.Middlewares;
-using Promocodes.Data.Core.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Promocodes.Api.Mapping;
@@ -50,7 +49,6 @@ namespace Promocodes.Api
                })
                .CreateMapper());
 
-            services.AddValidators();
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
            
             services.AddServices();
