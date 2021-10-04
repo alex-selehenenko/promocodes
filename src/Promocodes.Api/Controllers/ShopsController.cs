@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Promocodes.Business.Core.ServiceInterfaces;
+using Promocodes.Business.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
 {
-    [Route("api/shop")]
+    [Route("api/shops")]
     [ApiController]
-    public class ShopController : Controller
+    public class ShopsController : Controller
     {
         private readonly IShopService _shopService;
 
-        public ShopController(IShopService service)
+        public ShopsController(IShopService service)
         {
             _shopService = service ?? throw new ArgumentNullException(nameof(service));
         }

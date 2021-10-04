@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto;
-using Promocodes.Business.Core.Dto.Reviews;
-using Promocodes.Business.Core.ServiceInterfaces;
+using Promocodes.Business.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
 {
     [ApiController]
-    [Route("api/review")]
-    public class ReviewController : Controller
+    [Route("api/reviews")]
+    public class ReviewsController : Controller
     {
         private readonly IReviewService _reviewService;
 
-        public ReviewController(IReviewService reviewService)
+        public ReviewsController(IReviewService reviewService)
         {
             _reviewService = reviewService ?? throw new ArgumentNullException(nameof(reviewService));
         }

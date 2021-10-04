@@ -4,12 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Promocodes.Data.Persistence.DependencyInjection;
-using Promocodes.Business.Services.DependencyInjection;
-using Promocodes.Business.Core.DependencyInjection;
 using Promocodes.Api.Middlewares;
 using Promocodes.Data.Core.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
+using Promocodes.Api.Mapping;
+using Promocodes.Business.DependencyInjection;
 
 namespace Promocodes.Api
 {
@@ -52,9 +52,8 @@ namespace Promocodes.Api
 
             services.AddValidators();
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
-            
-            services.AddMapper();
-            services.AddBusinessServices();
+           
+            services.AddServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

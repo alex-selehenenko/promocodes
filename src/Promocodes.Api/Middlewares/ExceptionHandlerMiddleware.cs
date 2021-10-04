@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Promocodes.Api.Dto;
-using Promocodes.Business.Core.Exceptions;
+using Promocodes.Business.Exceptions;
 using System;
 using System.Threading.Tasks;
 
@@ -49,6 +47,6 @@ namespace Promocodes.Api.Middlewares
             }
         }
 
-        private static ErrorResponseDto ErrorJson(int code, params string[] message) => new(code, message);
+        private static object ErrorJson(int code, params string[] message) => new();
     }
 }

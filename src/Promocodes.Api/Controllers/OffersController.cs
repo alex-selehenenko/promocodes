@@ -1,48 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Promocodes.Api.Dto;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Offers;
-using Promocodes.Business.Core.Dto.Offers;
-using Promocodes.Business.Core.ServiceInterfaces;
+using Promocodes.Business.Services.Interfaces;
+using Promocodes.Data.Core.Entities;
 using System;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
 {
     [ApiController]
-    [Route("api/offer")]
-    public class OfferController : Controller
+    [Route("api/offers")]
+    public class OffersController : Controller
     {
         private readonly IOfferService _offerService;
+        private readonly IMapper _mapper;
 
-        public OfferController(IOfferService offerService)
-        {
+        public OffersController(IOfferService offerService, IMapper mapper)
+        {            
             _offerService = offerService ?? throw new ArgumentNullException(nameof(offerService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateOfferDto dto)
+        public async Task<IActionResult> Post([FromBody] OfferPostDto dto)
         {
-            var offer = await _offerService.CreateAsync(dto);
-            return new JsonResult(offer);
-        }
+            var offer = _mapper.Map<Offer>(dto);
+            var createdOffer = await _offerService.AddAsync(offer);
 
-        [HttpGet]
-        [Route("all")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            var offers = await _offerService.GetAllAsync();
-            return new JsonResult(offers);
+            return new JsonResult(_mapper.Map<OfferGetDto>(createdOffer));
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody] EditOfferDto dto)
+        public async Task<IActionResult> PutAsync([FromBody] OfferPutDto dto)
         {
-            var updatedOffer = await _offerService.EditAsync(dto);
-            return new JsonResult(updatedOffer);
+            await _offerService.EditAsync(dto.Id, dto.Title, dto.Description, dto.Promocode, dto.Discount, dto.StartDate, dto.ExpirationDate);
+            return Ok(); // must be updated entity
         }
 
-        [HttpPut]
-        [Route("delete")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAsync([FromBody] int offerId)
         {
             await _offerService.DeleteAsync(offerId);

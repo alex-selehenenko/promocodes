@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.Persistence
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.Core", "src\Promocodes.Data.Core\Promocodes.Data.Core.csproj", "{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business.CoreTests", "tests\Promocodes.Business.CoreTests\Promocodes.Business.CoreTests.csproj", "{C353B432-4324-4AFB-9E4F-E276D3530654}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.CoreTests", "tests\Promocodes.Data.CoreTests\Promocodes.Data.CoreTests.csproj", "{FE0ADC69-C25E-42E6-B5FE-059DAA325080}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business", "src\Promocodes.Business\Promocodes.Business.csproj", "{45E30CFC-DF40-46DA-B7F6-8E473B8853E1}"
 EndProject
 Global
@@ -33,14 +29,6 @@ Global
 		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C353B432-4324-4AFB-9E4F-E276D3530654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C353B432-4324-4AFB-9E4F-E276D3530654}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C353B432-4324-4AFB-9E4F-E276D3530654}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C353B432-4324-4AFB-9E4F-E276D3530654}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE0ADC69-C25E-42E6-B5FE-059DAA325080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE0ADC69-C25E-42E6-B5FE-059DAA325080}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE0ADC69-C25E-42E6-B5FE-059DAA325080}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE0ADC69-C25E-42E6-B5FE-059DAA325080}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45E30CFC-DF40-46DA-B7F6-8E473B8853E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45E30CFC-DF40-46DA-B7F6-8E473B8853E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45E30CFC-DF40-46DA-B7F6-8E473B8853E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
