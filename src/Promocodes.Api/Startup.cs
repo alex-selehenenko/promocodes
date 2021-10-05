@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Promocodes.Api.Mapping;
 using Promocodes.Business.DependencyInjection;
+using FluentValidation.AspNetCore;
 
 namespace Promocodes.Api
 {
@@ -26,7 +27,11 @@ namespace Promocodes.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc(ApiVersion, new OpenApiInfo

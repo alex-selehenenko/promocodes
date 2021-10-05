@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Offers;
 using Promocodes.Business.Services.Interfaces;
@@ -30,44 +29,6 @@ namespace Promocodes.Api.Controllers
             var createdOffer = await _offerService.AddAsync(offer);
 
             return new JsonResult(_mapper.Map<OfferGetDto>(createdOffer));
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody] OfferPutDto dto)
-        {
-            await _offerService.EditAsync(dto.Id, dto.Title, dto.Description, dto.Promocode, dto.Discount, dto.StartDate, dto.ExpirationDate);
-            return Ok(); // must be updated entity
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync([FromBody] int offerId)
-        {
-            await _offerService.DeleteAsync(offerId);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("restore")]
-        public async Task<IActionResult> RestoreAsync([FromBody] RequestDtoBase<int> dto)
-        {
-            await _offerService.RestoreAsync(dto.Id);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("toogle")]
-        public async Task<IActionResult> ToogleAsync([FromBody] RequestDtoBase<int> dto)
-        {
-            await _offerService.ToogleAsync(dto.Id);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("take")]
-        public async Task<IActionResult> TakeAsync([FromBody] TakeOfferDto dto)
-        {
-            await _offerService.TakeAsync(dto.UserId, dto.Id);
-            return Ok();
-        }
+        }        
     }
 }

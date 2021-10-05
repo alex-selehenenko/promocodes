@@ -2,13 +2,9 @@
 
 namespace Promocodes.Api.Dto.Reviews
 {
-    public class ReviewGetDto
+    public class ReviewGetDto : ReviewDto
     {
         public int Id { get; set; }
-
-        public byte Stars { get; set; }
-
-        public string Text { get; set; }
 
         public DateTime CreationTime { get; set; }
 
