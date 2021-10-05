@@ -4,7 +4,6 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Persistence.Configurations;
 using Promocodes.Data.Persistence.SeedData;
 using System;
-using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence
 {
@@ -46,11 +45,6 @@ namespace Promocodes.Data.Persistence
             {
                 optionsBuilder.UseSqlServer(DefaultConnectionString);                
             }
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await SaveChangesAsync();
         }
     }
 }

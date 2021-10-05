@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Reviews;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.Entities;
-using System;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
@@ -15,9 +14,10 @@ namespace Promocodes.Api.Controllers
         private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
 
-        public ReviewsController(IReviewService reviewService)
+        public ReviewsController(IReviewService reviewService, IMapper mapper)
         {
-            _reviewService = reviewService ?? throw new ArgumentNullException(nameof(reviewService));
+            _reviewService = reviewService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -33,7 +33,7 @@ namespace Promocodes.Api.Controllers
         public async Task<IActionResult> PutAsync([FromBody] ReviewPutDto dto)
         {
             var editedReview = await _reviewService.UpdateAsync(dto.Id, dto.Stars, dto.Text);
-            return new JsonResult(editedReview);
+            return Ok(editedReview);
         }
 
         [HttpDelete]

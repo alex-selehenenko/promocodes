@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Shops;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.QueryFilters;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

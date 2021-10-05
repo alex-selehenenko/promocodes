@@ -33,6 +33,10 @@ namespace Promocodes.Api
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
 
+            services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
+            services.AddServices();
+            services.AddAutoMapper(typeof(MapperProfile));
+
             services.AddSwaggerGen(options =>
             {
                 options.ResolveConflictingActions(d => d.First());
@@ -47,17 +51,7 @@ namespace Promocodes.Api
                         Email = "alex.selegenenko@gmail.com"
                     }
                 });                
-            });
-
-            services.AddSingleton(
-               new MapperConfiguration(config =>
-               {
-                   config.AddProfile(MapperProfile.Create());
-               })
-               .CreateMapper());
-
-            services.AddPersistence(Configuration.GetConnectionString(ConnectionString));           
-            services.AddServices();
+            });            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

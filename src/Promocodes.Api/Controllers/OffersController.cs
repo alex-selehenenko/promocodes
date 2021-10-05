@@ -16,9 +16,9 @@ namespace Promocodes.Api.Controllers
         private readonly IMapper _mapper;
 
         public OffersController(IOfferService offerService, IMapper mapper)
-        {            
-            _offerService = offerService ?? throw new ArgumentNullException(nameof(offerService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        {
+            _offerService = offerService;
+            _mapper = mapper;
 
         }
 

@@ -23,25 +23,18 @@ namespace Promocodes.Api.Middlewares
             {
                 await _next(context);
             }
-            catch (NotFoundException ex)
+            catch (CustomException ex)
             {
-                context.Response.StatusCode = 404;
-                await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
-            }
-            catch (UpdateException ex)
-            {
-                context.Response.StatusCode = 400;
-                await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
+                context.Response.StatusCode = ex.StatusCode;
+                await context.Response.WriteAsJsonAsync(ex.Message);
             }
             catch (Exception ex)
             {
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsJsonAsync(ErrorJson(500, "Internal server error"));
+                await context.Response.WriteAsJsonAsync("Internal server error");
 
                 _logger.LogError(ex, ex.Message, null);
             }
         }
-
-        private static object ErrorJson(int code, params string[] message) => new();
     }
 }
