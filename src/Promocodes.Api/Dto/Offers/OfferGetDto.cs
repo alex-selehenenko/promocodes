@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public bool Enabled { get; set; }
+        public bool IsEnabled { get; set; }
 
         public bool IsDeleted { get; set; }
 

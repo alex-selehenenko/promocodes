@@ -8,6 +8,8 @@ namespace Promocodes.Data.Core.RepositoryInterfaces
 {
     public interface IRepository<TEntity, TKey> where TEntity : IdentityBase<TKey>, IEntity
     {
+        IUnitOfWork UnitOfWork { get; }
+
         Task<TEntity> AddAsync(TEntity entity);
 
         void Update(params TEntity[] entities);

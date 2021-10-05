@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Persistence.Configurations;
 using Promocodes.Data.Persistence.SeedData;
 using System;
+using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence
 {
-    public class PromocodesDbContext : DbContext
+    public class PromocodesDbContext : DbContext, IUnitOfWork
     {
         private const string DefaultConnectionString = "Data Source=(localdb)\\MSSQLLocalDb;Database=PromocodesDb";
 
@@ -44,6 +46,11 @@ namespace Promocodes.Data.Persistence
             {
                 optionsBuilder.UseSqlServer(DefaultConnectionString);                
             }
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await SaveChangesAsync();
         }
     }
 }

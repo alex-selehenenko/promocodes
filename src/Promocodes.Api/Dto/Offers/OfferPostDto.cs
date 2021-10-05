@@ -2,7 +2,7 @@
 {
     public class OfferPostDto : OfferDto
     {
-        public bool Enabled { get; set; }
+        public bool IsEnabled { get; set; }
 
         public int ShopId { get; set; }
     }

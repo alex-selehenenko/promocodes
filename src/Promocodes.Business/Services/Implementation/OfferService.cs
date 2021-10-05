@@ -1,57 +1,103 @@
-﻿using Promocodes.Business.Exceptions;
-using Promocodes.Data.Core.Entities;
+﻿using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Threading.Tasks;
-using Promocodes.Business.Specifications.Offers;
-using Promocodes.Business.Specifications.Users;
-using Promocodes.Business.Extensions;
 using System.Collections.Generic;
-using Promocodes.Business.Specifications.Shops;
-using System.Linq;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Services.Models;
+using Promocodes.Business.Exceptions;
+using Promocodes.Business.Specifications.Offers;
+using System.Linq;
+using Promocodes.Business.Extensions;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class OfferService : ServiceBase, IOfferService
+    public class OfferService : IOfferService
     {
-        public OfferService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly IOfferRepository _offerRepository;
+        private readonly IUserRepository _userRepository;
+
+
+        public OfferService(IOfferRepository offerRepository, IUserRepository userRepository)
         {
+            _offerRepository = offerRepository;
+            _userRepository = userRepository;
         }
 
-        public Task<Offer> AddAsync(Offer offer)
+        public async Task<Offer> AddAsync(Offer offer)
         {
-            throw new System.NotImplementedException();
+            var added = await _offerRepository.AddAsync(offer);
+            await _offerRepository.UnitOfWork.SaveChangesAsync();
+
+            return added;
         }
 
-        public Task DeleteAsync(int offerId)
+        public async Task DeleteAsync(int offerId)
         {
-            throw new System.NotImplementedException();
+            var offer = await GetOfferAsync(offerId);
+
+            if (offer.IsDeleted == true)
+                return;
+
+            offer.IsDeleted = true;
+            await UpdateOfferAsync(offer);
         }
 
-        public Task<IEnumerable<Offer>> GetShopOffersAsync(int shopId)
+        public async Task<IEnumerable<Offer>> GetShopOffersAsync(int shopId)
         {
-            throw new System.NotImplementedException();
+            var offers = await _offerRepository.FindAllAsync(OfferSpecification.ByShopId(shopId));
+            return offers.Any() ? offers : throw new NotFoundException();
         }
 
-        public Task RestoreAsync(int offerId)
+        public async Task RestoreAsync(int offerId)
         {
-            throw new System.NotImplementedException();
+            var offer = await GetOfferAsync(offerId);
+
+            if (!offer.IsDeleted)
+                return;
+
+            offer.IsDeleted = false;
+            await UpdateOfferAsync(offer);            
         }
 
-        public Task TakeAsync(int offerId, int userId)
+        public async Task TakeAsync(int offerId, int userId)
         {
-            throw new System.NotImplementedException();
+            var offer = await _offerRepository
+                .FindAsync(OfferWithUsersSpecification.ByOfferId(offerId)) ?? throw new NotFoundException();
+
+            var user = await _userRepository.FindAsync(userId) ?? throw new NotFoundException();
+
+            if (offer.Users.Contains(user))
+                throw new UpdateException("User has already taken the offer");
+
+            offer.Users.Add(user);
+            await UpdateOfferAsync(offer);
         }
 
-        public Task ToogleAsync(int offerId)
+        public async Task ToogleAsync(int offerId)
         {
-            throw new System.NotImplementedException();
+            var offer = await GetOfferAsync(offerId);
+
+            offer.IsEnabled = !offer.IsEnabled;
+            await UpdateOfferAsync(offer);            
         }
 
-        public Task<Offer> UpdateAsync(OfferUpdate update)
+        public async Task<Offer> UpdateAsync(OfferUpdate update)
         {
-            throw new System.NotImplementedException();
+            var offer = await GetOfferAsync(update.Id);
+
+            offer.ApplyUpdate(update);
+            await UpdateOfferAsync(offer);           
+
+            return offer;
+        }
+
+        private async Task<Offer> GetOfferAsync(int id) =>
+            await _offerRepository.FindAsync(id) ?? throw new NotFoundException();
+
+        private async Task UpdateOfferAsync(Offer offer)
+        {
+            _offerRepository.Update(offer);
+            await _offerRepository.UnitOfWork.SaveChangesAsync();
         }
     }
 }

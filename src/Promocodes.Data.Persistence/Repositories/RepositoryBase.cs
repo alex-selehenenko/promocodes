@@ -17,6 +17,8 @@ namespace Promocodes.Data.Persistence.Repositories
         
         protected DbSet<TEntity> DbSet { get; }
 
+        public IUnitOfWork UnitOfWork => Context;
+
         public RepositoryBase(PromocodesDbContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));

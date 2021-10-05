@@ -6,20 +6,25 @@ using System.Threading.Tasks;
 using Promocodes.Business.Specifications.Reviews;
 using Promocodes.Business.Services.Interfaces;
 using System.Collections.Generic;
-using System;
 using Promocodes.Business.Specifications.Shops;
+using Promocodes.Business.Extensions;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class ReviewService : ServiceBase, IReviewService
+    public class ReviewService : IReviewService
     {
-        public ReviewService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly IReviewRepository _reviewRepository;
+        private readonly IShopRepository _shopRepository;
+
+        public ReviewService(IReviewRepository reviewRepository, IShopRepository shopRepository)
         {
+            _reviewRepository = reviewRepository;
+            _shopRepository = shopRepository;
         }
 
         public async Task<Review> AddAsync(Review review)
         {
-            var shop = await UnitOfWork.ShopRepository
+            var shop = await _shopRepository
                 .FindAsync(ShopWithReviewsSpecification.ById(review.ShopId.Value)) ?? throw new InsertException("Shop doesn't exist");
 
             if (shop.Reviews.Any(r => r.UserId == review.UserId))
@@ -28,38 +33,35 @@ namespace Promocodes.Business.Services.Implementation
             shop.Reviews.Add(review);
             shop.Rating = CountRating(shop.Reviews);
 
-            await UnitOfWork.SaveChangesAsync();
+            await _shopRepository.UnitOfWork.SaveChangesAsync();
 
             return review;
         }
 
         public async Task<Review> UpdateAsync(int id, byte stars, string text)
         {
-            var shop = await UnitOfWork.ShopRepository
+            var shop = await _shopRepository
                 .FindAsync(ShopWithReviewsSpecification.ByReviewId(id)) ?? throw new UpdateException("Unnable to update review for unexisted shop");
 
             var review = shop.Reviews.Find(r => r.Id == id) ?? throw new NotFoundException();
 
-            review.Stars = stars;
-            review.Text = text;
-            review.LastUpdateTime = DateTime.UtcNow;
-
+            review.ApplyUpdate(text, stars);
             shop.Rating = CountRating(shop.Reviews);
 
-            UnitOfWork.ShopRepository.Update(shop);
-            await UnitOfWork.SaveChangesAsync();
+            _shopRepository.Update(shop);
+            await _shopRepository.UnitOfWork.SaveChangesAsync();
 
             return review;
         }
 
         public async Task DeleteAsync(int id)
         {
-            var shop = await UnitOfWork.ShopRepository.FindAsync(ShopWithReviewsSpecification.ByReviewId(id));
+            var shop = await _shopRepository.FindAsync(ShopWithReviewsSpecification.ByReviewId(id));
 
             if (shop is null)
             {
-                var review = await UnitOfWork.ReviewReposiotry.FindAsync(id) ?? throw new NotFoundException();
-                UnitOfWork.ReviewReposiotry.Remove(review);
+                var review = await _reviewRepository.FindAsync(id) ?? throw new NotFoundException();
+                _reviewRepository.Remove(review);
             }
             else
             {
@@ -67,14 +69,14 @@ namespace Promocodes.Business.Services.Implementation
                     throw new NotFoundException();
 
                 shop.Rating = CountRating(shop.Reviews);
-                UnitOfWork.ShopRepository.Update(shop);
+                _shopRepository.Update(shop);
             }
-            await UnitOfWork.SaveChangesAsync();
+            await _shopRepository.UnitOfWork.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Review>> GetShopReviewsAsync(int shopId)
         {
-            var reviews = await UnitOfWork.ReviewReposiotry.FindAllAsync(ReviewSpecification.ByShopId(shopId));
+            var reviews = await _reviewRepository.FindAllAsync(ReviewSpecification.ByShopId(shopId));
             return reviews.Any() ? reviews : throw new NotFoundException();
         }
         

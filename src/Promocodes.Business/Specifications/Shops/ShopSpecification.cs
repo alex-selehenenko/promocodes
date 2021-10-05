@@ -1,20 +1,20 @@
 ﻿using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
-using System.Linq;
+using System;
+using System.Linq.Expressions;
 
-namespace Promocodes.Business.Specifications
+namespace Promocodes.Business.Specifications.Shops
 {
     public class ShopSpecification : SpecificationBase<Shop>
     {
-        public ShopSpecification(int categoryId) : base(shop => shop.Categories.All(c => c.Id == categoryId))
+        private ShopSpecification(Expression<Func<Shop, bool>> criteria) : base(criteria)
         {
-            Includes.Add(c => c.Categories);
-        }
+        }        
 
-        public ShopSpecification(char nameFirstChar)
+        public static ShopSpecification ByFirstChar(char nameFirstChar)
         {
             var ch = nameFirstChar.ToString();
-            Criteria = s => s.Name.StartsWith(ch);
+            return new(s => s.Name.StartsWith(ch));
         }
     }
 }

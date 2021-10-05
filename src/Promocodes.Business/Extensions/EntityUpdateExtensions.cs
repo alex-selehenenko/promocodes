@@ -19,5 +19,14 @@ namespace Promocodes.Business.Extensions
 
             return offer;
         }
+
+        public static Review ApplyUpdate(this Review review, string text, byte stars)
+        {
+            review.Text = text;
+            review.Stars = stars;
+            review.LastUpdateTime = DateTime.UtcNow;
+
+            return review;
+        }
     }
 }

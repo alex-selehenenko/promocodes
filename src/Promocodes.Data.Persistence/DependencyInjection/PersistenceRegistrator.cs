@@ -10,6 +10,11 @@ namespace Promocodes.Data.Persistence.DependencyInjection
         public static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString)
         {
             return services.AddDbContext<PromocodesDbContext>(options => options.UseSqlServer(connectionString))
+                           .AddScoped<ICategoryRepository, CategoryRepository>()
+                           .AddScoped<IShopRepository, ShopRepository>()
+                           .AddScoped<IOfferRepository, OfferRepository>()
+                           .AddScoped<IUserRepository, UserRepository>()
+                           .AddScoped<IReviewRepository, ReviewRepository>()
                            .AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

@@ -3,27 +3,30 @@ using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Promocodes.Business.Specifications;
 using System.Linq;
 using Promocodes.Business.Exceptions;
+using Promocodes.Business.Specifications.Shops;
 
 namespace Promocodes.Business.Services.Implementation
 {
-    public class ShopService : ServiceBase, IShopService
+    public class ShopService : IShopService
     {
-        public ShopService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly IShopRepository _shopRepository;
+
+        public ShopService(IShopRepository shopRepository)
         {
+            _shopRepository = shopRepository;
         }
 
         public async Task<IEnumerable<Shop>> GetByCategoryIdAsync(int categoryId)
         {
-            var shops = await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(categoryId));
+            var shops = await _shopRepository.FindAllAsync(ShopWithCategoriesSpecification.ByCategoryId(categoryId));
             return shops.Any() ? shops : throw new NotFoundException();
         }
 
         public async Task<IEnumerable<Shop>> GetByNameFirstCharAsync(char firstChar)
         {
-            var shops =  await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(firstChar));
+            var shops =  await _shopRepository.FindAllAsync(ShopSpecification.ByFirstChar(firstChar));
             return shops.Any() ? shops : throw new NotFoundException();
         }
     }

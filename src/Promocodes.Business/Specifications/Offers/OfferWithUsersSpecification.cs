@@ -1,14 +1,17 @@
 ﻿using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
+using System;
+using System.Linq.Expressions;
 
 namespace Promocodes.Business.Specifications.Offers
 {
     public class OfferWithUsersSpecification : SpecificationBase<Offer>
     {
-        public OfferWithUsersSpecification(int offerId)
+        private OfferWithUsersSpecification(Expression<Func<Offer, bool>> criteria) : base(criteria)
         {
-            Criteria = offer => offer.Id == offerId;
-            AddInclude(offer => offer.Users);
+            AddInclude(o => o.Users);
         }
+
+        public static OfferWithUsersSpecification ByOfferId(int id) => new(o => o.Id == id);
     }
 }

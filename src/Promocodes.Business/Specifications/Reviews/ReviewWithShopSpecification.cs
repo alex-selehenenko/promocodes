@@ -7,13 +7,11 @@ namespace Promocodes.Business.Specifications.Reviews
 {
     public class ReviewWithShopSpecification : SpecificationBase<Review>
     {
-        private ReviewWithShopSpecification(Expression<Func<Review, bool>> criteria)
+        private ReviewWithShopSpecification(Expression<Func<Review, bool>> criteria) : base(criteria)
         {
-            Criteria = criteria;
             AddInclude(r => r.Shop);
         }
 
-        public static ReviewWithShopSpecification ById(int id) =>
-            new(r => r.Id == id);
+        public static ReviewWithShopSpecification ById(int id) => new(r => r.Id == id);
     }
 }
