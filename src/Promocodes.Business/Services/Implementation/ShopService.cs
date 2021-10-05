@@ -18,6 +18,12 @@ namespace Promocodes.Business.Services.Implementation
             _shopRepository = shopRepository;
         }
 
+        public async Task<IEnumerable<Shop>> GetAllByFilter(int categoryId, char character)
+        {
+            var spec = new ShopFilterSpecification(categoryId, character);
+            return await _shopRepository.FindAllAsync(spec);
+        }
+
         public async Task<IEnumerable<Shop>> GetByCategoryIdAsync(int categoryId)
         {
             var shops = await _shopRepository.FindAllAsync(ShopWithCategoriesSpecification.ByCategoryId(categoryId));

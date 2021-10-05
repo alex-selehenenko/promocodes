@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Promocodes.Api.Dto.Shops;
 using Promocodes.Business.Services.Interfaces;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
@@ -10,24 +13,19 @@ namespace Promocodes.Api.Controllers
     public class ShopsController : Controller
     {
         private readonly IShopService _shopService;
+        private readonly IMapper _mapper;
 
-        public ShopsController(IShopService service)
+        public ShopsController(IShopService service, IMapper mapper)
         {
-            _shopService = service ?? throw new ArgumentNullException(nameof(service));
+            _shopService = service;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int categoryId)
+        public async Task<IActionResult> GetAsync([FromQuery] ShopQueryDto query)
         {
-            var shops = await _shopService.GetByCategoryIdAsync(categoryId);
-            return Ok(shops);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAsync(char character)
-        {
-            var shops = await _shopService.GetByNameFirstCharAsync(character);
-            return Ok(shops);
+            var shops = await _shopService.GetAllByFilter(query.CategoryId, query.FirstChar);
+            return Ok(shops.Select(_mapper.Map<ShopGetDto>));
         }
     }
 }

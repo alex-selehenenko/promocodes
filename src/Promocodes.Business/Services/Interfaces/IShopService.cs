@@ -9,5 +9,7 @@ namespace Promocodes.Business.Services.Interfaces
         Task<IEnumerable<Shop>> GetByCategoryIdAsync(int categoryId);
 
         Task<IEnumerable<Shop>> GetByNameFirstCharAsync(char nameFirstChar);
+
+        Task<IEnumerable<Shop>> GetAllByFilter(int categoryId, char character);
     }
 }

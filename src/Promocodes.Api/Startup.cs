@@ -10,6 +10,7 @@ using AutoMapper;
 using Promocodes.Api.Mapping;
 using Promocodes.Business.DependencyInjection;
 using FluentValidation.AspNetCore;
+using System.Linq;
 
 namespace Promocodes.Api
 {
@@ -34,6 +35,7 @@ namespace Promocodes.Api
 
             services.AddSwaggerGen(options =>
             {
+                options.ResolveConflictingActions(d => d.First());
                 options.SwaggerDoc(ApiVersion, new OpenApiInfo
                 {
                     Version = ApiVersion,
@@ -44,7 +46,7 @@ namespace Promocodes.Api
                         Name = "Oleksandr Selehenenko",
                         Email = "alex.selegenenko@gmail.com"
                     }
-                });
+                });                
             });
 
             services.AddSingleton(
