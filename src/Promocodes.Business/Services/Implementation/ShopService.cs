@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Promocodes.Business.Exceptions;
-using Promocodes.Business.Specifications.Shops;
+using Promocodes.Data.Core.QueryFilters;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -18,21 +18,9 @@ namespace Promocodes.Business.Services.Implementation
             _shopRepository = shopRepository;
         }
 
-        public async Task<IEnumerable<Shop>> GetAllByFilter(int categoryId, char character)
+        public async Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter)
         {
-            var spec = new ShopFilterSpecification(categoryId, character);
-            return await _shopRepository.FindAllAsync(spec);
-        }
-
-        public async Task<IEnumerable<Shop>> GetByCategoryIdAsync(int categoryId)
-        {
-            var shops = await _shopRepository.FindAllAsync(ShopWithCategoriesSpecification.ByCategoryId(categoryId));
-            return shops.Any() ? shops : throw new NotFoundException();
-        }
-
-        public async Task<IEnumerable<Shop>> GetByNameFirstCharAsync(char firstChar)
-        {
-            var shops =  await _shopRepository.FindAllAsync(ShopSpecification.ByFirstChar(firstChar));
+            var shops = await _shopRepository.FindAllAsync(filter);
             return shops.Any() ? shops : throw new NotFoundException();
         }
     }

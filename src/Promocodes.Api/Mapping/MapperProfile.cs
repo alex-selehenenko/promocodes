@@ -4,6 +4,7 @@ using Promocodes.Api.Dto.Reviews;
 using Promocodes.Api.Dto.Shops;
 using Promocodes.Business.Services.Models;
 using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.QueryFilters;
 
 namespace Promocodes.Api.Mapping
 {
@@ -32,6 +33,7 @@ namespace Promocodes.Api.Mapping
         private void CreateShopMaps()
         {
             CreateMap<Shop, ShopGetDto>();
+            CreateMap<ShopFilterDto, ShopFilter>();
         }
 
         public static MapperProfile Create() => new();

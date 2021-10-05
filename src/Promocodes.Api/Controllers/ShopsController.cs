@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Shops;
 using Promocodes.Business.Services.Interfaces;
+using Promocodes.Data.Core.QueryFilters;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,9 +23,10 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] ShopQueryDto query)
+        public async Task<IActionResult> GetAsync([FromQuery] ShopFilterDto dto)
         {
-            var shops = await _shopService.GetAllByFilter(query.CategoryId, query.FirstChar);
+            var filter = _mapper.Map<ShopFilter>(dto);
+            var shops = await _shopService.GetAllAsync(filter);
             return Ok(shops.Select(_mapper.Map<ShopGetDto>));
         }
     }

@@ -12,6 +12,7 @@ namespace Promocodes.Business.Specifications.Shops
         {
         }
 
-        public static ShopWithCategoriesSpecification ByCategoryId(int categoryId) => new(shop => shop.Categories.Any(c => c.Id == categoryId));
+        public static ShopWithCategoriesSpecification ByCategoryId(int categoryId) =>
+            new(shop => shop.Categories.Any(c => c.Id == categoryId));
     }
 }
