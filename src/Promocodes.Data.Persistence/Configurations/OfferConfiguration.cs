@@ -26,7 +26,7 @@ namespace Promocodes.Data.Persistence.Configurations
                 .HasMaxLength(OfferConstraints.MaxDescriptionLength)
                 .IsRequired();
 
-            builder.Property(o => o.Enabled)
+            builder.Property(o => o.IsEnabled)
                 .IsRequired();
 
             builder.Property(o => o.IsDeleted)

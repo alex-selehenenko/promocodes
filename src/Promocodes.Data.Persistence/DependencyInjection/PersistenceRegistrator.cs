@@ -14,8 +14,7 @@ namespace Promocodes.Data.Persistence.DependencyInjection
                            .AddScoped<IShopRepository, ShopRepository>()
                            .AddScoped<IOfferRepository, OfferRepository>()
                            .AddScoped<IUserRepository, UserRepository>()
-                           .AddScoped<IReviewRepository, ReviewRepository>()
-                           .AddScoped<IUnitOfWork, UnitOfWork>();
+                           .AddScoped<IReviewRepository, ReviewRepository>();
         }
     }
 }

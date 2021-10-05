@@ -32,7 +32,7 @@ namespace Promocodes.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] ReviewPutDto dto)
         {
-            var editedReview = await _reviewService.EditAsync(dto.Id, dto.Stars, dto.Text);
+            var editedReview = await _reviewService.UpdateAsync(dto.Id, dto.Stars, dto.Text);
             return new JsonResult(editedReview);
         }
 

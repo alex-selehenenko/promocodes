@@ -33,11 +33,6 @@ namespace Promocodes.Api.Middlewares
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
             }
-            catch (EntityValidationException ex)
-            {
-                context.Response.StatusCode = 400;
-                await context.Response.WriteAsJsonAsync(ErrorJson(400, ex.ValidationErrorMessages));
-            }
             catch (Exception ex)
             {
                 context.Response.StatusCode = 500;

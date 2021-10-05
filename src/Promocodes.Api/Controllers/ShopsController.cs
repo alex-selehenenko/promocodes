@@ -17,26 +17,17 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet]
-        [Route("category/{categoryId:int}")]
-        public async Task<IActionResult> FindByCategoryIdAsync(int categoryId)
+        public async Task<IActionResult> GetAsync(int categoryId)
         {
-            var shops = await _shopService.FindAsync(categoryId);
-            return new JsonResult(shops);
+            var shops = await _shopService.GetByCategoryIdAsync(categoryId);
+            return Ok(shops);
         }
 
         [HttpGet]
-        [Route("name/first-char/{character}")]
-        public async Task<IActionResult> FindByNameChunks(char character)
+        public async Task<IActionResult> GetAsync(char character)
         {
-            var shops = await _shopService.FindAsync(character);
-            return new JsonResult(shops);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
-        {
-            var shops = await _shopService.GetAllAsync();
-            return new JsonResult(shops);
+            var shops = await _shopService.GetByNameFirstCharAsync(character);
+            return Ok(shops);
         }
     }
 }

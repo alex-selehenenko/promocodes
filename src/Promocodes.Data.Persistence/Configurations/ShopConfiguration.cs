@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Promocodes.Data.Core.DataConstraints;
 using Promocodes.Data.Core.Entities;
-using Promocodes.Data.Core.Validation;
 
 namespace Promocodes.Data.Persistence.Configurations
 {
