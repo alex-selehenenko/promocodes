@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Promocodes.Business.Specifications.Shops;
 using Promocodes.Business.Specifications.Reviews;
 using Promocodes.Business.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -15,78 +16,24 @@ namespace Promocodes.Business.Services.Implementation
         {
         }
 
-        public async Task<Review> AddAsync(Review review)
+        public Task<Review> AddAsync(Review review)
         {
-            var user = await UnitOfWork.UserRepository.FindAsync(review.UserId.Value);
-            if (user is null)
-                throw new EntityInstantiationException($"Can't create review. User with {review.UserId.Value} was not found");
-
-            var shop = await UnitOfWork.ShopRepository.FindAsync(ShopWithReviewsSpecification.FindById(review.ShopId.Value));
-            if (shop is null)
-                throw new EntityInstantiationException($"Can't create review. Shop with {review.ShopId.Value} was not found");                               
-
-            shop.Reviews.Add(review);
-            shop.Rating = CountShopRating(shop);
-
-            UnitOfWork.ShopRepository.Update(shop);
-            await UnitOfWork.SaveChangesAsync();
-
-            return review;
+            throw new System.NotImplementedException();
         }
 
-        public async Task DeleteAsync(int reviewId)
+        public Task DeleteAsync(int id)
         {
-            var review = await UnitOfWork.ReviewReposiotry.FindAsync(ReviewWithShopSpecification.GetById(reviewId));
-
-            if (review is null)
-                throw new EntityNotFoundException("Review", reviewId.ToString());
-
-            UnitOfWork.ReviewReposiotry.Remove(review);
-
-            if (review.ShopId.HasValue)
-            {
-                review.Shop.Rating = CountShopRating(review.Shop);
-                UnitOfWork.ShopRepository.Update(review.Shop);
-            }
-            await UnitOfWork.SaveChangesAsync();
+            throw new System.NotImplementedException();
         }
 
-        public async Task<Review> EditAsync(int reviewId, byte stars, string text)
+        public Task<Review> EditAsync(int id, byte stars, string text)
         {
-            var shop = await UnitOfWork.ShopRepository.FindAsync(ShopWithReviewsSpecification.FindByReview(reviewId)) ??
-                throw new EntityNotFoundException($"Shop with review {reviewId} was not found");
+            throw new System.NotImplementedException();
+        }
 
-            var review = shop.Reviews
-                .Where(r => r.Id == reviewId)
-                .FirstOrDefault();
-
-            if (review is null)
-                throw new EntityNotFoundException("Review", reviewId.ToString());
-
-            if (stars != review.Stars)
-            {
-                review.Stars = stars;
-                shop.Rating = CountShopRating(shop);
-            }
-            review.Text = text;
-
-            UnitOfWork.ReviewReposiotry.Update(review);
-            await UnitOfWork.SaveChangesAsync();
-
-            return review;
-        }        
-
-        private static float CountShopRating(Shop shop)
+        public Task<IEnumerable<Review>> GetShopReviewsAsync(int shopId)
         {
-            if (shop.Reviews.Count == 0)
-                return 0f;
-
-            float sum = 0;
-            foreach (var review in shop.Reviews)
-            {
-                sum += review.Stars;
-            }
-            return sum / shop.Reviews.Count;
-        }        
+            throw new System.NotImplementedException();
+        }
     }
 }

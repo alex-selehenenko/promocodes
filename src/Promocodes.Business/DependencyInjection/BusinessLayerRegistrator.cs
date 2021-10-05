@@ -6,9 +6,9 @@ namespace Promocodes.Business.DependencyInjection
 {
     public static class BusinessLayerRegistrator
     {
-        public static IServiceCollection AddServices(this IServiceCollection services) =>
-            services.AddScoped<IOfferService, OfferService>()
-                    .AddScoped<IReviewService, ReviewService>()
-                    .AddScoped<IShopService, ShopService>();
+        public static IServiceCollection AddServices(this IServiceCollection services) => services
+            .AddScoped<IOfferService, OfferService>()
+            .AddScoped<IReviewService, ReviewService>()
+            .AddScoped<IShopService, ShopService>();
     }
 }

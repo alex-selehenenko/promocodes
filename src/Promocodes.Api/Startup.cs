@@ -54,8 +54,7 @@ namespace Promocodes.Api
                })
                .CreateMapper());
 
-            services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
-           
+            services.AddPersistence(Configuration.GetConnectionString(ConnectionString));           
             services.AddServices();
         }
 

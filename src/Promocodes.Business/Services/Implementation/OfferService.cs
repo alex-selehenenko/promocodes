@@ -4,11 +4,12 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Threading.Tasks;
 using Promocodes.Business.Specifications.Offers;
 using Promocodes.Business.Specifications.Users;
-using System;
+using Promocodes.Business.Extensions;
 using System.Collections.Generic;
 using Promocodes.Business.Specifications.Shops;
 using System.Linq;
 using Promocodes.Business.Services.Interfaces;
+using Promocodes.Business.Services.Models;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -18,103 +19,39 @@ namespace Promocodes.Business.Services.Implementation
         {
         }
 
-        public async Task<IEnumerable<Offer>> GetShopOffers(int shopId)
+        public Task<Offer> AddAsync(Offer offer)
         {
-            var shop = await UnitOfWork.ShopRepository.FindAsync(new ShopWithOffersSpecification(shopId)) ??
-                throw new EntityNotFoundException("Shop", shopId.ToString());
-
-            return shop.Offers.Any() ? shop.Offers : throw new EntityNotFoundException($"Shop {shopId} doesn't provide offers");
+            throw new System.NotImplementedException();
         }
 
-        public async Task<Offer> AddAsync(Offer offer)
+        public Task DeleteAsync(int offerId)
         {
-            await UnitOfWork.OfferRepository.AddAsync(offer);
-            await UnitOfWork.SaveChangesAsync();
-
-            return offer;
+            throw new System.NotImplementedException();
         }
 
-        public async Task DeleteAsync(int offerId)
+        public Task EditAsync(OfferUpdate update)
         {
-            var offer = await GetOfferAsync(offerId);
-
-            if (offer.IsDeleted)
-                throw new EntityUpdateException("Offer has already been deleted");
-
-            offer.IsDeleted = true;
-
-            UnitOfWork.OfferRepository.Update(offer);
-            await UnitOfWork.SaveChangesAsync();
+            throw new System.NotImplementedException();
         }
 
-        public async Task EditAsync(int id, string title, string description, string promocode, float discount, DateTime start, DateTime expire)
+        public Task<IEnumerable<Offer>> GetShopOffersAsync(int shopId)
         {
-            var offer = await GetOfferAsync(id);
-            
-            offer.Description = description;
-            offer.Title = title;
-            offer.Promocode = promocode;
-            offer.Discount = discount;
-            offer.StartDate = start;
-            offer.ExpirationDate = expire;
-
-            UnitOfWork.OfferRepository.Update(offer);
+            throw new System.NotImplementedException();
         }
 
-        public async Task RestoreAsync(int offerId)
+        public Task RestoreAsync(int offerId)
         {
-            var offer = await GetOfferAsync(offerId);
-
-            if (offer.IsDeleted == false)
-                throw new EntityUpdateException("Offer is already exists");
-
-            offer.IsDeleted = false;
-
-            UnitOfWork.OfferRepository.Update(offer);
-            await UnitOfWork.SaveChangesAsync();
+            throw new System.NotImplementedException();
         }
 
-        public async Task TakeAsync(int offerId, int userId)
+        public Task TakeAsync(int offerId, int userId)
         {
-            var offer = await UnitOfWork.OfferRepository.FindAsync(new OfferWithUsersSpecification(offerId));
-            var user = await UnitOfWork.UserRepository.FindAsync(new UserWithOffersSpecification(userId));
-
-            if (offer is null)
-                throw new EntityNotFoundException("Offer", offerId.ToString());
-
-            if (user is null)
-                throw new EntityNotFoundException("User", userId.ToString());
-
-            if (user.Offers.Contains(offer) || offer.Users.Contains(user))
-                throw new EntityUpdateException("User has already taken the offer");
-
-            offer.Users.Add(user);
-            user.Offers.Add(offer);
-
-            UnitOfWork.OfferRepository.Update(offer);
-            UnitOfWork.UserRepository.Update(user);
-
-            await UnitOfWork.SaveChangesAsync();
+            throw new System.NotImplementedException();
         }
 
-        public async Task ToogleAsync(int offerId)
+        public Task ToogleAsync(int offerId)
         {
-            var offer = await GetOfferAsync(offerId);
-
-            offer.Enabled = !offer.Enabled;
-
-            UnitOfWork.OfferRepository.Update(offer);
-            await UnitOfWork.SaveChangesAsync();
-        }
-
-        private async Task<Offer> GetOfferAsync(int id)
-        {
-            var offer = await UnitOfWork.OfferRepository.FindAsync(id);
-
-            if (offer is null)
-                throw new EntityNotFoundException(nameof(Offer), id.ToString());
-
-            return offer;
+            throw new System.NotImplementedException();
         }
     }
 }

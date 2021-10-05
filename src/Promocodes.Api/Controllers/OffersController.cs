@@ -29,6 +29,6 @@ namespace Promocodes.Api.Controllers
             var createdOffer = await _offerService.AddAsync(offer);
 
             return new JsonResult(_mapper.Map<OfferGetDto>(createdOffer));
-        }        
+        }
     }
 }

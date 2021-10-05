@@ -2,6 +2,7 @@
 using Promocodes.Api.Dto.Offers;
 using Promocodes.Api.Dto.Reviews;
 using Promocodes.Api.Dto.Shops;
+using Promocodes.Business.Services.Models;
 using Promocodes.Data.Core.Entities;
 
 namespace Promocodes.Api.Mapping
@@ -18,14 +19,13 @@ namespace Promocodes.Api.Mapping
         private void CreateOfferMaps()
         {
             CreateMap<OfferPostDto, Offer>();
-            CreateMap<OfferPutDto, Offer>();
+            CreateMap<OfferPutDto, OfferUpdate>();
             CreateMap<Offer, OfferGetDto>();            
         }
 
         private void CreateReviewMaps()
         {
             CreateMap<ReviewPostDto, Review>();
-            CreateMap<ReviewPutDto, Review>();
             CreateMap<Review, ReviewGetDto>();
         }
 
