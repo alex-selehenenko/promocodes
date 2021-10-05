@@ -29,11 +29,6 @@ namespace Promocodes.Business.Services.Implementation
             throw new System.NotImplementedException();
         }
 
-        public Task EditAsync(OfferUpdate update)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public Task<IEnumerable<Offer>> GetShopOffersAsync(int shopId)
         {
             throw new System.NotImplementedException();
@@ -50,6 +45,11 @@ namespace Promocodes.Business.Services.Implementation
         }
 
         public Task ToogleAsync(int offerId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Offer> UpdateAsync(OfferUpdate update)
         {
             throw new System.NotImplementedException();
         }

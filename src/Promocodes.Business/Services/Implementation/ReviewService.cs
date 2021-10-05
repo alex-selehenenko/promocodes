@@ -26,12 +26,12 @@ namespace Promocodes.Business.Services.Implementation
             throw new System.NotImplementedException();
         }
 
-        public Task<Review> EditAsync(int id, byte stars, string text)
+        public Task<IEnumerable<Review>> GetShopReviewsAsync(int shopId)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<Review>> GetShopReviewsAsync(int shopId)
+        public Task<Review> UpdateAsync(int id, byte stars, string text)
         {
             throw new System.NotImplementedException();
         }

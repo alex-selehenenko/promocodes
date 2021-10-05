@@ -17,7 +17,7 @@ namespace Promocodes.Business.Services.Interfaces
 
         Task TakeAsync(int offerId, int userId);
 
-        Task EditAsync(OfferUpdate update);
+        Task<Offer> UpdateAsync(OfferUpdate update);
 
         Task<IEnumerable<Offer>> GetShopOffersAsync(int shopId);
     }

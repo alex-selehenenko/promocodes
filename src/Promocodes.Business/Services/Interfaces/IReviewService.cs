@@ -8,7 +8,7 @@ namespace Promocodes.Business.Services.Interfaces
     {
         Task<Review> AddAsync(Review review);
 
-        Task<Review> EditAsync(int id, byte stars, string text);
+        Task<Review> UpdateAsync(int id, byte stars, string text);
 
         Task DeleteAsync(int id);
 
