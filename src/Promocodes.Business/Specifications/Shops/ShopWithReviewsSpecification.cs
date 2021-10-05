@@ -14,10 +14,10 @@ namespace Promocodes.Business.Specifications.Shops
             AddInclude(shop => shop.Reviews);
         }
 
-        public static ShopWithReviewsSpecification FindById(int shopId) =>
+        public static ShopWithReviewsSpecification ById(int shopId) =>
             new(s => s.Id == shopId);
 
-        public static ShopWithReviewsSpecification FindByReview(int reviewId) =>
+        public static ShopWithReviewsSpecification ByReviewId(int reviewId) =>
             new(s => s.Reviews.Any(r => r.Id == reviewId));
     }
 }

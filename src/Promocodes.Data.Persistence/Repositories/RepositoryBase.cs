@@ -23,9 +23,10 @@ namespace Promocodes.Data.Persistence.Repositories
             DbSet = context.Set<TEntity>();
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
-            await DbSet.AddAsync(entity);
+            var entry = await DbSet.AddAsync(entity);
+            return entry.Entity;
         }        
 
         public virtual async Task<IEnumerable<TEntity>> FindAllAsync()

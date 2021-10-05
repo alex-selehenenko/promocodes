@@ -13,7 +13,7 @@ namespace Promocodes.Business.Specifications.Reviews
             AddInclude(r => r.Shop);
         }
 
-        public static ReviewWithShopSpecification GetById(int id) =>
+        public static ReviewWithShopSpecification ById(int id) =>
             new(r => r.Id == id);
     }
 }

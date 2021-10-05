@@ -18,13 +18,13 @@ namespace Promocodes.Business.Services.Implementation
         public async Task<IEnumerable<Shop>> GetByCategoryIdAsync(int categoryId)
         {
             var shops = await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(categoryId));
-            return shops.Any() ? shops : throw new EntityNotFoundException($"Shops of category id {categoryId} was not found");
+            return shops.Any() ? shops : throw new NotFoundException();
         }
 
         public async Task<IEnumerable<Shop>> GetByNameFirstCharAsync(char firstChar)
         {
             var shops =  await UnitOfWork.ShopRepository.FindAllAsync(new ShopSpecification(firstChar));
-            return shops.Any() ? shops : throw new EntityNotFoundException($"Shops with name starts with char {firstChar} was not found");
+            return shops.Any() ? shops : throw new NotFoundException();
         }
     }
 }

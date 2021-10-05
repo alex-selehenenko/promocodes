@@ -23,12 +23,12 @@ namespace Promocodes.Api.Middlewares
             {
                 await _next(context);
             }
-            catch (EntityNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
             }
-            catch (EntityUpdateException ex)
+            catch (UpdateException ex)
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsJsonAsync(ErrorJson(404, ex.Message));
