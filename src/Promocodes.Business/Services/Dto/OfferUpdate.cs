@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace Promocodes.Business.Services.Models
+namespace Promocodes.Business.Services.Dto
 {
     public class OfferUpdate
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -13,6 +11,8 @@ namespace Promocodes.Business.Services.Models
         public string Promocode { get; set; }
 
         public float Discount { get; set; }
+
+        public bool IsEnabled { get; set; }
 
         public DateTime StartDate { get; set; }
 

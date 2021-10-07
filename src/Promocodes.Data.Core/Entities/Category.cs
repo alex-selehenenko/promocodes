@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Category : IdentityBase<int>, IEntity
+    public class Category : EntityBase<int>, IEntity
     {
         public string Name { get; set; }
 

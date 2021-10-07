@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Reviews;
+using Promocodes.Business.Services.Dto;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.Entities;
 using System.Threading.Tasks;
@@ -24,20 +25,23 @@ namespace Promocodes.Api.Controllers
         public async Task<IActionResult> PostAsync([FromBody] ReviewPostDto dto)
         {
             var review = _mapper.Map<Review>(dto);
-            var createdReview = await _reviewService.AddAsync(review);
+            var entity = await _reviewService.CreateAsync(review);
+            var entityDto = _mapper.Map<ReviewGetDto>(entity);
 
-            return Ok(createdReview);
+            return Ok(entityDto);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody] ReviewPutDto dto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] ReviewPutDto dto)
         {
-            var editedReview = await _reviewService.UpdateAsync(dto.Id, dto.Stars, dto.Text);
-            return Ok(editedReview);
+            var update = _mapper.Map<ReviewUpdate>(dto);
+            var entity = await _reviewService.UpdateAsync(id, update);
+            var entityDto = _mapper.Map<ReviewGetDto>(entity);
+
+            return Ok(entityDto);
         }
 
-        [HttpDelete]
-        [Route("{id:int}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await _reviewService.DeleteAsync(id);

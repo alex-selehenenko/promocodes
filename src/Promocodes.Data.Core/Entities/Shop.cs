@@ -3,15 +3,13 @@ using System.Collections.Generic;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Shop : IdentityBase<int>, IEntity
+    public class Shop : EntityBase<int>, IEntity
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public string Site { get; set; }
-
-        public float Rating { get; set; }
 
         public List<Offer> Offers { get; set; } = new();
 

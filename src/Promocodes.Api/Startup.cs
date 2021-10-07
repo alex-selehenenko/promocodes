@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Promocodes.Data.Persistence.DependencyInjection;
 using Promocodes.Api.Middlewares;
 using Microsoft.OpenApi.Models;
-using AutoMapper;
 using Promocodes.Api.Mapping;
 using Promocodes.Business.DependencyInjection;
 using FluentValidation.AspNetCore;
@@ -34,7 +33,7 @@ namespace Promocodes.Api
             });
 
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
-            services.AddServices();
+            services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
 
             services.AddSwaggerGen(options =>

@@ -3,15 +3,15 @@ using System;
 
 namespace Promocodes.Data.Core.Entities
 {
-    public class Review : IdentityBase<int>, IEntity
+    public class Review : EntityBase<int>, IEntity
     {
         public byte Stars { get; set; }
 
         public string Text { get; set; }
 
-        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
+        public DateTime CreationTime { get; set; } = DateTime.Now;
 
-        public DateTime LastUpdateTime { get; set; } = DateTime.UtcNow;
+        public DateTime LastUpdateTime { get; set; } = DateTime.Now;
 
         public int? ShopId { get; set; }
 
@@ -23,7 +23,7 @@ namespace Promocodes.Data.Core.Entities
 
         public Review()
         {
-            var currentDate = DateTime.UtcNow;
+            var currentDate = DateTime.Now;
 
             CreationTime = currentDate;
             LastUpdateTime = currentDate;

@@ -2,14 +2,12 @@
 
 namespace Promocodes.Api.Dto.Shops
 {
-    public class ShopGetDto : IdentityBase<int>
+    public class ShopGetDto : EntityBase<int>
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public string Site { get; set; }
-
-        public float Rating { get; set; }
     }
 }

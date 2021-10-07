@@ -1,4 +1,4 @@
-﻿using Promocodes.Business.Services.Models;
+﻿using Promocodes.Business.Services.Dto;
 using Promocodes.Data.Core.Entities;
 using System;
 namespace Promocodes.Business.Extensions
@@ -20,11 +20,11 @@ namespace Promocodes.Business.Extensions
             return offer;
         }
 
-        public static Review ApplyUpdate(this Review review, string text, byte stars)
+        public static Review ApplyUpdate(this Review review, ReviewUpdate update)
         {
-            review.Text = text;
-            review.Stars = stars;
-            review.LastUpdateTime = DateTime.UtcNow;
+            review.Text = update.Text;
+            review.Stars = update.Stars;
+            review.LastUpdateTime = DateTime.Now;
 
             return review;
         }

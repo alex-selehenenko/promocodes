@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Promocodes.Data.Core.RepositoryInterfaces
 {
-    public interface IRepository<TEntity, TKey> where TEntity : IdentityBase<TKey>, IEntity
+    public interface IRepository<TEntity, TKey> where TEntity : EntityBase<TKey>, IEntity
     {
         IUnitOfWork UnitOfWork { get; }
 

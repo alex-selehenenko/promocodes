@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Promocodes.Business.Services.InterfacesV2
+namespace Promocodes.Business.Services.Interfaces
 {
     public interface ICategoryService
     {

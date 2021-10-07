@@ -4,7 +4,7 @@ using Promocodes.Data.Core.DataConstraints;
 
 namespace Promocodes.Api.Validators
 {
-    public class OfferPutDtoValidator : AbstractValidator<OfferPutDto>
+    public class OfferPutDtoValidator : AbstractValidator<OfferDto>
     {
         public OfferPutDtoValidator()
         {

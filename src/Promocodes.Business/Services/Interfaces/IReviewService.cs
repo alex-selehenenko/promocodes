@@ -1,17 +1,15 @@
-﻿using Promocodes.Data.Core.Entities;
-using System.Collections.Generic;
+﻿using Promocodes.Business.Services.Dto;
+using Promocodes.Data.Core.Entities;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Interfaces
 {
     public interface IReviewService
     {
-        Task<Review> AddAsync(Review review);
-
-        Task<Review> UpdateAsync(int id, byte stars, string text);
+        Task<Review> CreateAsync(Review review);
 
         Task DeleteAsync(int id);
 
-        Task<IEnumerable<Review>> GetShopReviewsAsync(int shopId);
+        Task<Review> UpdateAsync(int id, ReviewUpdate update);
     }
 }

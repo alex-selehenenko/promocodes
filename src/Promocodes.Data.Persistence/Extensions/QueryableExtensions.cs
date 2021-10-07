@@ -9,13 +9,13 @@ namespace Promocodes.Data.Persistence.Extensions
     {
         public static IQueryable<T> Specify<T>(this IQueryable<T> query, ISpecification<T> specification) where T : class, IEntity
         {
-            var primary = specification.Includes
+            query = specification.Includes
                 .Aggregate(query, (entities, includeExpression) => entities.Include(includeExpression));
 
-            var secondary = specification.ThenIncludes
-                .Aggregate(primary, (entities, includeString) => entities.Include(includeString));
+            query = specification.ThenIncludes
+                .Aggregate(query, (entities, includeString) => entities.Include(includeString));
 
-            return secondary.Where(specification.Criteria);
+            return query.Where(specification.Criteria);
         }
     }
 }

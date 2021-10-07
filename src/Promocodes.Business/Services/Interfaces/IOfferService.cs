@@ -1,24 +1,17 @@
-﻿using Promocodes.Business.Services.Models;
+﻿using Promocodes.Business.Services.Dto;
 using Promocodes.Data.Core.Entities;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Interfaces
 {
     public interface IOfferService
     {
-        Task<Offer> AddAsync(Offer offer);
+        Task<Offer> CreateAsync(Offer offer);
 
-        Task ToogleAsync(int offerId);
+        Task<Offer> UpdateAsync(int offerId, OfferUpdate update);
 
         Task DeleteAsync(int offerId);
 
-        Task RestoreAsync(int offerId);
-
-        Task TakeAsync(int offerId, int userId);
-
-        Task<Offer> UpdateAsync(OfferUpdate update);
-
-        Task<IEnumerable<Offer>> GetShopOffersAsync(int shopId);
+        Task TakeOfferAsync(int offerId, int userId);
     }
 }

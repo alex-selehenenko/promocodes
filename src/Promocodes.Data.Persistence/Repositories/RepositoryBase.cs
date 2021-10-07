@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
-    public abstract class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : IdentityBase<TKey>, IEntity
+    public abstract class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : EntityBase<TKey>, IEntity
     {
         protected PromocodesDbContext Context { get; }
         

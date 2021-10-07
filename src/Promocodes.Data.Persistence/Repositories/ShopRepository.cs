@@ -18,16 +18,8 @@ namespace Promocodes.Data.Persistence.Repositories
         {
             var query = Context.Shops.Include(s => s.Categories).AsQueryable();
 
-            if (filter.CategoryId.HasValue)
-            {
-                var primary = query.Where(s => s.Categories.Any(c => c.Id == filter.CategoryId.Value));
-                query = primary;
-            }
             if (filter.FirstChar.HasValue)
-            {
-                var secondary = query.Where(s => s.Name.StartsWith(filter.FirstChar.Value.ToString()));
-                query = secondary;
-            }
+                query = query.Where(s => s.Name.StartsWith(filter.FirstChar.Value.ToString()));
 
             return await query.ToListAsync();
         }

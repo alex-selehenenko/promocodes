@@ -15,5 +15,7 @@ namespace Promocodes.Api.Dto.Offers
         public DateTime StartDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
+
+        public bool IsEnabled { get; set; }
     }
 }

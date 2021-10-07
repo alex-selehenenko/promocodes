@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Promocodes.Business.Exceptions;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Middlewares
@@ -30,7 +31,7 @@ namespace Promocodes.Api.Middlewares
             }
             catch (Exception ex)
             {
-                context.Response.StatusCode = 500;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await context.Response.WriteAsJsonAsync("Internal server error");
 
                 _logger.LogError(ex, ex.Message, null);

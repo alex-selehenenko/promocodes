@@ -30,9 +30,6 @@ namespace Promocodes.Data.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(ShopConstraints.DescriptionMaxLength);
 
-            builder.Property(s => s.Rating)
-                .IsRequired();
-
             builder.HasMany(s => s.Offers)
                 .WithOne(s => s.Shop)
                 .HasForeignKey(o => o.ShopId)

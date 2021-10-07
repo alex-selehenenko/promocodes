@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.Dto.Offers;
+using Promocodes.Business.Services.Dto;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.Entities;
-using System;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
@@ -19,16 +19,33 @@ namespace Promocodes.Api.Controllers
         {
             _offerService = offerService;
             _mapper = mapper;
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OfferPostDto dto)
+        public async Task<IActionResult> PostAsync([FromBody] OfferPostDto dto)
         {
             var offer = _mapper.Map<Offer>(dto);
-            var createdOffer = await _offerService.AddAsync(offer);
+            var entity = await _offerService.CreateAsync(offer);
+            var entityDto = _mapper.Map<OfferGetDto>(entity);
 
-            return new JsonResult(_mapper.Map<OfferGetDto>(createdOffer));
+            return Ok(entityDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] OfferDto dto)
+        {
+            var update = _mapper.Map<OfferUpdate>(dto);
+            var entity = await _offerService.UpdateAsync(id, update);
+            var entityDto = _mapper.Map<OfferGetDto>(entity);
+
+            return Ok(entityDto);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _offerService.DeleteAsync(id);
+            return Ok();
         }
     }
 }

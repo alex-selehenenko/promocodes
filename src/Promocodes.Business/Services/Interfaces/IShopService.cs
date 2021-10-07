@@ -7,6 +7,10 @@ namespace Promocodes.Business.Services.Interfaces
 {
     public interface IShopService
     {
+        Task<IEnumerable<Review>> GetReviewsAsync(int shopId);
+
+        Task<IEnumerable<Offer>> GetOffersAsync(int shopId);
+
         Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter);
     }
 }
