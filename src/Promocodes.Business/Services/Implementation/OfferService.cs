@@ -36,8 +36,6 @@ namespace Promocodes.Business.Services.Implementation
                 throw new NotFoundException();
 
             offer.IsDeleted = true;
-
-            _offerRepository.Update(offer);
             await _offerRepository.UnitOfWork.SaveChangesAsync();
         }
 
@@ -54,8 +52,6 @@ namespace Promocodes.Business.Services.Implementation
                 throw new OperationException("The user has already taken the offer");
 
             user.Offers.Add(offer);
-
-            _userRepository.Update(user);
             await _userRepository.UnitOfWork.SaveChangesAsync();
         }
 
@@ -67,8 +63,6 @@ namespace Promocodes.Business.Services.Implementation
                 throw new NotFoundException();
 
             offer.ApplyUpdate(update);
-
-            _offerRepository.Update(offer);
             await _offerRepository.UnitOfWork.SaveChangesAsync();
 
             return offer;

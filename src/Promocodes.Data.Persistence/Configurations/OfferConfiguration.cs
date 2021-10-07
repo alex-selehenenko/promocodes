@@ -37,6 +37,9 @@ namespace Promocodes.Data.Persistence.Configurations
 
             builder.Property(o => o.ExpirationDate)
                 .IsRequired();
+
+            builder.HasMany(o => o.Users)
+                .WithMany(u => u.Offers);
         }
     }
 }

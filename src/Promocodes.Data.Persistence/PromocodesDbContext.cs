@@ -22,8 +22,7 @@ namespace Promocodes.Data.Persistence
         public DbSet<User> Users { get; set; }
 
         public PromocodesDbContext(DbContextOptions<PromocodesDbContext> options) : base(options)
-        {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        {            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
