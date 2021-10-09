@@ -75,5 +75,10 @@ namespace Promocodes.Data.Persistence.Repositories
         {
             return await DbSet.AsNoTracking().ExistsAsync(specification);
         }
+
+        public async Task<bool> ExistsAsync(TKey id)
+        {
+            return await DbSet.FindAsync(id) is not null;
+        }
     }
 }

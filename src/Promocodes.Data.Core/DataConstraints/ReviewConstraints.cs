@@ -5,7 +5,7 @@
         public const byte MinStars = 1;
         public const byte MaxStars = 10;
 
-        public const int MinTextLength = 50;
+        public const int MinTextLength = 0;
         public const int MaxTextLength = 500;
     }
 }
