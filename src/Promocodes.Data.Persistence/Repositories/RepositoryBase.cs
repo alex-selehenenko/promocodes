@@ -69,6 +69,11 @@ namespace Promocodes.Data.Persistence.Repositories
         public virtual void Update(params TEntity[] entities)
         {
             DbSet.UpdateRange(entities);
-        }        
+        }
+
+        public async Task<bool> ExistsAsync(ISpecification<TEntity> specification)
+        {
+            return await DbSet.AsNoTracking().ExistsAsync(specification);
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Extensions;
 using Promocodes.Business.Services.Dto;
+using Promocodes.Business.Specifications.Reviews;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -19,6 +20,12 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<Review> CreateAsync(Review review)
         {
+            var specification = ReviewSpecification.ByUserAndShop(review.UserId.Value, review.ShopId.Value);
+            var exists = await _reviewRepository.ExistsAsync(specification);
+
+            if (exists)
+                throw new OperationException("User has already left review for the shop");
+
             var created = await _reviewRepository.AddAsync(review);
             await _reviewRepository.UnitOfWork.SaveChangesAsync();
 

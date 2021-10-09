@@ -27,5 +27,7 @@ namespace Promocodes.Data.Core.RepositoryInterfaces
         Task<IEnumerable<TEntity>> FindAllAsync();
 
         Task<IEnumerable<TEntity>> FindAllAsync(int skip, int take);
+
+        Task<bool> ExistsAsync(ISpecification<TEntity> specification);
     }
 }
