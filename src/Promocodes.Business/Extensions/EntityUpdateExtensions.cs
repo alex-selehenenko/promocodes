@@ -8,7 +8,9 @@ namespace Promocodes.Business.Extensions
         public static Offer ApplyUpdate(this Offer offer, OfferUpdate update)
         {
             if (update is null)
+            {
                 throw new ArgumentNullException(nameof(update));
+            }
 
             offer.Title = update.Title;
             offer.Description = update.Description;

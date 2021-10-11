@@ -28,8 +28,8 @@ namespace Promocodes.Api.Controllers
         {
             var filter = _mapper.Map<ShopFilter>(dto);
             var entities = await _shopService.GetAllAsync(filter);
-
             var dtos = entities.Select(_mapper.Map<ShopGetDto>);
+
             return Ok(dtos);
         }
 

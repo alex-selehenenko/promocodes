@@ -27,7 +27,9 @@ namespace Promocodes.Business.Services.Implementation
             var shopExists = await _shopRepository.ExistsAsync(offer.ShopId.Value);
 
             if (!shopExists)
+            {
                 throw new OperationException("Shop doesn't exist");
+            }                
 
             var inserted =  await _offerRepository.AddAsync(offer);
             await _offerRepository.UnitOfWork.SaveChangesAsync();
@@ -40,7 +42,9 @@ namespace Promocodes.Business.Services.Implementation
             var offer = await _offerRepository.FindAsync(offerId);
 
             if (offer is null || offer.IsDeleted)
+            {
                 throw new NotFoundException();
+            }                
 
             offer.IsDeleted = true;
             await _offerRepository.UnitOfWork.SaveChangesAsync();
@@ -53,10 +57,14 @@ namespace Promocodes.Business.Services.Implementation
             var offer = await _offerRepository.FindAsync(offerId);
 
             if (offer is null || offer.IsDeleted)
+            {
                 throw new NotFoundException("Offer was not found");
+            }
 
             if (user.Offers.Contains(offer))
+            {
                 throw new OperationException("The user has already taken the offer");
+            }
 
             user.Offers.Add(offer);
             await _userRepository.UnitOfWork.SaveChangesAsync();
@@ -67,7 +75,9 @@ namespace Promocodes.Business.Services.Implementation
             var offer = await _offerRepository.FindAsync(offerId);
 
             if (offer is null || offer.IsDeleted)
+            {
                 throw new NotFoundException();
+            }
 
             offer.ApplyUpdate(update);
             await _offerRepository.UnitOfWork.SaveChangesAsync();

@@ -28,17 +28,23 @@ namespace Promocodes.Business.Services.Implementation
             var reviewExists = await _reviewRepository.ExistsAsync(specification);
 
             if (reviewExists)
+            {
                 throw new OperationException("User has already left review for the shop");
+            }
 
             var shopExists = await _shopRepository.ExistsAsync(review.ShopId.Value);
             
             if (!shopExists)
+            {
                 throw new OperationException("Shop doesn't exist");
+            }
 
             var userExists = await _userRepository.ExistsAsync(review.UserId.Value);
 
             if (!userExists)
+            {
                 throw new OperationException("User doesn't exist");
+            }
 
             var created = await _reviewRepository.AddAsync(review);
             await _reviewRepository.UnitOfWork.SaveChangesAsync();
