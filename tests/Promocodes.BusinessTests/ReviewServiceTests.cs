@@ -7,18 +7,79 @@ using System.Threading.Tasks;
 using Promocodes.Business.Exceptions;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Core.Common.Specifications;
+using Promocodes.Data.Persistence;
 
 namespace Promocodes.BusinessTests
 {
     public class ReviewServiceTests
     {
+        private readonly IReviewService _reviewService;
+
+        private readonly Mock<IReviewRepository> _reviewRepositoryMock = new();
+        private readonly Mock<IUserRepository> _userRepositoryMock = new();
+        private readonly Mock<IShopRepository> _shopRepositoryMock = new();
+        private readonly Mock<PromocodesDbContext> _dbContextMock = new();
+
+        public ReviewServiceTests()
+        {
+            _reviewRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
+            _userRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
+            _shopRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
+
+            _reviewService = new ReviewService(_reviewRepositoryMock.Object, _shopRepositoryMock.Object, _userRepositoryMock.Object);
+        }
+
+        [Fact]
+        public async Task CreateAsync_ValidData()
+        {
+            var id = 1;
+            var shopId = 2;
+            var userId = 3;
+
+            _reviewRepositoryMock
+                .Setup(r => r.AddAsync(It.IsAny<Review>()))
+                .ReturnsAsync(new Review() { Id = 1, ShopId = 2, UserId = 3 });
+
+            _reviewRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<ISpecification<Review>>()))
+                .ReturnsAsync(false);
+
+            _shopRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
+
+            _userRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
+
+            var review = new Review() { Id = 1, ShopId = 2, UserId = 3 };
+            var entity = await _reviewService.CreateAsync(review);
+
+            var actual = entity.Id == id &&
+                         entity.UserId == userId &&
+                         entity.ShopId == shopId;
+
+            Assert.True(actual);
+        }
+
         [Fact]
         public async Task CreateAsync_ShopHasReviewFromUser_OperationExceptionThrown()
         {
-            var service = SetupCreateMethod(reviewExists: true, userExists: true, shopExists: true);
+            _reviewRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<ISpecification<Review>>()))
+                .ReturnsAsync(true);
+
+            _shopRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
+
+            _userRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
+
             var review = new Review() { UserId = 1, ShopId = 1};
 
-            async Task action() => await service.CreateAsync(review);
+            async Task action() => await _reviewService.CreateAsync(review);
 
             await Assert.ThrowsAsync<OperationException>(action);
         }
@@ -26,10 +87,21 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_ShopDoesNotExist_OperationExceptionThrown()
         {
-            var service = SetupCreateMethod(reviewExists: false, userExists: true, shopExists: false);
+            _reviewRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<ISpecification<Review>>()))
+                .ReturnsAsync(false);
+
+            _shopRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(false);
+
+            _userRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
+
             var review = new Review() { UserId = 1, ShopId = 1 };
 
-            async Task action() => await service.CreateAsync(review);
+            async Task action() => await _reviewService.CreateAsync(review);
 
             await Assert.ThrowsAsync<OperationException>(action);
         }
@@ -37,25 +109,23 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_UserDoesNotExist_OperationExceptionThrown()
         {
-            var service = SetupCreateMethod(reviewExists: false, userExists: false, shopExists: true);
+            _reviewRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<ISpecification<Review>>()))
+                .ReturnsAsync(false);
+
+            _shopRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
+
+            _userRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(false);
+
             var review = new Review() { UserId = 1, ShopId = 1 };
 
-            async Task action() => await service.CreateAsync(review);
+            async Task action() => await _reviewService.CreateAsync(review);
 
             await Assert.ThrowsAsync<OperationException>(action);
-        }
-
-        private static IReviewService SetupCreateMethod(bool reviewExists, bool userExists, bool shopExists)
-        {
-            var reviewRepoMock = new Mock<IReviewRepository>();
-            var userRepoMock = new Mock<IUserRepository>();
-            var shopRepoMock = new Mock<IShopRepository>();
-
-            reviewRepoMock.Setup(r => r.ExistsAsync(It.IsAny<ISpecification<Review>>())).ReturnsAsync(reviewExists);
-            userRepoMock.Setup(r => r.ExistsAsync(It.IsAny<int>())).ReturnsAsync(userExists);
-            shopRepoMock.Setup(r => r.ExistsAsync(It.IsAny<int>())).ReturnsAsync(shopExists);
-
-            return new ReviewService(reviewRepoMock.Object, shopRepoMock.Object, userRepoMock.Object);
         }
     }
 }
