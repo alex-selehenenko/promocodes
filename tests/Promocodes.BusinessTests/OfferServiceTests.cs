@@ -4,7 +4,6 @@ using Promocodes.Business.Services.Implementation;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using Promocodes.Data.Persistence;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,14 +16,10 @@ namespace Promocodes.BusinessTests
         private readonly Mock<IOfferRepository> _offerRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
         private readonly Mock<IUserRepository> _userRepositoryMock = new();
-        private readonly Mock<PromocodesDbContext> _dbContextMock = new();
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
         public OfferServiceTests()
         {
-            _offerRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
-            _userRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
-            _shopRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
-
             _offerService = new OfferService(_offerRepositoryMock.Object, _userRepositoryMock.Object, _shopRepositoryMock.Object);
         }
 
@@ -48,6 +43,10 @@ namespace Promocodes.BusinessTests
             _offerRepositoryMock
                 .Setup(r => r.AddAsync(It.IsAny<Offer>()))
                 .ReturnsAsync(new Offer() { Id = 1, ShopId = 2 });
+
+            _offerRepositoryMock
+                .Setup(r => r.UnitOfWork)
+                .Returns(_unitOfWorkMock.Object);
 
             _shopRepositoryMock
                 .Setup(r => r.ExistsAsync(It.IsAny<int>()))

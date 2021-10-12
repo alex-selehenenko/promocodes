@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Promocodes.Business.Exceptions;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Core.Common.Specifications;
-using Promocodes.Data.Persistence;
 
 namespace Promocodes.BusinessTests
 {
@@ -18,14 +17,10 @@ namespace Promocodes.BusinessTests
         private readonly Mock<IReviewRepository> _reviewRepositoryMock = new();
         private readonly Mock<IUserRepository> _userRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
-        private readonly Mock<PromocodesDbContext> _dbContextMock = new();
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
         public ReviewServiceTests()
         {
-            _reviewRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
-            _userRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
-            _shopRepositoryMock.Setup(r => r.UnitOfWork).Returns(_dbContextMock.Object);
-
             _reviewService = new ReviewService(_reviewRepositoryMock.Object, _shopRepositoryMock.Object, _userRepositoryMock.Object);
         }
 
@@ -39,6 +34,10 @@ namespace Promocodes.BusinessTests
             _reviewRepositoryMock
                 .Setup(r => r.AddAsync(It.IsAny<Review>()))
                 .ReturnsAsync(new Review() { Id = 1, ShopId = 2, UserId = 3 });
+
+            _reviewRepositoryMock
+                .Setup(r => r.UnitOfWork)
+                .Returns(_unitOfWorkMock.Object);
 
             _reviewRepositoryMock
                 .Setup(r => r.ExistsAsync(It.IsAny<ISpecification<Review>>()))
