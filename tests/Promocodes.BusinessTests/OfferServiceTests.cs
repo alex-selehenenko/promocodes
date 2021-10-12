@@ -37,8 +37,8 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_ValidData()
         {
-            var id = 1;
-            var shopId = 2;
+            var expectedId = 1;
+            var expectedShopId = 2;
 
             _offerRepositoryMock
                 .Setup(r => r.AddAsync(It.IsAny<Offer>()))
@@ -55,8 +55,8 @@ namespace Promocodes.BusinessTests
             var offer = new Offer() { Id = 1, ShopId = 2 };
             var entity = await _offerService.CreateAsync(offer);
 
-            var actual = entity.Id == id &&
-                         entity.ShopId == shopId;
+            var actual = entity.Id == expectedId &&
+                         entity.ShopId == expectedShopId;
 
             Assert.True(actual);
         }

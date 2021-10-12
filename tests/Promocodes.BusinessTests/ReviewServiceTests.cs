@@ -27,9 +27,9 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_ValidData()
         {
-            var id = 1;
-            var shopId = 2;
-            var userId = 3;
+            var expectedId = 1;
+            var expectedShopId = 2;
+            var expectedUserId = 3;
 
             _reviewRepositoryMock
                 .Setup(r => r.AddAsync(It.IsAny<Review>()))
@@ -54,9 +54,9 @@ namespace Promocodes.BusinessTests
             var review = new Review() { Id = 1, ShopId = 2, UserId = 3 };
             var entity = await _reviewService.CreateAsync(review);
 
-            var actual = entity.Id == id &&
-                         entity.UserId == userId &&
-                         entity.ShopId == shopId;
+            var actual = entity.Id == expectedId &&
+                         entity.UserId == expectedUserId &&
+                         entity.ShopId == expectedShopId;
 
             Assert.True(actual);
         }
