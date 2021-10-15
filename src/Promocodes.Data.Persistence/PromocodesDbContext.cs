@@ -21,6 +21,10 @@ namespace Promocodes.Data.Persistence
 
         public DbSet<User> Users { get; set; }
 
+        public PromocodesDbContext()
+        {
+        }
+
         public PromocodesDbContext(DbContextOptions<PromocodesDbContext> options) : base(options)
         {            
         }

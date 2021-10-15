@@ -16,7 +16,7 @@ namespace Promocodes.Data.Core.RepositoryInterfaces
 
         void Remove(params TEntity[] entities);
 
-        Task<TEntity> FindAsync(TKey key);
+        Task<TEntity> FindAsync(TKey id);
 
         Task<TEntity> FindAsync(ISpecification<TEntity> specification);
 
@@ -27,5 +27,9 @@ namespace Promocodes.Data.Core.RepositoryInterfaces
         Task<IEnumerable<TEntity>> FindAllAsync();
 
         Task<IEnumerable<TEntity>> FindAllAsync(int skip, int take);
+
+        Task<bool> ExistsAsync(ISpecification<TEntity> specification);
+
+        Task<bool> ExistsAsync(TKey id);
     }
 }
