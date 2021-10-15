@@ -54,11 +54,9 @@ namespace Promocodes.BusinessTests
             var review = new Review() { Id = 1, ShopId = 2, UserId = 3 };
             var entity = await _reviewService.CreateAsync(review);
 
-            var actual = entity.Id == expectedId &&
-                         entity.UserId == expectedUserId &&
-                         entity.ShopId == expectedShopId;
-
-            Assert.True(actual);
+            Assert.Equal(expectedId, entity.Id);
+            Assert.Equal(expectedUserId, entity.UserId.Value);
+            Assert.Equal(expectedShopId, entity.ShopId.Value);
         }
 
         [Fact]

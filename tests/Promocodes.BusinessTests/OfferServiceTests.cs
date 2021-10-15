@@ -55,10 +55,8 @@ namespace Promocodes.BusinessTests
             var offer = new Offer() { Id = 1, ShopId = 2 };
             var entity = await _offerService.CreateAsync(offer);
 
-            var actual = entity.Id == expectedId &&
-                         entity.ShopId == expectedShopId;
-
-            Assert.True(actual);
+            Assert.Equal(expectedId, entity.Id);
+            Assert.Equal(expectedShopId, entity.ShopId.Value);
         }
     }
 }
