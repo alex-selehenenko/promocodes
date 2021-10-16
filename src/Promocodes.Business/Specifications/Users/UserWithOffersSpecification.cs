@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace Promocodes.Business.Specifications.Users
 {
-    public class UserWithOffersSpecification : SpecificationBase<User>
+    public class UserWithOffersSpecification : SpecificationBase<Customer>
     {
-        private UserWithOffersSpecification(Expression<Func<User, bool>> criteria) : base(criteria)
+        private UserWithOffersSpecification(Expression<Func<Customer, bool>> criteria) : base(criteria)
         {
             AddInclude(user => user.Offers);
         }

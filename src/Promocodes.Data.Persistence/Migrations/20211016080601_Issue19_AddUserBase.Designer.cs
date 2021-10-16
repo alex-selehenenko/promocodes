@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Promocodes.Data.Persistence;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(PromocodesDbContext))]
-    partial class PromocodesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211016080601_Issue19_AddUserBase")]
+    partial class Issue19_AddUserBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,32 +279,6 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasBaseType("Promocodes.Data.Core.Entities.User");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Phone = "+380631111111",
-                            UserName = "alex"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Phone = "+380632222222",
-                            UserName = "serg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Phone = "+380633333333",
-                            UserName = "jess"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Phone = "+380634444444",
-                            UserName = "qwerty"
-                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.ShopAdmin", b =>
@@ -315,29 +291,6 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("ShopAdmins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 6,
-                            Phone = "+30632526897",
-                            UserName = "Andrew Admin",
-                            ShopId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Phone = "+30632526899",
-                            UserName = "Ben Admin",
-                            ShopId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Phone = "+30632526890",
-                            UserName = "Alicia Admin",
-                            ShopId = 1
-                        });
                 });
 
             modelBuilder.Entity("CategoryShop", b =>

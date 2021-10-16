@@ -35,7 +35,9 @@ namespace Promocodes.Data.Persistence
                         .ApplyConfiguration(new ShopConfiguration())
                         .ApplyConfiguration(new OfferConfiguration())
                         .ApplyConfiguration(new ReviewConfiguration())
-                        .ApplyConfiguration(new UserConfiguration());
+                        .ApplyConfiguration(new UserConfiguration())
+                        .ApplyConfiguration(new CustomerConfiguration())
+                        .ApplyConfiguration(new ShopAdminConfiguration());
 
             modelBuilder.Seed();
         }

@@ -19,7 +19,7 @@ namespace Promocodes.Data.Core.Entities
 
         public Shop Shop { get; set; }
 
-        public User User { get; set; }
+        public Customer User { get; set; }
 
         public Review()
         {

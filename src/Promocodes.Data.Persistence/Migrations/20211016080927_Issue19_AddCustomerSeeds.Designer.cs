@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Promocodes.Data.Persistence;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(PromocodesDbContext))]
-    partial class PromocodesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211016080927_Issue19_AddCustomerSeeds")]
+    partial class Issue19_AddCustomerSeeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -315,29 +317,6 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("ShopAdmins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 6,
-                            Phone = "+30632526897",
-                            UserName = "Andrew Admin",
-                            ShopId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Phone = "+30632526899",
-                            UserName = "Ben Admin",
-                            ShopId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Phone = "+30632526890",
-                            UserName = "Alicia Admin",
-                            ShopId = 1
-                        });
                 });
 
             modelBuilder.Entity("CategoryShop", b =>

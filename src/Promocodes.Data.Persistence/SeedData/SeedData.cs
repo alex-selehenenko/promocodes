@@ -8,39 +8,66 @@ namespace Promocodes.Data.Persistence.SeedData
     {
         public static void Seed(this ModelBuilder builder)
         {
-            SeedUsers(builder);
+            SeedAdmins(builder);
+            SeedCustomers(builder);
             SeedCategories(builder);
             SeedShops(builder);
             SeedCategoryShops(builder);
         }
 
-        private static void SeedUsers(ModelBuilder builder)
+        private static void SeedAdmins(ModelBuilder builder)
         {
-            builder.Entity<User>()
+            builder.Entity<ShopAdmin>().HasData(
+                new ShopAdmin()
+                {
+                    Id = 6,
+                    Phone = "+30632526897",
+                    UserName = "Andrew Admin",
+                    ShopId = 1
+                },
+                new ShopAdmin()
+                {
+                    Id = 7,
+                    Phone = "+30632526899",
+                    UserName = "Ben Admin",
+                    ShopId = 1
+                },
+                new ShopAdmin()
+                {
+                    Id = 8,
+                    Phone = "+30632526890",
+                    UserName = "Alicia Admin",
+                    ShopId = 1
+                });
+        }
+
+        private static void SeedCustomers(ModelBuilder builder)
+        {
+            builder.Entity<Customer>()
                 .HasData(
-                new User()
+                new Customer()
                 {
                     Id = 1,
                     UserName = "alex",
-                    Phone = "+380991234567"
+                    Phone = "+380631111111"
                 },
-                new User()
+                new Customer()
                 {
                     Id = 2,
                     UserName = "serg",
-                    Phone = "+380931112233"
+                    Phone = "+380632222222"
                 },
-                new User()
+                new Customer()
                 {
                     Id = 3,
                     UserName = "jess",
-                    Phone = "+380661234545"
+                    Phone = "+380633333333"
                 },
-                new User()
+                new Customer()
                 {
                     Id = 4,
                     UserName = "qwerty",
-                    Phone = "+380501112233"
+                    Phone = "+380634444444"
                 });
         }
 

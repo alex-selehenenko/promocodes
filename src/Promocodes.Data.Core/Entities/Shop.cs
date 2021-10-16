@@ -16,5 +16,7 @@ namespace Promocodes.Data.Core.Entities
         public List<Review> Reviews { get; set; } = new();
 
         public List<Category> Categories { get; set; } = new();
+
+        public List<ShopAdmin> Admins { get; set; } = new();
     }
 }

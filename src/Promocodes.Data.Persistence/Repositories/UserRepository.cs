@@ -3,7 +3,7 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
-    public class UserRepository : RepositoryBase<User, int>, IUserRepository
+    public class UserRepository : RepositoryBase<Customer, int>, IUserRepository
     {
         public UserRepository(PromocodesDbContext context) : base(context)
         {

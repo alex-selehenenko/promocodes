@@ -26,6 +26,6 @@ namespace Promocodes.Data.Core.Entities
 
         public Shop Shop { get; set; }
 
-        public List<User> Users { get; set; } = new();
+        public List<Customer> Users { get; set; } = new();
     }
 }
