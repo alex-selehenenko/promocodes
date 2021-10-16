@@ -10,6 +10,8 @@ namespace Promocodes.Business.DependencyInjection
             .AddScoped<IOfferService, OfferService>()
             .AddScoped<IReviewService, ReviewService>()
             .AddScoped<IShopService, ShopService>()
-            .AddScoped<ICategoryService, CategoryService>();
+            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<ICustomerService, CustomerService>();
     }
 }

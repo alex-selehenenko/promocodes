@@ -22,7 +22,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] OfferPostDto dto)
+        public async Task<IActionResult> PostAsync([FromBody] OfferDto dto)
         {
             var offer = _mapper.Map<Offer>(dto);
             var entity = await _offerService.CreateAsync(offer);

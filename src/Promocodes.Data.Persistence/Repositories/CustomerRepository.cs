@@ -3,9 +3,9 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
-    public class UserRepository : RepositoryBase<User, int>, IUserRepository
+    public class CustomerRepository : RepositoryBase<Customer, int>, ICustomerRepository
     {
-        public UserRepository(PromocodesDbContext context) : base(context)
+        public CustomerRepository(PromocodesDbContext context) : base(context)
         {
         }
     }

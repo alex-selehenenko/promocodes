@@ -32,7 +32,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(int id, [FromBody] ReviewPutDto dto)
+        public async Task<IActionResult> PutAsync(int id, [FromBody] ReviewDto dto)
         {
             var update = _mapper.Map<ReviewUpdate>(dto);
             var entity = await _reviewService.UpdateAsync(id, update);

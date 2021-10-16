@@ -21,6 +21,10 @@ namespace Promocodes.Data.Persistence
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<ShopAdmin> ShopAdmins { get; set; }
+
         public PromocodesDbContext()
         {
         }

@@ -5,31 +5,39 @@ using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Exceptions;
 using Promocodes.Business.Extensions;
 using Promocodes.Business.Services.Dto;
-using Promocodes.Business.Specifications.Users;
+using Promocodes.Business.Managers;
+using Promocodes.Business.Specifications.Offers;
+using Promocodes.Data.Core.Common.Specifications;
 
 namespace Promocodes.Business.Services.Implementation
 {
     public class OfferService : IOfferService
     {
         private readonly IOfferRepository _offerRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IShopRepository _shopRepository;
+        private readonly IUserManager _userManager;
 
-        public OfferService(IOfferRepository offerRepository, IUserRepository userRepository, IShopRepository shopRepository)
+        public OfferService(
+            IOfferRepository offerRepository,
+            IShopRepository shopRepository,
+            IUserManager userManager)
         {
             _offerRepository = offerRepository;
-            _userRepository = userRepository;
             _shopRepository = shopRepository;
+            _userManager = userManager;
         }
 
         public async Task<Offer> CreateAsync(Offer offer)
         {
-            var shopExists = await _shopRepository.ExistsAsync(offer.ShopId.Value);
+            var admin = await TryGetShopAdminAsync();
+            var shopExists = await _shopRepository.ExistsAsync(admin.ShopId.Value);
 
             if (!shopExists)
             {
                 throw new OperationException("Shop doesn't exist");
-            }                
+            }
+
+            offer.ShopId = admin.ShopId;
 
             var inserted =  await _offerRepository.AddAsync(offer);
             await _offerRepository.UnitOfWork.SaveChangesAsync();
@@ -39,49 +47,50 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task DeleteAsync(int offerId)
         {
-            var offer = await _offerRepository.FindAsync(offerId);
-
-            if (offer is null || offer.IsDeleted)
-            {
-                throw new NotFoundException();
-            }                
+            var admin = await TryGetShopAdminAsync();
+            var specification = OfferSpecification.ByIdAndShopId(offerId, admin.ShopId.Value);
+            var offer = await FindOfferAsync(specification);
 
             offer.IsDeleted = true;
             await _offerRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        public async Task TakeOfferAsync(int offerId, int userId)
-        {
-            var specification = UserWithOffersSpecification.ById(userId);
-            var user = await _userRepository.FindAsync(specification) ?? throw new NotFoundException("User was not found");
-            var offer = await _offerRepository.FindAsync(offerId);
-
-            if (offer is null || offer.IsDeleted)
-            {
-                throw new NotFoundException("Offer was not found");
-            }
-
-            if (user.Offers.Contains(offer))
-            {
-                throw new OperationException("The user has already taken the offer");
-            }
-
-            user.Offers.Add(offer);
-            await _userRepository.UnitOfWork.SaveChangesAsync();
-        }
-
         public async Task<Offer> UpdateAsync(int offerId, OfferUpdate update)
         {
-            var offer = await _offerRepository.FindAsync(offerId);
+            var admin = await TryGetShopAdminAsync();
 
-            if (offer is null || offer.IsDeleted)
-            {
-                throw new NotFoundException();
-            }
+            var specification = OfferSpecification.ByIdAndShopId(offerId, admin.ShopId.Value);
+            var offer = await FindOfferAsync(specification);
 
             offer.ApplyUpdate(update);
             await _offerRepository.UnitOfWork.SaveChangesAsync();
 
+            return offer;
+        }
+
+        private async Task<ShopAdmin> TryGetShopAdminAsync()
+        {
+            var user = await _userManager.GetCurrentUserAsync(true);
+
+            if (user is not ShopAdmin admin)
+            {
+                throw new AccessForbiddenException("Operation can be executed by admin only");
+            }
+            if (!admin.ShopId.HasValue)
+            {
+                throw new OperationException("The admin doesn't manage any shop");
+            }
+            return admin;
+        }
+
+        private async Task<Offer> FindOfferAsync(ISpecification<Offer> specification)
+        {
+            var offer = await _offerRepository.FindAsync(specification);
+
+            if (offer is null || offer.IsDeleted)
+            {
+                throw new OperationException("Offer doesn't exist or admin has no access");
+            }
             return offer;
         }
     }

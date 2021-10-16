@@ -10,6 +10,8 @@ using Promocodes.Api.Mapping;
 using Promocodes.Business.DependencyInjection;
 using FluentValidation.AspNetCore;
 using System.Linq;
+using Promocodes.Business.Managers;
+using Promocodes.Api.Managers;
 
 namespace Promocodes.Api
 {
@@ -32,6 +34,8 @@ namespace Promocodes.Api
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
 
+            services.AddScoped<IUserManager, UserManager>();
+
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
@@ -43,7 +47,7 @@ namespace Promocodes.Api
                 {
                     Version = ApiVersion,
                     Title = "Promocodes API",
-                    Description = "Open API for promocodes aggregator web application",
+                    Description = "API for promocodes aggregator web application",
                     Contact = new OpenApiContact
                     {
                         Name = "Oleksandr Selehenenko",

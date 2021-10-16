@@ -3,9 +3,9 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
-    public class UserRepository : RepositoryBase<User, int>, IUserRepository
+    public class ShopAdminRepository : RepositoryBase<ShopAdmin, int>, IShopAdminRepository
     {
-        public UserRepository(PromocodesDbContext context) : base(context)
+        public ShopAdminRepository(PromocodesDbContext context) : base(context)
         {
         }
     }

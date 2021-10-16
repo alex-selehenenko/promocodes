@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Promocodes.Business.Exceptions;
+using Promocodes.Business.Managers;
 using Promocodes.Business.Services.Implementation;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.Entities;
@@ -15,12 +16,16 @@ namespace Promocodes.BusinessTests
 
         private readonly Mock<IOfferRepository> _offerRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
-        private readonly Mock<IUserRepository> _userRepositoryMock = new();
+        private readonly Mock<ICustomerRepository> _customerRepositoryMock = new();
+        private readonly Mock<IUserManager> _userManagerMock = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
         public OfferServiceTests()
         {
-            _offerService = new OfferService(_offerRepositoryMock.Object, _userRepositoryMock.Object, _shopRepositoryMock.Object);
+            _offerService = new OfferService(
+                _offerRepositoryMock.Object,
+                _shopRepositoryMock.Object,
+                _userManagerMock.Object);
         }
 
         [Fact]

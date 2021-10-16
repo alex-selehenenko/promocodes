@@ -4,9 +4,9 @@ using Promocodes.Data.Core.DataConstraints;
 
 namespace Promocodes.Api.Validators
 {
-    public class ReviewPutDtoValidator : AbstractValidator<ReviewPutDto>
+    public class ReviewDtoValidator : AbstractValidator<ReviewDto>
     {
-        public ReviewPutDtoValidator()
+        public ReviewDtoValidator()
         {
             RuleFor(r => r.Text)
                 .Cascade(CascadeMode.Stop)
