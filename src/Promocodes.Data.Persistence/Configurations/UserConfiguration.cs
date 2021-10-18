@@ -24,9 +24,6 @@ namespace Promocodes.Data.Persistence.Configurations
 
             builder.Property(u => u.UserName)
                 .HasMaxLength(UserConstraints.MaxUserNameLength);
-
-            builder.HasMany(u => u.Offers)
-                .WithMany(o => o.Users);
         }
     }
 }

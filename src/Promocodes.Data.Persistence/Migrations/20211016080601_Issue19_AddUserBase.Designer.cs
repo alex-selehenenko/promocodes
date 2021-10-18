@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Promocodes.Data.Persistence;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(PromocodesDbContext))]
-    partial class PromocodesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211016080601_Issue19_AddUserBase")]
+    partial class Issue19_AddUserBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,9 +262,6 @@ namespace Promocodes.Data.Persistence.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(14)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -280,36 +279,6 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasBaseType("Promocodes.Data.Core.Entities.User");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Phone = "+380631111111",
-                            Role = 1,
-                            UserName = "alex"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Phone = "+380632222222",
-                            Role = 1,
-                            UserName = "serg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Phone = "+380633333333",
-                            Role = 1,
-                            UserName = "jess"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Phone = "+380634444444",
-                            Role = 1,
-                            UserName = "qwerty"
-                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.ShopAdmin", b =>
@@ -322,32 +291,6 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("ShopAdmins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 6,
-                            Phone = "+30632526897",
-                            Role = 0,
-                            UserName = "Andrew Admin",
-                            ShopId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Phone = "+30632526899",
-                            Role = 0,
-                            UserName = "Ben Admin",
-                            ShopId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Phone = "+30632526890",
-                            Role = 0,
-                            UserName = "Alicia Admin",
-                            ShopId = 1
-                        });
                 });
 
             modelBuilder.Entity("CategoryShop", b =>
@@ -425,8 +368,7 @@ namespace Promocodes.Data.Persistence.Migrations
 
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Admins")
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ShopId");
 
                     b.Navigation("Shop");
                 });

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Promocodes.Business.Exceptions;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Core.Common.Specifications;
+using Promocodes.Business.Managers;
 
 namespace Promocodes.BusinessTests
 {
@@ -17,11 +18,15 @@ namespace Promocodes.BusinessTests
         private readonly Mock<IReviewRepository> _reviewRepositoryMock = new();
         private readonly Mock<IUserRepository> _userRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
+        private readonly Mock<IUserManager> _userManager = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
         public ReviewServiceTests()
         {
-            _reviewService = new ReviewService(_reviewRepositoryMock.Object, _shopRepositoryMock.Object, _userRepositoryMock.Object);
+            _reviewService = new ReviewService(
+                _reviewRepositoryMock.Object,
+                _shopRepositoryMock.Object,
+                _userManager.Object);
         }
 
         [Fact]

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Promocodes.Data.Persistence;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(PromocodesDbContext))]
-    partial class PromocodesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211018091637_AddRoleToUser")]
+    partial class AddRoleToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,8 +427,7 @@ namespace Promocodes.Data.Persistence.Migrations
 
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Admins")
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ShopId");
 
                     b.Navigation("Shop");
                 });

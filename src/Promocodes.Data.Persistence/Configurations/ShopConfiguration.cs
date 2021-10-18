@@ -30,6 +30,11 @@ namespace Promocodes.Data.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(ShopConstraints.DescriptionMaxLength);
 
+            builder.HasMany(s => s.Admins)
+                .WithOne(a => a.Shop)
+                .HasForeignKey(a => a.ShopId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.HasMany(s => s.Offers)
                 .WithOne(s => s.Shop)
                 .HasForeignKey(o => o.ShopId)

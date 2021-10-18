@@ -19,15 +19,15 @@ namespace Promocodes.Api.Mapping
 
         private void CreateOfferMaps()
         {
-            CreateMap<OfferPostDto, Offer>();
+            CreateMap<OfferDto, Offer>();
             CreateMap<OfferDto, OfferUpdate>();
-            CreateMap<Offer, OfferGetDto>();         
+            CreateMap<Offer, OfferGetDto>();      
         }
 
         private void CreateReviewMaps()
         {
             CreateMap<ReviewPostDto, Review>();
-            CreateMap<ReviewPutDto, ReviewUpdate>();
+            CreateMap<ReviewDto, ReviewUpdate>();
             CreateMap<Review, ReviewGetDto>();            
         }
 

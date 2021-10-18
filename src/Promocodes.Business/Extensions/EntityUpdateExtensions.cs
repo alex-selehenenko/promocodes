@@ -1,6 +1,7 @@
 ﻿using Promocodes.Business.Services.Dto;
 using Promocodes.Data.Core.Entities;
 using System;
+
 namespace Promocodes.Business.Extensions
 {
     public static class EntityUpdateExtensions

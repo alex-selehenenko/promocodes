@@ -13,13 +13,13 @@ namespace Promocodes.Data.Core.Entities
 
         public DateTime LastUpdateTime { get; set; }
 
-        public int? ShopId { get; set; }
+        public int ShopId { get; set; }
 
         public int? UserId { get; set; }
 
         public Shop Shop { get; set; }
 
-        public User User { get; set; }
+        public Customer User { get; set; }
 
         public Review()
         {
