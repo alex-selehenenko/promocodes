@@ -61,7 +61,7 @@ namespace Promocodes.BusinessTests
 
             Assert.Equal(expectedId, entity.Id);
             Assert.Equal(expectedUserId, entity.UserId.Value);
-            Assert.Equal(expectedShopId, entity.ShopId.Value);
+            Assert.Equal(expectedShopId, entity.ShopId);
         }
 
         [Fact]

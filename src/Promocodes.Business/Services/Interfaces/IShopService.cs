@@ -11,6 +11,8 @@ namespace Promocodes.Business.Services.Interfaces
 
         Task<IEnumerable<Offer>> GetOffersAsync(int shopId);
 
+        Task<IEnumerable<Offer>> GetRemovedOffersAsync();
+
         Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter);
     }
 }
