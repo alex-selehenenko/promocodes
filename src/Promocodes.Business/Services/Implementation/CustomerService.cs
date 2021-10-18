@@ -3,6 +3,7 @@ using Promocodes.Business.Managers;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Specifications.Reviews;
 using Promocodes.Business.Specifications.Users;
+using Promocodes.Data.Core.Common.Types;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -32,13 +33,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<IEnumerable<Offer>> GetOffersAsync()
         {
-            var user = await _userManager.GetCurrentUserAsync(false);
-            
-            if (user is not Customer)
-            {
-                throw new AccessForbiddenException();
-            }
-
+            var user = await GetUserAsync();
             var specification = CustomerWithOffersSpecification.ById(user.Id);
             var customer = await _customerRepository.FindAsync(specification);
 
@@ -55,13 +50,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task TakeOfferAsync(int offerId)
         {
-            var user = await _userManager.GetCurrentUserAsync(false);
-
-            if (user is not Customer)
-            {
-                throw new AccessForbiddenException();
-            }
-
+            var user = await GetUserAsync();
             var specification = CustomerWithOffersSpecification.ById(user.Id);
             var customer = await _customerRepository.FindAsync(specification) ?? throw new NotFoundException("Customer was not found");
 
@@ -79,6 +68,17 @@ namespace Promocodes.Business.Services.Implementation
 
             customer.Offers.Add(offer);
             await _customerRepository.UnitOfWork.SaveChangesAsync();
+        }
+
+        private async Task<User> GetUserAsync()
+        {
+            var user = await _userManager.GetCurrentUserAsync(false);
+
+            if (user.Role != Role.Customer)
+            {
+                throw new AccessForbiddenException();
+            }
+            return user;
         }
     }
 }

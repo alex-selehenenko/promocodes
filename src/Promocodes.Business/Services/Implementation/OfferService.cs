@@ -29,14 +29,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<Offer> CreateAsync(Offer offer)
         {
-            var admin = await TryGetShopAdminAsync();
-            var shopExists = await _shopRepository.ExistsAsync(admin.ShopId.Value);
-
-            if (!shopExists)
-            {
-                throw new OperationException("Shop doesn't exist");
-            }
-
+            var admin = await GetAdminAsync();
             offer.ShopId = admin.ShopId;
 
             var inserted =  await _offerRepository.AddAsync(offer);
@@ -47,7 +40,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task DeleteAsync(int offerId)
         {
-            var admin = await TryGetShopAdminAsync();
+            var admin = await GetAdminAsync();
             var specification = OfferSpecification.ByIdAndShopId(offerId, admin.ShopId.Value);
             var offer = await FindOfferAsync(specification);
 
@@ -57,7 +50,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<Offer> UpdateAsync(int offerId, OfferUpdate update)
         {
-            var admin = await TryGetShopAdminAsync();
+            var admin = await GetAdminAsync();
 
             var specification = OfferSpecification.ByIdAndShopId(offerId, admin.ShopId.Value);
             var offer = await FindOfferAsync(specification);
@@ -68,7 +61,7 @@ namespace Promocodes.Business.Services.Implementation
             return offer;
         }
 
-        private async Task<ShopAdmin> TryGetShopAdminAsync()
+        private async Task<ShopAdmin> GetAdminAsync()
         {
             var user = await _userManager.GetCurrentUserAsync(true);
 
@@ -79,6 +72,12 @@ namespace Promocodes.Business.Services.Implementation
             if (!admin.ShopId.HasValue)
             {
                 throw new OperationException("The admin doesn't manage any shop");
+            }
+            
+            var shopExists = await _shopRepository.ExistsAsync(admin.ShopId.Value);
+            if (!shopExists)
+            {
+                throw new OperationException("The admin manages unexisted shop");
             }
             return admin;
         }

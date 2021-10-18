@@ -7,6 +7,7 @@ using Promocodes.Business.Extensions;
 using Promocodes.Business.Services.Dto;
 using Promocodes.Business.Specifications.Reviews;
 using Promocodes.Business.Managers;
+using Promocodes.Data.Core.Common.Types;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -25,10 +26,10 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<Review> CreateAsync(Review review)
         {
-            var customer = await TryGetCustomerAsync();
+            var customer = await GetUserAsync();
             review.UserId = customer.Id;
 
-            var specification = ReviewSpecification.ByCustomerAndShop(review.UserId.Value, review.ShopId.Value);
+            var specification = ReviewSpecification.ByCustomerAndShop(review.UserId.Value, review.ShopId);
             var reviewExists = await _reviewRepository.ExistsAsync(specification);
 
             if (reviewExists)
@@ -36,7 +37,7 @@ namespace Promocodes.Business.Services.Implementation
                 throw new OperationException("User has already left review for the shop");
             }
 
-            var shopExists = await _shopRepository.ExistsAsync(review.ShopId.Value);
+            var shopExists = await _shopRepository.ExistsAsync(review.ShopId);
             
             if (!shopExists)
             {
@@ -51,7 +52,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task DeleteAsync(int id)
         {
-            var review = await TryGetReviewAsync(id);
+            var review = await GetReviewAsync(id);
 
             _reviewRepository.Remove(review);
             await _reviewRepository.UnitOfWork.SaveChangesAsync();
@@ -59,7 +60,7 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<Review> UpdateAsync(int id, ReviewUpdate update)
         {
-            var review = await TryGetReviewAsync(id);
+            var review = await GetReviewAsync(id);
 
             review.ApplyUpdate(update);
             await _reviewRepository.UnitOfWork.SaveChangesAsync();
@@ -67,20 +68,20 @@ namespace Promocodes.Business.Services.Implementation
             return review;
         }
 
-        private async Task<Customer> TryGetCustomerAsync()
+        private async Task<User> GetUserAsync()
         {
             var user = await _userManager.GetCurrentUserAsync(false);
 
-            if (user is Customer customer)
+            if (user.Role != Role.Customer)
             {
-                return customer;
+                throw new AccessForbiddenException("Operation can be executed by customer only");
             }
-            throw new AccessForbiddenException("Operation can be executed by customer only");
+            return user;
         }
 
-        private async Task<Review> TryGetReviewAsync(int reviewId)
+        private async Task<Review> GetReviewAsync(int reviewId)
         {
-            var customer = await TryGetCustomerAsync();
+            var customer = await GetUserAsync();
             var specification = ReviewSpecification.ByIdAndCustomer(reviewId, customer.Id);
             return await _reviewRepository.FindAsync(specification) ?? throw new AccessForbiddenException("Review doesn't belong to the user");
         }
