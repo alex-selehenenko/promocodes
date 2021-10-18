@@ -1,4 +1,5 @@
 ﻿using Promocodes.Data.Core.Common;
+using Promocodes.Data.Core.Common.Types;
 
 namespace Promocodes.Data.Core.Entities
 {
@@ -7,5 +8,7 @@ namespace Promocodes.Data.Core.Entities
         public string UserName { get; set; }
 
         public string Phone { get; set; }
+
+        public Role Role { get; set; }
     }
 }

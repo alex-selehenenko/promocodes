@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Promocodes.Data.Core.Common.Types;
 using Promocodes.Data.Core.Entities;
 using System.Collections.Generic;
 
@@ -23,13 +24,15 @@ namespace Promocodes.Data.Persistence.SeedData
                     Id = 6,
                     Phone = "+30632526897",
                     UserName = "Andrew Admin",
-                    ShopId = 1
+                    ShopId = 1,
+                    Role = Role.ShopAdmin
                 },
                 new ShopAdmin()
                 {
                     Id = 7,
                     Phone = "+30632526899",
                     UserName = "Ben Admin",
+                    Role = Role.ShopAdmin,
                     ShopId = 1
                 },
                 new ShopAdmin()
@@ -37,6 +40,7 @@ namespace Promocodes.Data.Persistence.SeedData
                     Id = 8,
                     Phone = "+30632526890",
                     UserName = "Alicia Admin",
+                    Role = Role.ShopAdmin,
                     ShopId = 1
                 });
         }
@@ -49,25 +53,29 @@ namespace Promocodes.Data.Persistence.SeedData
                 {
                     Id = 1,
                     UserName = "alex",
-                    Phone = "+380631111111"
+                    Phone = "+380631111111",
+                    Role = Role.Customer
                 },
                 new Customer()
                 {
                     Id = 2,
                     UserName = "serg",
-                    Phone = "+380632222222"
+                    Phone = "+380632222222",
+                    Role = Role.Customer
                 },
                 new Customer()
                 {
                     Id = 3,
                     UserName = "jess",
-                    Phone = "+380633333333"
+                    Phone = "+380633333333",
+                    Role = Role.Customer
                 },
                 new Customer()
                 {
                     Id = 4,
                     UserName = "qwerty",
-                    Phone = "+380634444444"
+                    Phone = "+380634444444",
+                    Role = Role.Customer
                 });
         }
 
