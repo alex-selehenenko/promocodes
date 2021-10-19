@@ -3,8 +3,11 @@ using Promocodes.Business.Exceptions;
 using Promocodes.Business.Managers;
 using Promocodes.Business.Services.Implementation;
 using Promocodes.Business.Services.Interfaces;
+using Promocodes.Data.Core.Common.Types;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,7 +19,6 @@ namespace Promocodes.BusinessTests
 
         private readonly Mock<IOfferRepository> _offerRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
-        private readonly Mock<ICustomerRepository> _customerRepositoryMock = new();
         private readonly Mock<IUserManager> _userManagerMock = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
@@ -29,12 +31,47 @@ namespace Promocodes.BusinessTests
         }
 
         [Fact]
+        public async Task CreateAsync_NotAdmin_AccessForbiddenExceptionThrown()
+        {
+            var customer = new Customer() { Role = Role.Customer };
+
+            _userManagerMock
+                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+                .ReturnsAsync(customer);
+
+            async Task action() => await _offerService.CreateAsync(new());
+
+            await Assert.ThrowsAsync<AccessForbiddenException>(action);
+        }
+
+        [Fact]
+        public async Task CreateAsync_NullShopId_OperationExceptionThrown()
+        {
+            var admin = new ShopAdmin() { Role = Role.ShopAdmin, ShopId = null };
+
+            _userManagerMock
+                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+                .ReturnsAsync(admin);
+
+            async Task action() => await _offerService.CreateAsync(new());
+
+            await Assert.ThrowsAsync<OperationException>(action);
+        }
+
+        [Fact]
         public async Task CreateAsync_ShopDoesNotExist_OperationExceptionThrown()
         {
-            _shopRepositoryMock.Setup(r => r.ExistsAsync(It.IsAny<int>())).ReturnsAsync(false);
-            var offer = new Offer() { ShopId = 1 };
+            var admin = new ShopAdmin() { ShopId = 1, Role = Role.ShopAdmin };
 
-            async Task action() => await _offerService.CreateAsync(offer);
+            _userManagerMock
+                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+                .ReturnsAsync(admin);
+
+            _shopRepositoryMock
+                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(false);
+
+            async Task action() => await _offerService.CreateAsync(new());
 
             await Assert.ThrowsAsync<OperationException>(action);
         }
@@ -42,26 +79,34 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_ValidData()
         {
-            var expectedId = 1;
-            var expectedShopId = 2;
-
-            _offerRepositoryMock
-                .Setup(r => r.AddAsync(It.IsAny<Offer>()))
-                .ReturnsAsync(new Offer() { Id = 1, ShopId = 2 });
+            var admin = new ShopAdmin() { Id = 12, Role = Role.ShopAdmin, ShopId = 2 };
+            var offers = new List<Offer>();            
 
             _offerRepositoryMock
                 .Setup(r => r.UnitOfWork)
                 .Returns(_unitOfWorkMock.Object);
 
+            _offerRepositoryMock
+                .Setup(r => r.AddAsync(It.IsAny<Offer>()))
+                .Callback<Offer>(offer => offers.Add(offer));
+
+            _userManagerMock
+                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+                .ReturnsAsync(admin);
+
             _shopRepositoryMock
                 .Setup(r => r.ExistsAsync(It.IsAny<int>()))
                 .ReturnsAsync(true);
 
-            var offer = new Offer() { Id = 1, ShopId = 2 };
-            var entity = await _offerService.CreateAsync(offer);
+            var expectedId = 1;
+            var expectedShopId = 2;
+            var offer = new Offer() { Id = 1 };
 
-            Assert.Equal(expectedId, entity.Id);
-            Assert.Equal(expectedShopId, entity.ShopId.Value);
+            await _offerService.CreateAsync(offer);
+            var actual = offers.FirstOrDefault();
+
+            Assert.Equal(expectedId, actual.Id);
+            Assert.Equal(expectedShopId, actual.ShopId.Value);
         }
     }
 }

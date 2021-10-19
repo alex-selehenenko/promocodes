@@ -48,7 +48,7 @@ namespace Promocodes.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch("{id}/restore")]
+        [HttpPost("{id}/restore")]
         public async Task<IActionResult> RestoreAsync(int id)
         {
             var entity = await _offerService.RestoreAsync(id);
