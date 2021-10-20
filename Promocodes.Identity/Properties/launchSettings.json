@@ -1,17 +1,17 @@
 {
-  "Promocodes.Api": {
+  "Promocodes.Identity": {
     "commandName": "Project",
     "dotnetRunMessages": "true",
-    "launchBrowser": true,
-    "applicationUrl": "https://localhost:7001;http://localhost:7000",
+    "launchBrowser": false,
+    "applicationUrl": "https://localhost:6001;http://localhost:6000",
     "environmentVariables": {
       "ASPNETCORE_ENVIRONMENT": "Development"
     }
   },
   "profiles": {
-    "Promocodes.Api": {
+    "Promocodes.Identity": {
       "commandName": "Project",
-      "applicationUrl": "https://localhost:7001"
+      "applicationUrl": "https://localhost:6001"
     }
   }
 }
