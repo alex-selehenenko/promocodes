@@ -11,5 +11,7 @@ namespace Promocodes.Business.Services.Interfaces
         Task<Offer> UpdateAsync(int offerId, OfferUpdate update);
 
         Task DeleteAsync(int offerId);
+
+        Task<Offer> RestoreAsync(int offerId);
     }
 }

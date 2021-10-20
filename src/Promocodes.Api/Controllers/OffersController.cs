@@ -47,5 +47,14 @@ namespace Promocodes.Api.Controllers
             await _offerService.DeleteAsync(id);
             return Ok();
         }
+
+        [HttpPost("{id}/restore")]
+        public async Task<IActionResult> RestoreAsync(int id)
+        {
+            var entity = await _offerService.RestoreAsync(id);
+            var dto = _mapper.Map<OfferGetDto>(entity);
+
+            return Ok(dto);
+        }
     }
 }

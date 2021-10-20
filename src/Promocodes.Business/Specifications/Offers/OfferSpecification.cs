@@ -11,7 +11,7 @@ namespace Promocodes.Business.Specifications.Offers
         {
         }
 
-        public static OfferSpecification NotDeletedByShopId(int shopId) => new(o => o.IsDeleted == false && o.ShopId == shopId);
+        public static OfferSpecification ByShopId(int shopId, bool deleted) => new(o => o.IsDeleted == deleted && o.ShopId == shopId);
 
         public static OfferSpecification ByIdAndShopId(int offerId, int shopId) => new(o => o.Id == offerId && o.ShopId == shopId);
     }

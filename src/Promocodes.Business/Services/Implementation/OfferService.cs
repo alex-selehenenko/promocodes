@@ -7,7 +7,6 @@ using Promocodes.Business.Extensions;
 using Promocodes.Business.Services.Dto;
 using Promocodes.Business.Managers;
 using Promocodes.Business.Specifications.Offers;
-using Promocodes.Data.Core.Common.Specifications;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -17,10 +16,7 @@ namespace Promocodes.Business.Services.Implementation
         private readonly IShopRepository _shopRepository;
         private readonly IUserManager _userManager;
 
-        public OfferService(
-            IOfferRepository offerRepository,
-            IShopRepository shopRepository,
-            IUserManager userManager)
+        public OfferService(IOfferRepository offerRepository, IShopRepository shopRepository, IUserManager userManager)
         {
             _offerRepository = offerRepository;
             _shopRepository = shopRepository;
@@ -40,21 +36,23 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task DeleteAsync(int offerId)
         {
-            var admin = await GetAdminAsync();
-            var specification = OfferSpecification.ByIdAndShopId(offerId, admin.ShopId.Value);
-            var offer = await FindOfferAsync(specification);
-
+            var offer = await FindOfferAsync(offerId);
             offer.IsDeleted = true;
             await _offerRepository.UnitOfWork.SaveChangesAsync();
         }
 
+        public async Task<Offer> RestoreAsync(int offerId)
+        {
+            var offer = await FindOfferAsync(offerId, true);
+            offer.IsDeleted = false;
+            await _offerRepository.UnitOfWork.SaveChangesAsync();
+
+            return offer;
+        }
+
         public async Task<Offer> UpdateAsync(int offerId, OfferUpdate update)
         {
-            var admin = await GetAdminAsync();
-
-            var specification = OfferSpecification.ByIdAndShopId(offerId, admin.ShopId.Value);
-            var offer = await FindOfferAsync(specification);
-
+            var offer = await FindOfferAsync(offerId);
             offer.ApplyUpdate(update);
             await _offerRepository.UnitOfWork.SaveChangesAsync();
 
@@ -82,11 +80,13 @@ namespace Promocodes.Business.Services.Implementation
             return admin;
         }
 
-        private async Task<Offer> FindOfferAsync(ISpecification<Offer> specification)
+        private async Task<Offer> FindOfferAsync(int id, bool deleted = false)
         {
+            var admin = await GetAdminAsync();
+            var specification = OfferSpecification.ByIdAndShopId(id, admin.ShopId.Value);
             var offer = await _offerRepository.FindAsync(specification);
 
-            if (offer is null || offer.IsDeleted)
+            if (offer is null || offer.IsDeleted != deleted)
             {
                 throw new OperationException("Offer doesn't exist or admin has no access");
             }

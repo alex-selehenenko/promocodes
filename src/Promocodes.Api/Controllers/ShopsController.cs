@@ -50,5 +50,14 @@ namespace Promocodes.Api.Controllers
 
             return Ok(dtos);
         }
+
+        [HttpGet("offers/trash")]
+        public async Task<IActionResult> GetRemovedOffers()
+        {
+            var entities = await _shopService.GetRemovedOffersAsync();
+            var dtos = entities.Select(_mapper.Map<OfferGetDto>);
+            
+            return Ok(dtos);
+        }
     }
 }
