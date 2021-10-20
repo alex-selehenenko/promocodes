@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Oleksandr Selehenenko</Authors>
+    <Product>Promocodes API</Product>
+    <Copyright>2021, Oleksandr Selehenenko</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/oleksandr-selehenenko/Promocodes</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
