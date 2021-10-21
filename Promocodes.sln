@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.BusinessTests", "tests\Promocodes.BusinessTests\Promocodes.BusinessTests.csproj", "{86713CAA-4A0C-4FB1-8398-419AE2133255}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promocodes.Identity", "Promocodes.Identity\Promocodes.Identity.csproj", "{441D2011-339E-41A8-A772-AA14692823EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Identity", "src\Promocodes.Identity\Promocodes.Identity.csproj", "{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{86713CAA-4A0C-4FB1-8398-419AE2133255}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86713CAA-4A0C-4FB1-8398-419AE2133255}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86713CAA-4A0C-4FB1-8398-419AE2133255}.Release|Any CPU.Build.0 = Release|Any CPU
-		{441D2011-339E-41A8-A772-AA14692823EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{441D2011-339E-41A8-A772-AA14692823EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{441D2011-339E-41A8-A772-AA14692823EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{441D2011-339E-41A8-A772-AA14692823EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
