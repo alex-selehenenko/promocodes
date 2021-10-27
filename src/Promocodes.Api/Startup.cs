@@ -34,6 +34,16 @@ namespace Promocodes.Api
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
 
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:6001";
+                    options.TokenValidationParameters = new()
+                    {
+                        ValidateAudience = false
+                    };
+                });
+
             services.AddScoped<IUserManager, UserManager>();
 
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
@@ -76,6 +86,9 @@ namespace Promocodes.Api
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
