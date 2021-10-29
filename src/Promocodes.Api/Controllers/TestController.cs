@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Promocodes.Api.AuthPolicy;
 using Promocodes.Business.Managers;
 using System;
 using System.Collections.Generic;
@@ -17,8 +19,17 @@ namespace Promocodes.Api.Controllers
             _manager = manager;
         }
 
-        [HttpGet]
+        [HttpGet("customer")]
+        [Authorize(Policy = Policy.Name.Customer)]
         public IActionResult Get()
+        {
+            var id = _manager.GetCurrentUserId();
+            return Ok($"USER ID: {id}");
+        }
+
+        [HttpGet("admin")]
+        [Authorize(Policy = Policy.Name.ShopAdmin)]
+        public IActionResult GetAdmin()
         {
             var id = _manager.GetCurrentUserId();
             return Ok($"USER ID: {id}");

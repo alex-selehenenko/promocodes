@@ -1,5 +1,4 @@
 ﻿using IdentityModel;
-using IdentityServer4;
 using IdentityServer4.Models;
 using Promocodes.Identity.CustomResources;
 using System.Collections.Generic;
@@ -17,12 +16,7 @@ namespace Promocodes.Identity
 
         public static IEnumerable<ApiScope> GetApiScopes()
         {
-            yield return new("promocodes", new[] { "promocodes", "role", "openid" });
-        }
-
-        public static IEnumerable<ApiResource> GetApiResources()
-        {
-            yield return new("promocodes", new[] { "promocodes", "role", "openid" });
+            yield return new ApiScope("user_info", new[] { "role", "openid"});
         }
 
         public static IEnumerable<Client> GetClients()
@@ -33,15 +27,8 @@ namespace Promocodes.Identity
                 ClientSecrets = { new("secret".ToSha256()) },
                 
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
                 AllowedCorsOrigins = { "https://localhost:7001" },
-
-                AllowedScopes =
-                {
-                    "promocodes",
-                    "role",
-                    "openid",
-                }
+                AllowedScopes = { "user_info" }
             };
         }
     }

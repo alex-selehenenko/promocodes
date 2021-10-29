@@ -20,7 +20,6 @@ namespace Promocodes.Identity
             services.AddIdentityServer()                    
                     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
                     .AddInMemoryApiScopes(Configuration.GetApiScopes())
-                    .AddInMemoryApiResources(Configuration.GetApiResources())
                     .AddInMemoryClients(Configuration.GetClients())
                     .AddTestUsers(TestUsers.Users)
                     .AddDeveloperSigningCredential();

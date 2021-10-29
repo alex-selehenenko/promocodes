@@ -44,17 +44,12 @@ namespace Promocodes.Api
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(config =>
-                {
-                    config.Authority = "https://localhost:6001";
-                    config.TokenValidationParameters.ValidateAudience = false;
-                });
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddJwtBearer(config =>
+                    {
+                        config.TokenValidationParameters.ValidateAudience = false;
+                        config.Authority = "https://localhost:6001";
+                    });
 
             services.AddAuthorization(options =>
             {
@@ -93,10 +88,7 @@ namespace Promocodes.Api
                     {
                         new OpenApiSecurityScheme()
                         {
-                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = SchemeName },
-                            Scheme = SchemeName,
-                            Name = IdentityServerAuthenticationDefaults.AuthenticationScheme,
-                            In = ParameterLocation.Header
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = SchemeName }
                         },
                         new List<string>()
                     }
