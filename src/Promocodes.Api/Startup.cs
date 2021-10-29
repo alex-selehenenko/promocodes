@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Promocodes.Data.Persistence.DependencyInjection;
 using Promocodes.Api.Middlewares;
+using Promocodes.Api.AuthPolicy;
 using Microsoft.OpenApi.Models;
 using Promocodes.Api.Mapping;
 using Promocodes.Business.DependencyInjection;
@@ -24,8 +25,6 @@ namespace Promocodes.Api
         private const string ApiVersion = "v1";
         private const string SchemeName = "oauth2";
 
-
-
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -38,19 +37,12 @@ namespace Promocodes.Api
             services.AddControllers().AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
-            });            
-
+            });
+            services.AddHttpContextAccessor();
             services.AddScoped<IUserManager, UserManager>();
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
-
-            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(config =>
-            //    {
-            //        config.Authority = "https://localhost:6001";
-            //        config.TokenValidationParameters.ValidateAudience = false;
-            //    });
 
             services.AddAuthentication(options =>
             {
@@ -64,20 +56,11 @@ namespace Promocodes.Api
                     config.TokenValidationParameters.ValidateAudience = false;
                 });
 
-
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-            //    options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-            //})
-            //    .AddIdentityServerAuthentication(options =>
-            //    {
-            //        options.ApiName = "promocodes";
-            //        options.Authority = "https://localhost:6001";
-            //        options.RequireHttpsMetadata = false;
-            //    });
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policy.Name.ShopAdmin, policy => policy.RequireRole("ShopAdmin"));
+                options.AddPolicy(Policy.Name.Customer, policy => policy.RequireRole("Customer"));
+            });
 
             services.AddSwaggerGen(options =>
             {

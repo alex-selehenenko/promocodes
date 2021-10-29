@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Promocodes.Api.AuthPolicy;
 using Promocodes.Api.Dto.Offers;
 using Promocodes.Api.Dto.Reviews;
 using Promocodes.Business.Services.Interfaces;
@@ -21,8 +23,8 @@ namespace Promocodes.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [Route("offers")]
+        [HttpGet("offers")]
+        [Authorize(Policy = Policy.Name.Customer)]
         public async Task<IActionResult> GetOffersAsync()
         {
             var offers = await _customerService.GetOffersAsync();
@@ -30,8 +32,7 @@ namespace Promocodes.Api.Controllers
             return Ok(dtos);
         }
 
-        [HttpGet]
-        [Route("{id}/reviews")]
+        [HttpGet("{id}/reviews")]
         public async Task<IActionResult> GetReviewsAsync(int id)
         {
             var reviews = await _customerService.GetReviewsAsync(id);
@@ -39,8 +40,8 @@ namespace Promocodes.Api.Controllers
             return Ok(dtos);
         }
 
-        [HttpPost]
-        [Route("offers/{offerId}")]
+        [HttpPost("offers/{offerId}")]
+        [Authorize(Policy = Policy.Name.Customer)]
         public async Task<IActionResult> TakeOfferAsync(int offerId)
         {
             await _customerService.TakeOfferAsync(offerId);

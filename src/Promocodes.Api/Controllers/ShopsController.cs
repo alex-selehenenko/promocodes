@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Promocodes.Api.AuthPolicy;
 using Promocodes.Api.Dto.Offers;
 using Promocodes.Api.Dto.Reviews;
 using Promocodes.Api.Dto.Shops;
@@ -52,6 +54,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet("offers/trash")]
+        [Authorize(Policy = Policy.Name.ShopAdmin)]
         public async Task<IActionResult> GetRemovedOffers()
         {
             var entities = await _shopService.GetRemovedOffersAsync();

@@ -19,7 +19,7 @@ namespace Promocodes.Identity
                 Claims =
                 {
                     new Claim(JwtClaimTypes.EmailVerified, "true"),
-                    new Claim(JwtClaimTypes.Role, "customer")
+                    new Claim(JwtClaimTypes.Role, "Customer")
                 }
             },
             new()
@@ -30,7 +30,7 @@ namespace Promocodes.Identity
                 Claims =
                 {
                     new Claim(JwtClaimTypes.EmailVerified, "true"),
-                    new Claim(JwtClaimTypes.Role, "admin")
+                    new Claim(JwtClaimTypes.Role, "ShopAdmin")
                 }
             },
         };
