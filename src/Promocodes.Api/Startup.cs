@@ -12,6 +12,9 @@ using FluentValidation.AspNetCore;
 using System.Linq;
 using Promocodes.Business.Managers;
 using Promocodes.Api.Managers;
+using IdentityServer4.AccessTokenValidation;
+using System.Collections.Generic;
+using System;
 
 namespace Promocodes.Api
 {
@@ -19,6 +22,9 @@ namespace Promocodes.Api
     {
         private const string ConnectionString = "LocalDb";
         private const string ApiVersion = "v1";
+        private const string SchemeName = "oauth2";
+
+
 
         public IConfiguration Configuration { get; }
 
@@ -32,30 +38,53 @@ namespace Promocodes.Api
             services.AddControllers().AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
-            });
-
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = "https://localhost:6001";
-                    options.TokenValidationParameters = new()
-                    {
-                        ValidateAudience = false
-                    };
-                });
+            });            
 
             services.AddScoped<IUserManager, UserManager>();
-
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
+
+            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(config =>
+            //    {
+            //        config.Authority = "https://localhost:6001";
+            //        config.TokenValidationParameters.ValidateAudience = false;
+            //    });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(config =>
+                {
+                    config.Authority = "https://localhost:6001";
+                    config.TokenValidationParameters.ValidateAudience = false;
+                });
+
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+            //})
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.ApiName = "promocodes";
+            //        options.Authority = "https://localhost:6001";
+            //        options.RequireHttpsMetadata = false;
+            //    });
+            services.AddAuthorization();
 
             services.AddSwaggerGen(options =>
             {
                 options.ResolveConflictingActions(d => d.First());
                 options.SwaggerDoc(ApiVersion, new OpenApiInfo
                 {
-                    Version = ApiVersion,
+                    Version = "1.0.0",
                     Title = "Promocodes API",
                     Description = "API for promocodes aggregator web application",
                     Contact = new OpenApiContact
@@ -63,8 +92,33 @@ namespace Promocodes.Api
                         Name = "Oleksandr Selehenenko",
                         Email = "alex.selegenenko@gmail.com"
                     }
-                });                
-            });            
+                });
+
+                options.AddSecurityDefinition(SchemeName, new OpenApiSecurityScheme()
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows()
+                    {
+                        Password = new OpenApiOAuthFlow()
+                        {
+                            TokenUrl = new Uri("https://localhost:6001/connect/token")
+                        }
+                    }
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = SchemeName },
+                            Scheme = SchemeName,
+                            Name = IdentityServerAuthenticationDefaults.AuthenticationScheme,
+                            In = ParameterLocation.Header
+                        },
+                        new List<string>()
+                    }
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -83,6 +137,8 @@ namespace Promocodes.Api
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", "Promocodes API");
+                options.OAuthClientId("swagger");
+                options.OAuthClientSecret("secret");
             });
 
             app.UseRouting();

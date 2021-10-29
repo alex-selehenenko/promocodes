@@ -8,19 +8,22 @@ namespace Promocodes.Identity
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration AppConfiguration { get; }
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            AppConfiguration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
-                    .AddDeveloperSigningCredential()
-                    .AddInMemoryClients(IdentityConfiguration.Clients)
-                    .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes);
+            services.AddIdentityServer()                    
+                    .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
+                    .AddInMemoryApiScopes(Configuration.GetApiScopes())
+                    .AddInMemoryApiResources(Configuration.GetApiResources())
+                    .AddInMemoryClients(Configuration.GetClients())
+                    .AddTestUsers(TestUsers.Users)
+                    .AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -29,15 +32,7 @@ namespace Promocodes.Identity
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseRouting();
-
             app.UseIdentityServer();
-            
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapDefaultControllerRoute();
-            //});
         }
     }
 }

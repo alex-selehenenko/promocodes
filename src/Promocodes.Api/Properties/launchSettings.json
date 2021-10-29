@@ -1,17 +1,14 @@
 {
-  "Promocodes.Api": {
-    "commandName": "Project",
-    "dotnetRunMessages": "true",
-    "launchBrowser": true,
-    "applicationUrl": "https://localhost:7001;http://localhost:7000",
-    "environmentVariables": {
-      "ASPNETCORE_ENVIRONMENT": "Development"
-    }
-  },
   "profiles": {
     "Promocodes.Api": {
       "commandName": "Project",
-      "applicationUrl": "https://localhost:7001"
+      "dotnetRunMessages": "true",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7001;http://localhost:7000",
+      "launchUrl": "https://localhost:7001/swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
