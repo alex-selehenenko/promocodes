@@ -16,7 +16,10 @@ namespace Promocodes.Identity
 
         public static IEnumerable<ApiScope> GetApiScopes()
         {
-            yield return new ApiScope(name: "swagger_user_auth", userClaims: new[] { "role", "openid" });
+            yield return new ApiScope(
+                name: "promocodes.api",
+                displayName: "Access to Promocodes API",
+                userClaims: new[] { "role", "openid" });
         }
 
         public static IEnumerable<Client> GetClients()
@@ -28,7 +31,7 @@ namespace Promocodes.Identity
 
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 AllowedCorsOrigins = { "https://localhost:7001" },
-                AllowedScopes = { "swagger_user_auth" }
+                AllowedScopes = { "promocodes.api" }
             };
         }
     }
