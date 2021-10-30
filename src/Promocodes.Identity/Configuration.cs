@@ -16,7 +16,7 @@ namespace Promocodes.Identity
 
         public static IEnumerable<ApiScope> GetApiScopes()
         {
-            yield return new ApiScope(name: "swagger_user_auth", userClaims: new[] { "role", "openid"});
+            yield return new ApiScope(name: "swagger_user_auth", userClaims: new[] { "role", "openid" });
         }
 
         public static IEnumerable<Client> GetClients()

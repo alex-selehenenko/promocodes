@@ -18,6 +18,7 @@ namespace Promocodes.BusinessTests
         private readonly Mock<IOfferRepository> _offerRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
         private readonly Mock<IUserService> _userManagerMock = new();
+        private readonly Mock<IShopAdminRepository> _shopAdminRepositoryMock = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
         public OfferServiceTests()

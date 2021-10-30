@@ -1,6 +1,6 @@
 ﻿namespace Promocodes.Api.AuthPolicy
 {
-    public static class Policy
+    public abstract class Policy
     {
         public class Name
         {
