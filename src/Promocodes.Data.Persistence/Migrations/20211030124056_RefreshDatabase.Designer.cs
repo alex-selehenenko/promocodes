@@ -10,8 +10,8 @@ using Promocodes.Data.Persistence;
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(PromocodesDbContext))]
-    [Migration("20211030112205_UpdateDatabase")]
-    partial class UpdateDatabase
+    [Migration("20211030124056_RefreshDatabase")]
+    partial class RefreshDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,6 +158,47 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Get 30% discount!",
+                            Discount = 0.3f,
+                            ExpirationDate = new DateTime(2021, 11, 29, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(6748),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            Promocode = "OCTOBER",
+                            ShopId = 1,
+                            StartDate = new DateTime(2021, 10, 30, 14, 40, 55, 441, DateTimeKind.Local).AddTicks(6615),
+                            Title = "Electron Plus October GRAND SALE"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Hurry up to get 70% discount on TOYS!",
+                            Discount = 0.7f,
+                            ExpirationDate = new DateTime(2021, 11, 9, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7920),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            Promocode = "OCTOBER",
+                            ShopId = 2,
+                            StartDate = new DateTime(2021, 10, 30, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7914),
+                            Title = "Baby Boom FRESH discount"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Get 50% discount on summer collection!",
+                            Discount = 0.5f,
+                            ExpirationDate = new DateTime(2021, 11, 29, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7928),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            Promocode = "OCTOBER",
+                            ShopId = 3,
+                            StartDate = new DateTime(2021, 10, 30, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7927),
+                            Title = "Zebra SALE"
+                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Review", b =>
@@ -178,8 +219,8 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Stars")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -196,6 +237,48 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(4854),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(4860),
+                            ShopId = 1,
+                            Stars = 10,
+                            Text = "Very good shop!",
+                            UserId = "698306d9-4478-4a58-8b38-b547e85e2289"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(4872),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(4873),
+                            ShopId = 2,
+                            Stars = 8,
+                            Text = "Like baby boom. But delivery taskes a wile",
+                            UserId = "698306d9-4478-4a58-8b38-b547e85e2289"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(5775),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(5778),
+                            ShopId = 3,
+                            Stars = 1,
+                            Text = "Awful service!",
+                            UserId = "698306d9-4478-4a58-8b38-b547e85e2289"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(5781),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(5782),
+                            ShopId = 3,
+                            Stars = 9,
+                            Text = "Excellent!",
+                            UserId = "82b4753f-8f7f-43d1-a67d-13b531d9512b"
+                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Shop", b =>
@@ -274,6 +357,16 @@ namespace Promocodes.Data.Persistence.Migrations
                         {
                             Id = "e71a1ef0-fcdc-4069-87bb-2b38bdde23ac",
                             ShopId = 1
+                        },
+                        new
+                        {
+                            Id = "b466992a-5ad2-4f8b-ab92-cd1abbbe22e9",
+                            ShopId = 2
+                        },
+                        new
+                        {
+                            Id = "766fdfbf-119d-45f7-a148-995bbe1009d0",
+                            ShopId = 3
                         });
                 });
 

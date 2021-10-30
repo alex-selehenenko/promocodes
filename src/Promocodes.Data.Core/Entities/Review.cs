@@ -5,7 +5,7 @@ namespace Promocodes.Data.Core.Entities
 {
     public class Review : EntityBase<int>, IEntity
     {
-        public byte Stars { get; set; }
+        public int Stars { get; set; }
 
         public string Text { get; set; }
 

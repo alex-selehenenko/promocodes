@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Promocodes.Data.Persistence.Migrations
 {
-    public partial class UpdateDatabase : Migration
+    public partial class RefreshDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,7 +92,7 @@ namespace Promocodes.Data.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Stars = table.Column<byte>(type: "tinyint", nullable: false),
+                    Stars = table.Column<int>(type: "int", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -179,9 +179,35 @@ namespace Promocodes.Data.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Offers",
+                columns: new[] { "Id", "Description", "Discount", "ExpirationDate", "IsDeleted", "IsEnabled", "Promocode", "ShopId", "StartDate", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Get 30% discount!", 0.3f, new DateTime(2021, 11, 29, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(6748), false, true, "OCTOBER", 1, new DateTime(2021, 10, 30, 14, 40, 55, 441, DateTimeKind.Local).AddTicks(6615), "Electron Plus October GRAND SALE" },
+                    { 2, "Hurry up to get 70% discount on TOYS!", 0.7f, new DateTime(2021, 11, 9, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7920), false, true, "OCTOBER", 2, new DateTime(2021, 10, 30, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7914), "Baby Boom FRESH discount" },
+                    { 3, "Get 50% discount on summer collection!", 0.5f, new DateTime(2021, 11, 29, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7928), false, true, "OCTOBER", 3, new DateTime(2021, 10, 30, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7927), "Zebra SALE" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "CreationTime", "LastUpdateTime", "ShopId", "Stars", "Text", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(4854), new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(4860), 1, 10, "Very good shop!", "698306d9-4478-4a58-8b38-b547e85e2289" },
+                    { 2, new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(4872), new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(4873), 2, 8, "Like baby boom. But delivery taskes a wile", "698306d9-4478-4a58-8b38-b547e85e2289" },
+                    { 3, new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(5775), new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(5778), 3, 1, "Awful service!", "698306d9-4478-4a58-8b38-b547e85e2289" },
+                    { 4, new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(5781), new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(5782), 3, 9, "Excellent!", "82b4753f-8f7f-43d1-a67d-13b531d9512b" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "ShopAdmins",
                 columns: new[] { "Id", "ShopId" },
-                values: new object[] { "e71a1ef0-fcdc-4069-87bb-2b38bdde23ac", 1 });
+                values: new object[,]
+                {
+                    { "e71a1ef0-fcdc-4069-87bb-2b38bdde23ac", 1 },
+                    { "b466992a-5ad2-4f8b-ab92-cd1abbbe22e9", 2 },
+                    { "766fdfbf-119d-45f7-a148-995bbe1009d0", 3 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryShop_CategoryId",
