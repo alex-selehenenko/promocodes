@@ -33,7 +33,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet("{id}/reviews")]
-        public async Task<IActionResult> GetReviewsAsync(int id)
+        public async Task<IActionResult> GetReviewsAsync(string id)
         {
             var reviews = await _customerService.GetReviewsAsync(id);
             var dtos = reviews.Select(_mapper.Map<ReviewGetDto>);

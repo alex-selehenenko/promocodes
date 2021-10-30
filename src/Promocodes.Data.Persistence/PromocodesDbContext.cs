@@ -19,9 +19,7 @@ namespace Promocodes.Data.Persistence
 
         public DbSet<Review> Reviews { get; set; }
 
-        public DbSet<User> Users { get; set; }
-
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerOffer> Customers { get; set; }
 
         public DbSet<ShopAdmin> ShopAdmins { get; set; }
 
@@ -39,9 +37,8 @@ namespace Promocodes.Data.Persistence
                         .ApplyConfiguration(new ShopConfiguration())
                         .ApplyConfiguration(new OfferConfiguration())
                         .ApplyConfiguration(new ReviewConfiguration())
-                        .ApplyConfiguration(new UserConfiguration())
-                        .ApplyConfiguration(new CustomerConfiguration())
-                        .ApplyConfiguration(new ShopAdminConfiguration());
+                        .ApplyConfiguration(new ShopAdminConfiguration())
+                        .ApplyConfiguration(new CustomerOfferConfiguration());
 
             modelBuilder.Seed();
         }

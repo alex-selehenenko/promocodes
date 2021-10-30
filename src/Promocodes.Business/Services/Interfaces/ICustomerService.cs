@@ -10,6 +10,6 @@ namespace Promocodes.Business.Services.Interfaces
 
         Task<IEnumerable<Offer>> GetOffersAsync();
 
-        Task<IEnumerable<Review>> GetReviewsAsync(int customerId);
+        Task<IEnumerable<Review>> GetReviewsAsync(string customerId);
     }
 }

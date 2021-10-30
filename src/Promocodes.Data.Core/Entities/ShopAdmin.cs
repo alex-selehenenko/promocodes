@@ -1,6 +1,8 @@
-﻿namespace Promocodes.Data.Core.Entities
+﻿using Promocodes.Data.Core.Common;
+
+namespace Promocodes.Data.Core.Entities
 {
-    public class ShopAdmin : User
+    public class ShopAdmin : EntityBase<string>, IEntity
     {
         public int? ShopId { get; set; }
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Promocodes.Data.Core.Common.Types;
 using Promocodes.Data.Core.Entities;
 using System.Collections.Generic;
 
@@ -8,76 +7,12 @@ namespace Promocodes.Data.Persistence.SeedData
     public static class SeedData
     {
         public static void Seed(this ModelBuilder builder)
-        {
-            SeedAdmins(builder);
-            SeedCustomers(builder);
+        {            
             SeedCategories(builder);
             SeedShops(builder);
+            SeedShopAdmin(builder);
             SeedCategoryShops(builder);
-        }
-
-        private static void SeedAdmins(ModelBuilder builder)
-        {
-            builder.Entity<ShopAdmin>().HasData(
-                new ShopAdmin()
-                {
-                    Id = 6,
-                    Phone = "+30632526897",
-                    UserName = "Andrew Admin",
-                    ShopId = 1,
-                    Role = Role.ShopAdmin
-                },
-                new ShopAdmin()
-                {
-                    Id = 7,
-                    Phone = "+30632526899",
-                    UserName = "Ben Admin",
-                    Role = Role.ShopAdmin,
-                    ShopId = 1
-                },
-                new ShopAdmin()
-                {
-                    Id = 8,
-                    Phone = "+30632526890",
-                    UserName = "Alicia Admin",
-                    Role = Role.ShopAdmin,
-                    ShopId = 1
-                });
-        }
-
-        private static void SeedCustomers(ModelBuilder builder)
-        {
-            builder.Entity<Customer>()
-                .HasData(
-                new Customer()
-                {
-                    Id = 1,
-                    UserName = "alex",
-                    Phone = "+380631111111",
-                    Role = Role.Customer
-                },
-                new Customer()
-                {
-                    Id = 2,
-                    UserName = "serg",
-                    Phone = "+380632222222",
-                    Role = Role.Customer
-                },
-                new Customer()
-                {
-                    Id = 3,
-                    UserName = "jess",
-                    Phone = "+380633333333",
-                    Role = Role.Customer
-                },
-                new Customer()
-                {
-                    Id = 4,
-                    UserName = "qwerty",
-                    Phone = "+380634444444",
-                    Role = Role.Customer
-                });
-        }
+        }       
 
         private static void SeedCategories(ModelBuilder builder)
         {
@@ -98,7 +33,7 @@ namespace Promocodes.Data.Persistence.SeedData
                     Id = 3,
                     Name = "Clothes",
                 });
-        }
+        }       
 
         private static void SeedShops(ModelBuilder builder)
         {
@@ -123,6 +58,16 @@ namespace Promocodes.Data.Persistence.SeedData
                     Name = "Zebra",
                     Site = "https://zebrrra.biz.ua",
                     Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+                });
+        }
+
+        private static void SeedShopAdmin(ModelBuilder builder)
+        {
+            builder.Entity<ShopAdmin>().HasData(
+                new ShopAdmin()
+                {
+                    Id = "e71a1ef0-fcdc-4069-87bb-2b38bdde23ac",
+                    ShopId = 1
                 });
         }
 

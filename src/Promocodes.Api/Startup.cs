@@ -11,11 +11,11 @@ using Promocodes.Api.Mapping;
 using Promocodes.Business.DependencyInjection;
 using FluentValidation.AspNetCore;
 using System.Linq;
-using Promocodes.Business.Managers;
-using Promocodes.Api.Managers;
+using Promocodes.Business.Services.Interfaces;
 using IdentityServer4.AccessTokenValidation;
 using System.Collections.Generic;
 using System;
+using Promocodes.Api.Services;
 
 namespace Promocodes.Api
 {
@@ -39,7 +39,7 @@ namespace Promocodes.Api
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.AddHttpContextAccessor();
-            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IUserService, UserService>();
             services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));

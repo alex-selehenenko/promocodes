@@ -10,8 +10,8 @@ using Promocodes.Data.Persistence;
 namespace Promocodes.Data.Persistence.Migrations
 {
     [DbContext(typeof(PromocodesDbContext))]
-    [Migration("20211005191347_UpdateOffer")]
-    partial class UpdateOffer
+    [Migration("20211030112205_UpdateDatabase")]
+    partial class UpdateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,21 +53,6 @@ namespace Promocodes.Data.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OfferUser", b =>
-                {
-                    b.Property<int>("OffersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OffersId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("OfferUser");
-                });
-
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -102,6 +87,28 @@ namespace Promocodes.Data.Persistence.Migrations
                             Id = 3,
                             Name = "Clothes"
                         });
+                });
+
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.CustomerOffer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerId")
+                        .HasMaxLength(40)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<int?>("OfferId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
@@ -168,7 +175,7 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ShopId")
+                    b.Property<int>("ShopId")
                         .HasColumnType("int");
 
                     b.Property<byte>("Stars")
@@ -179,14 +186,14 @@ namespace Promocodes.Data.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasMaxLength(40)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(40)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ShopId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -211,9 +218,6 @@ namespace Promocodes.Data.Persistence.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
-                    b.Property<float>("Rating")
-                        .HasColumnType("real");
-
                     b.Property<string>("Site")
                         .IsRequired()
                         .IsUnicode(false)
@@ -232,7 +236,6 @@ namespace Promocodes.Data.Persistence.Migrations
                             Id = 1,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                             Name = "Electron Plus",
-                            Rating = 0f,
                             Site = "https://eee-plus.com.ua"
                         },
                         new
@@ -240,7 +243,6 @@ namespace Promocodes.Data.Persistence.Migrations
                             Id = 2,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                             Name = "Baby boom",
-                            Rating = 0f,
                             Site = "https://b-a-b-y-boom.com.ua"
                         },
                         new
@@ -248,61 +250,30 @@ namespace Promocodes.Data.Persistence.Migrations
                             Id = 3,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                             Name = "Zebra",
-                            Rating = 0f,
                             Site = "https://zebrrra.biz.ua"
                         });
                 });
 
-            modelBuilder.Entity("Promocodes.Data.Core.Entities.User", b =>
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.ShopAdmin", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(14)");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int?>("ShopId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Phone" }, "UQ_User_Phone")
-                        .IsUnique();
+                    b.HasIndex("ShopId");
 
-                    b.ToTable("Users");
+                    b.ToTable("ShopAdmins");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Phone = "+380991234567",
-                            UserName = "alex"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Phone = "+380931112233",
-                            UserName = "serg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Phone = "+380661234545",
-                            UserName = "jess"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Phone = "+380501112233",
-                            UserName = "qwerty"
+                            Id = "e71a1ef0-fcdc-4069-87bb-2b38bdde23ac",
+                            ShopId = 1
                         });
                 });
 
@@ -321,19 +292,13 @@ namespace Promocodes.Data.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OfferUser", b =>
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.CustomerOffer", b =>
                 {
-                    b.HasOne("Promocodes.Data.Core.Entities.Offer", null)
-                        .WithMany()
-                        .HasForeignKey("OffersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Promocodes.Data.Core.Entities.Offer", "Offer")
+                        .WithMany("Customers")
+                        .HasForeignKey("OfferId");
 
-                    b.HasOne("Promocodes.Data.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
@@ -351,26 +316,33 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Reviews")
                         .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Promocodes.Data.Core.Entities.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Shop");
+                });
 
-                    b.Navigation("User");
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.ShopAdmin", b =>
+                {
+                    b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
+                        .WithMany("Admins")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
+                {
+                    b.Navigation("Customers");
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Shop", b =>
                 {
+                    b.Navigation("Admins");
+
                     b.Navigation("Offers");
 
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("Promocodes.Data.Core.Entities.User", b =>
-                {
                     b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618

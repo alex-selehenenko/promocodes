@@ -23,6 +23,10 @@ namespace Promocodes.Data.Persistence.Configurations
 
             builder.Property(r => r.CreationTime)
                 .IsRequired();
+
+            builder.Property(r => r.UserId)
+                .HasMaxLength(UserConstraints.MaxUserIdLength)
+                .IsUnicode(false);
         }
     }
 }

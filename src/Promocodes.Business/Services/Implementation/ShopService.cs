@@ -8,22 +8,26 @@ using Promocodes.Business.Exceptions;
 using Promocodes.Business.Specifications.Shops;
 using System.Linq;
 using Promocodes.Business.Specifications.Offers;
-using Promocodes.Business.Managers;
-using Promocodes.Data.Core.Common.Types;
 
 namespace Promocodes.Business.Services.Implementation
 {
     public class ShopService : IShopService
     {
         private readonly IShopRepository _shopRepository;
+        private readonly IShopAdminRepository _shopAdminRepository;
         private readonly IOfferRepository _offerRepository;
-        private readonly IUserManager _userManager;
+        private readonly IUserService _userService;
 
-        public ShopService(IShopRepository shopRepository, IOfferRepository offerRepository, IUserManager userManager)
+        public ShopService(
+            IShopRepository shopRepository,
+            IShopAdminRepository shopAdminRepository,
+            IOfferRepository offerRepository,
+            IUserService userService)
         {
             _shopRepository = shopRepository;
+            _shopAdminRepository = shopAdminRepository;
             _offerRepository = offerRepository;
-            _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter)
@@ -43,17 +47,8 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task<IEnumerable<Offer>> GetRemovedOffersAsync()
         {
-            var user = await _userManager.GetCurrentUserAsync(true);
-            if (user.Role != Role.ShopAdmin)
-            {
-                throw new AccessForbiddenException();
-            }
-
-            var admin = user as ShopAdmin;            
-            if (!admin.ShopId.HasValue)
-            {
-                throw new OperationException("The admin manages unexisted shop");
-            }
+            var userId = _userService.GetCurrentUserId();
+            var admin = await _shopAdminRepository.FindAsync(userId) ?? throw new OperationException("Shop admin set doesn't have any recods related to current user");
 
             var specification = OfferSpecification.ByShopId(admin.ShopId.Value, true);
             var offers = await _offerRepository.FindAllAsync(specification);

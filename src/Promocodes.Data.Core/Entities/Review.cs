@@ -15,11 +15,9 @@ namespace Promocodes.Data.Core.Entities
 
         public int ShopId { get; set; }
 
-        public int? UserId { get; set; }
+        public string UserId { get; set; }
 
         public Shop Shop { get; set; }
-
-        public Customer User { get; set; }
 
         public Review()
         {

@@ -1,9 +1,7 @@
 ﻿using Promocodes.Business.Exceptions;
-using Promocodes.Business.Managers;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Specifications.Reviews;
-using Promocodes.Business.Specifications.Users;
-using Promocodes.Data.Core.Common.Types;
+using Promocodes.Business.Specifications.CustomersOffers;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -14,33 +12,33 @@ namespace Promocodes.Business.Services.Implementation
 {
     public class CustomerService : ICustomerService
     {
-        private readonly IUserManager _userManager;
+        private readonly IUserService _userService;
         private readonly IReviewRepository _reviewRepository;
         private readonly IOfferRepository _offerRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerOfferRepository _customerOfferRepository;
 
         public CustomerService(
-            IUserManager userManager,
+            IUserService userManager,
             IReviewRepository reviewRepository,
             IOfferRepository offerRepository,
-            ICustomerRepository customerRepository)
+            ICustomerOfferRepository customerRepository)
         {
-            _userManager = userManager;
+            _userService = userManager;
             _reviewRepository = reviewRepository;
             _offerRepository = offerRepository;
-            _customerRepository = customerRepository;
+            _customerOfferRepository = customerRepository;
         }
 
         public async Task<IEnumerable<Offer>> GetOffersAsync()
         {
-            var user = await GetUserAsync();
-            var specification = CustomerWithOffersSpecification.ById(user.Id);
-            var customer = await _customerRepository.FindAsync(specification);
+            var userId = _userService.GetCurrentUserId();
+            var specification = CustomerOfferSpecification.ByUserId(userId);
+            var customerOffers = await _customerOfferRepository.FindAllAsync(specification);
 
-            return customer.Offers.Count > 0 ? customer.Offers : throw new NotFoundException();
+            return customerOffers.Any() ? customerOffers.Select(c => c.Offer) : throw new NotFoundException();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewsAsync(int customerId)
+        public async Task<IEnumerable<Review>> GetReviewsAsync(string customerId)
         {
             var specification = ReviewSpecification.ByCustomer(customerId);
             var reviews = await _reviewRepository.FindAllAsync(specification);
@@ -50,35 +48,27 @@ namespace Promocodes.Business.Services.Implementation
 
         public async Task TakeOfferAsync(int offerId)
         {
-            var user = await GetUserAsync();
-            var specification = CustomerWithOffersSpecification.ById(user.Id);
-            var customer = await _customerRepository.FindAsync(specification) ?? throw new NotFoundException("Customer was not found");
-
-            var offer = await _offerRepository.FindAsync(offerId);
-
-            if (offer is null || offer.IsDeleted)
+            var offerExists = await _offerRepository.ExistsAsync(offerId);
+            if (!offerExists)
             {
-                throw new NotFoundException("Offer was not found");
+                throw new OperationException("Offer doesn't exist");
             }
 
-            if (customer.Offers.Contains(offer))
+            var userId = _userService.GetCurrentUserId();
+            var isOfferTaken = await _customerOfferRepository.ExistsAsync(CustomerOfferSpecification.ByIds(userId, offerId));
+            if (isOfferTaken)
             {
-                throw new OperationException("The user has already taken the offer");
+                throw new OperationException("User has already taken the offer");
             }
 
-            customer.Offers.Add(offer);
-            await _customerRepository.UnitOfWork.SaveChangesAsync();
-        }
-
-        private async Task<User> GetUserAsync()
-        {
-            var user = await _userManager.GetCurrentUserAsync(false);
-
-            if (user.Role != Role.Customer)
+            var customerOffer = new CustomerOffer()
             {
-                throw new AccessForbiddenException();
-            }
-            return user;
+                CustomerId = userId,
+                OfferId = offerId
+            };
+
+            await _customerOfferRepository.AddAsync(customerOffer);
+            await _customerOfferRepository.UnitOfWork.SaveChangesAsync();
         }
     }
 }

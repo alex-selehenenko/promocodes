@@ -11,7 +11,6 @@ namespace Promocodes.Business.DependencyInjection
             .AddScoped<IReviewService, ReviewService>()
             .AddScoped<IShopService, ShopService>()
             .AddScoped<ICategoryService, CategoryService>()
-            .AddScoped<IUserService, UserService>()
             .AddScoped<ICustomerService, CustomerService>();
     }
 }
