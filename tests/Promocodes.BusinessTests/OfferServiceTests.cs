@@ -17,7 +17,7 @@ namespace Promocodes.BusinessTests
 
         private readonly Mock<IOfferRepository> _offerRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
-        private readonly Mock<IUserService> _userManagerMock = new();
+        private readonly Mock<IUserService> _userServiceMock = new();
         private readonly Mock<IShopAdminRepository> _shopAdminRepositoryMock = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
@@ -26,87 +26,66 @@ namespace Promocodes.BusinessTests
             _offerService = new OfferService(
                 _offerRepositoryMock.Object,
                 _shopRepositoryMock.Object,
-                null,
-                _userManagerMock.Object);
+                _shopAdminRepositoryMock.Object,
+                _userServiceMock.Object);
         }
 
-        //[Fact]
-        //public async Task CreateAsync_NotAdmin_AccessForbiddenExceptionThrown()
-        //{
-        //    var customer = new Customer() { Role = Role.Customer };
+        [Fact]
+        public async Task CreateAsync_NullShopId_OperationExceptionThrown()
+        {
+            var admin = new ShopAdmin() { ShopId = null };
 
-        //    _userManagerMock
-        //        .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
-        //        .ReturnsAsync(customer);
+            _shopAdminRepositoryMock.Setup(rep => rep.FindAsync(It.IsAny<string>()))
+                .ReturnsAsync(admin);
 
-        //    async Task action() => await _offerService.CreateAsync(new());
+            async Task action() => await _offerService.CreateAsync(new());
 
-        //    await Assert.ThrowsAsync<AccessForbiddenException>(action);
-        //}
+            await Assert.ThrowsAsync<OperationException>(action);
+        }
 
-        //[Fact]
-        //public async Task CreateAsync_NullShopId_OperationExceptionThrown()
-        //{
-        //    var admin = new ShopAdmin() { Role = Role.ShopAdmin, ShopId = null };
+        [Fact]
+        public async Task CreateAsync_ShopDoesNotExist_OperationExceptionThrown()
+        {
+            var admin = new ShopAdmin() { ShopId = 1 };
 
-        //    _userManagerMock
-        //        .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
-        //        .ReturnsAsync(admin);
+            _shopAdminRepositoryMock.Setup(rep => rep.FindAsync(It.IsAny<string>()))
+                .ReturnsAsync(admin);
 
-        //    async Task action() => await _offerService.CreateAsync(new());
+            _shopRepositoryMock.Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(false);
 
-        //    await Assert.ThrowsAsync<OperationException>(action);
-        //}
+            async Task action() => await _offerService.CreateAsync(new());
 
-        //[Fact]
-        //public async Task CreateAsync_ShopDoesNotExist_OperationExceptionThrown()
-        //{
-        //    var admin = new ShopAdmin() { ShopId = 1, Role = Role.ShopAdmin };
+            await Assert.ThrowsAsync<OperationException>(action);
+        }
 
-        //    _userManagerMock
-        //        .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
-        //        .ReturnsAsync(admin);
+        [Fact]
+        public async Task CreateAsync_ValidData()
+        {
+            var admin = new ShopAdmin() { ShopId = 2 };
+            var offers = new List<Offer>();
 
-        //    _shopRepositoryMock
-        //        .Setup(r => r.ExistsAsync(It.IsAny<int>()))
-        //        .ReturnsAsync(false);
+            _shopAdminRepositoryMock.Setup(r => r.FindAsync(It.IsAny<string>()))
+                .ReturnsAsync(admin);
 
-        //    async Task action() => await _offerService.CreateAsync(new());
+            _offerRepositoryMock.Setup(r => r.UnitOfWork)
+                .Returns(_unitOfWorkMock.Object);
 
-        //    await Assert.ThrowsAsync<OperationException>(action);
-        //}
+            _offerRepositoryMock.Setup(r => r.AddAsync(It.IsAny<Offer>()))
+                .Callback<Offer>(offer => offers.Add(offer));
 
-        //[Fact]
-        //public async Task CreateAsync_ValidData()
-        //{
-        //    var admin = new ShopAdmin() { Id = 12, Role = Role.ShopAdmin, ShopId = 2 };
-        //    var offers = new List<Offer>();            
+            _shopRepositoryMock.Setup(r => r.ExistsAsync(It.IsAny<int>()))
+                .ReturnsAsync(true);
 
-        //    _offerRepositoryMock
-        //        .Setup(r => r.UnitOfWork)
-        //        .Returns(_unitOfWorkMock.Object);
+            var expectedId = 1;
+            var expectedShopId = 2;
+            var offer = new Offer() { Id = 1 };
 
-        //    _offerRepositoryMock
-        //        .Setup(r => r.AddAsync(It.IsAny<Offer>()))
-        //        .Callback<Offer>(offer => offers.Add(offer));
+            await _offerService.CreateAsync(offer);
+            var actual = offers.FirstOrDefault();
 
-        //    _userManagerMock
-        //        .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
-        //        .ReturnsAsync(admin);
-
-        //    _shopRepositoryMock
-        //        .Setup(r => r.ExistsAsync(It.IsAny<int>()))
-        //        .ReturnsAsync(true);
-
-        //    var expectedId = 1;
-        //    var expectedShopId = 2;
-        //    var offer = new Offer() { Id = 1 };
-
-        //    await _offerService.CreateAsync(offer);
-        //    var actual = offers.FirstOrDefault();
-
-        //    Assert.Equal(expectedId, actual.Id);
-        //    Assert.Equal(expectedShopId, actual.ShopId.Value);
-        //}
+            Assert.Equal(expectedId, actual.Id);
+            Assert.Equal(expectedShopId, actual.ShopId.Value);
+        }
     }
 }
