@@ -83,5 +83,14 @@ namespace Promocodes.Api.Controllers
             
             return Ok(response);
         }
+
+        [HttpGet("{id}/rating")]
+        public async Task<IActionResult> GetShopRatingAsync(int id)
+        {
+            var result = await _shopService.GetShopRatingAsync(id);
+            var response = _mapper.Map<ShopRatingDto>(result);
+
+            return Ok(response);
+        }
     }
 }

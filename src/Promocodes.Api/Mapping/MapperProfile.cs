@@ -35,6 +35,7 @@ namespace Promocodes.Api.Mapping
         {
             CreateMap<Shop, ShopGetDto>();
             CreateMap<ShopFilterDto, ShopFilter>();
+            CreateMap<ShopRating, ShopRatingDto>();
         }
 
         public static MapperProfile Create() => new();

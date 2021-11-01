@@ -8,6 +8,7 @@ using Promocodes.Business.Exceptions;
 using System.Linq;
 using Promocodes.Business.Specifications.Offers;
 using Promocodes.Business.Specifications.Reviews;
+using Promocodes.Business.Services.Dto;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -86,6 +87,32 @@ namespace Promocodes.Business.Services.Implementation
             var reviews = await _reviewRepository.FindAllAsync(specification, offset) ?? throw new NotFoundException();
 
             return reviews.Any() ? reviews : throw new NotFoundException();
+        }
+
+        public async Task<ShopRating> GetShopRatingAsync(int shopId)
+        {
+            var specification = ReviewSpecification.ByShopId(shopId);
+            var reviews = await _reviewRepository.FindAllAsync(specification);
+
+            if (!reviews.Any())
+            {
+                return new() { ShopId = shopId };
+            }
+
+            float rating = 0f;
+            int count = 0;
+
+            foreach (var item in reviews)
+            {
+                rating += item.Stars;
+                count++;
+            }
+            return new()
+            {
+                ShopId = shopId,
+                Reviews = count,
+                Rating = rating / count
+            };
         }
 
         private async Task<ShopAdmin> GetShopAdminAsync()

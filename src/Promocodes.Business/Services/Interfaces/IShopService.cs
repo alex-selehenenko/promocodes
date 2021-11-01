@@ -1,4 +1,5 @@
-﻿using Promocodes.Data.Core.Entities;
+﻿using Promocodes.Business.Services.Dto;
+using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.QueryFilters;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Promocodes.Business.Services.Interfaces
         Task<IEnumerable<Offer>> GetRemovedOffersAsync(Offset offset);
 
         Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter, Offset offset);
+
+        Task<ShopRating> GetShopRatingAsync(int shopId);
 
         Task<int> CountShopsAsync(ShopFilter filter);
 
