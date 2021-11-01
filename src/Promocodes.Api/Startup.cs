@@ -21,10 +21,6 @@ namespace Promocodes.Api
 {
     public class Startup
     {
-        private const string ConnectionString = "LocalDb";
-        private const string ApiVersion = "v1";
-        private const string SchemeName = "oauth2";
-
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -40,7 +36,7 @@ namespace Promocodes.Api
             });
             services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
-            services.AddPersistence(Configuration.GetConnectionString(ConnectionString));
+            services.AddPersistence(Configuration.GetConnectionString(ConfigConstants.Database.LocalConnection));
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
 
@@ -48,23 +44,22 @@ namespace Promocodes.Api
                     .AddJwtBearer(config =>
                     {
                         config.TokenValidationParameters.ValidateAudience = false;
-                        config.Authority = "https://localhost:6001";
+                        config.Authority = Configuration[ConfigConstants.IdentityServer.UrlKey];
                     });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(Policy.Name.ShopAdmin, policy => policy.RequireRole("ShopAdmin"));
-                options.AddPolicy(Policy.Name.Customer, policy => policy.RequireRole("Customer"));
+                options.AddPolicy(PolicyConstants.Name.ShopAdmin, policy => policy.RequireRole(PolicyConstants.Role.ShopAdmin));
+                options.AddPolicy(PolicyConstants.Name.Customer, policy => policy.RequireRole(PolicyConstants.Role.Customer));
             });
 
             services.AddSwaggerGen(options =>
             {
                 options.ResolveConflictingActions(d => d.First());
-                options.SwaggerDoc(ApiVersion, new OpenApiInfo
+                options.SwaggerDoc(ConfigConstants.Swagger.ApiVersionName, new OpenApiInfo
                 {
                     Version = "1.0.0",
                     Title = "Promocodes API",
-                    Description = "API for promocodes aggregator web application",
                     Contact = new OpenApiContact
                     {
                         Name = "Oleksandr Selehenenko",
@@ -72,14 +67,14 @@ namespace Promocodes.Api
                     }
                 });
 
-                options.AddSecurityDefinition(SchemeName, new OpenApiSecurityScheme()
+                options.AddSecurityDefinition(ConfigConstants.Swagger.AuthScheme, new OpenApiSecurityScheme()
                 {
                     Type = SecuritySchemeType.OAuth2,
                     Flows = new OpenApiOAuthFlows()
                     {
                         Password = new OpenApiOAuthFlow()
                         {
-                            TokenUrl = new Uri("https://localhost:6001/connect/token")
+                            TokenUrl = new Uri(Configuration[ConfigConstants.IdentityServer.AccessTokenKey])
                         }
                     }
                 });
@@ -88,7 +83,7 @@ namespace Promocodes.Api
                     {
                         new OpenApiSecurityScheme()
                         {
-                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = SchemeName }
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = ConfigConstants.Swagger.AuthScheme }
                         },
                         new List<string>()
                     }
@@ -111,9 +106,9 @@ namespace Promocodes.Api
 
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", "Promocodes API");
-                options.OAuthClientId("swagger");
-                options.OAuthClientSecret("secret");
+                options.SwaggerEndpoint(ConfigConstants.Swagger.EndpointUrl, ConfigConstants.Swagger.EndpointName);
+                options.OAuthClientId(Configuration[ConfigConstants.Swagger.ClientIdKey]);
+                options.OAuthClientSecret(Configuration[ConfigConstants.Swagger.SecretKey]);
             });
 
             app.UseRouting();

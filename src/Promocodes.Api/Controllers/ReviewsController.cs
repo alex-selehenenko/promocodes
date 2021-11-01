@@ -24,7 +24,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = Policy.Name.Customer)]
+        [Authorize(Policy = PolicyConstants.Name.Customer)]
         public async Task<IActionResult> PostAsync([FromBody] ReviewPostDto dto)
         {
             var review = _mapper.Map<Review>(dto);
@@ -35,7 +35,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = Policy.Name.Customer)]
+        [Authorize(Policy = PolicyConstants.Name.Customer)]
         public async Task<IActionResult> PutAsync(int id, [FromBody] ReviewDto dto)
         {
             var update = _mapper.Map<ReviewUpdate>(dto);
@@ -46,7 +46,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policy.Name.Customer)]
+        [Authorize(Policy = PolicyConstants.Name.Customer)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await _reviewService.DeleteAsync(id);

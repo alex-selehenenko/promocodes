@@ -28,7 +28,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Promocodes.Business\Promocodes.Business.csproj" />
+    <ProjectReference Include="..\Promocodes.Data.Core\Promocodes.Data.Core.csproj" />
     <ProjectReference Include="..\Promocodes.Data.Persistence\Promocodes.Data.Persistence.csproj" />
+    <ProjectReference Include="..\Promocodes.Identity\Promocodes.Identity.csproj" />
   </ItemGroup>
 
 </Project>

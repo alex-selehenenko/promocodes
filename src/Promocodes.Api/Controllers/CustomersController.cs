@@ -24,7 +24,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet("offers")]
-        [Authorize(Policy = Policy.Name.Customer)]
+        [Authorize(Policy = PolicyConstants.Name.Customer)]
         public async Task<IActionResult> GetOffersAsync()
         {
             var offers = await _customerService.GetOffersAsync();
@@ -41,7 +41,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost("offers/{offerId}")]
-        [Authorize(Policy = Policy.Name.Customer)]
+        [Authorize(Policy = PolicyConstants.Name.Customer)]
         public async Task<IActionResult> TakeOfferAsync(int offerId)
         {
             await _customerService.TakeOfferAsync(offerId);

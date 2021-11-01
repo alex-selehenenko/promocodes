@@ -54,7 +54,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet("offers/trash")]
-        [Authorize(Policy = Policy.Name.ShopAdmin)]
+        [Authorize(Policy = PolicyConstants.Name.ShopAdmin)]
         public async Task<IActionResult> GetRemovedOffers()
         {
             var entities = await _shopService.GetRemovedOffersAsync();

@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Api", "src\Promocodes.Api\Promocodes.Api.csproj", "{389D07EC-926A-41AE-BE91-CE1FE0D4CCD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7} = {1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}
+		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85} = {2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.Persistence", "src\Promocodes.Data.Persistence\Promocodes.Data.Persistence.csproj", "{DD2FD442-AFFE-41D6-A812-5A66EC91BD70}"
 EndProject

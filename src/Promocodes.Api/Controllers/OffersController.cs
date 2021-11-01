@@ -24,7 +24,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = Policy.Name.ShopAdmin)]
+        [Authorize(Policy = PolicyConstants.Name.ShopAdmin)]
         public async Task<IActionResult> PostAsync([FromBody] OfferDto dto)
         {
             var offer = _mapper.Map<Offer>(dto);
@@ -35,7 +35,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = Policy.Name.ShopAdmin)]
+        [Authorize(Policy = PolicyConstants.Name.ShopAdmin)]
         public async Task<IActionResult> PutAsync(int id, [FromBody] OfferDto dto)
         {
             var update = _mapper.Map<OfferUpdate>(dto);
@@ -46,7 +46,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policy.Name.ShopAdmin)]
+        [Authorize(Policy = PolicyConstants.Name.ShopAdmin)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await _offerService.DeleteAsync(id);
@@ -54,7 +54,7 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpPost("{id}/restore")]
-        [Authorize(Policy = Policy.Name.ShopAdmin)]
+        [Authorize(Policy = PolicyConstants.Name.ShopAdmin)]
         public async Task<IActionResult> RestoreAsync(int id)
         {
             var entity = await _offerService.RestoreAsync(id);
