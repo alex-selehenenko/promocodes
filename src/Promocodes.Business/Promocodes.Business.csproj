@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Oleksandr Selehenenko</Authors>
+    <Product>Promocodes API</Product>
+    <RepositoryUrl>https://github.com/oleksandr-selehenenko/Promocodes</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Oleksandr Selehenenko</Authors>
+    <Product>Promocodes API</Product>
+    <RepositoryUrl>https://github.com/oleksandr-selehenenko/Promocodes</RepositoryUrl>
+    <Copyright>2021, Oleksandr Selehenenko</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="4.1.2" />
+  </ItemGroup>
+
+</Project>

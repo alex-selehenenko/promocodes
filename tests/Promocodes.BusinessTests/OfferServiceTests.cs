@@ -1,9 +1,7 @@
 ﻿using Moq;
 using Promocodes.Business.Exceptions;
-using Promocodes.Business.Managers;
 using Promocodes.Business.Services.Implementation;
 using Promocodes.Business.Services.Interfaces;
-using Promocodes.Data.Core.Common.Types;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -19,7 +17,8 @@ namespace Promocodes.BusinessTests
 
         private readonly Mock<IOfferRepository> _offerRepositoryMock = new();
         private readonly Mock<IShopRepository> _shopRepositoryMock = new();
-        private readonly Mock<IUserManager> _userManagerMock = new();
+        private readonly Mock<IUserService> _userServiceMock = new();
+        private readonly Mock<IShopAdminRepository> _shopAdminRepositoryMock = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
         public OfferServiceTests()
@@ -27,30 +26,16 @@ namespace Promocodes.BusinessTests
             _offerService = new OfferService(
                 _offerRepositoryMock.Object,
                 _shopRepositoryMock.Object,
-                _userManagerMock.Object);
-        }
-
-        [Fact]
-        public async Task CreateAsync_NotAdmin_AccessForbiddenExceptionThrown()
-        {
-            var customer = new Customer() { Role = Role.Customer };
-
-            _userManagerMock
-                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
-                .ReturnsAsync(customer);
-
-            async Task action() => await _offerService.CreateAsync(new());
-
-            await Assert.ThrowsAsync<AccessForbiddenException>(action);
+                _shopAdminRepositoryMock.Object,
+                _userServiceMock.Object);
         }
 
         [Fact]
         public async Task CreateAsync_NullShopId_OperationExceptionThrown()
         {
-            var admin = new ShopAdmin() { Role = Role.ShopAdmin, ShopId = null };
+            var admin = new ShopAdmin() { ShopId = null };
 
-            _userManagerMock
-                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+            _shopAdminRepositoryMock.Setup(rep => rep.FindAsync(It.IsAny<string>()))
                 .ReturnsAsync(admin);
 
             async Task action() => await _offerService.CreateAsync(new());
@@ -61,14 +46,12 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_ShopDoesNotExist_OperationExceptionThrown()
         {
-            var admin = new ShopAdmin() { ShopId = 1, Role = Role.ShopAdmin };
+            var admin = new ShopAdmin() { ShopId = 1 };
 
-            _userManagerMock
-                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+            _shopAdminRepositoryMock.Setup(rep => rep.FindAsync(It.IsAny<string>()))
                 .ReturnsAsync(admin);
 
-            _shopRepositoryMock
-                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+            _shopRepositoryMock.Setup(r => r.ExistsAsync(It.IsAny<int>()))
                 .ReturnsAsync(false);
 
             async Task action() => await _offerService.CreateAsync(new());
@@ -79,23 +62,19 @@ namespace Promocodes.BusinessTests
         [Fact]
         public async Task CreateAsync_ValidData()
         {
-            var admin = new ShopAdmin() { Id = 12, Role = Role.ShopAdmin, ShopId = 2 };
-            var offers = new List<Offer>();            
+            var admin = new ShopAdmin() { ShopId = 2 };
+            var offers = new List<Offer>();
 
-            _offerRepositoryMock
-                .Setup(r => r.UnitOfWork)
-                .Returns(_unitOfWorkMock.Object);
-
-            _offerRepositoryMock
-                .Setup(r => r.AddAsync(It.IsAny<Offer>()))
-                .Callback<Offer>(offer => offers.Add(offer));
-
-            _userManagerMock
-                .Setup(m => m.GetCurrentUserAsync(It.IsAny<bool>()))
+            _shopAdminRepositoryMock.Setup(r => r.FindAsync(It.IsAny<string>()))
                 .ReturnsAsync(admin);
 
-            _shopRepositoryMock
-                .Setup(r => r.ExistsAsync(It.IsAny<int>()))
+            _offerRepositoryMock.Setup(r => r.UnitOfWork)
+                .Returns(_unitOfWorkMock.Object);
+
+            _offerRepositoryMock.Setup(r => r.AddAsync(It.IsAny<Offer>()))
+                .Callback<Offer>(offer => offers.Add(offer));
+
+            _shopRepositoryMock.Setup(r => r.ExistsAsync(It.IsAny<int>()))
                 .ReturnsAsync(true);
 
             var expectedId = 1;

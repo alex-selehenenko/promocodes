@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Api", "src\Promocodes.Api\Promocodes.Api.csproj", "{389D07EC-926A-41AE-BE91-CE1FE0D4CCD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7} = {1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}
+		{2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85} = {2F38C6F3-CC5A-41AB-B2A7-FFBFF9B24E85}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Data.Persistence", "src\Promocodes.Data.Persistence\Promocodes.Data.Persistence.csproj", "{DD2FD442-AFFE-41D6-A812-5A66EC91BD70}"
 EndProject
@@ -12,6 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Business", "src\Promocodes.Business\Promocodes.Business.csproj", "{45E30CFC-DF40-46DA-B7F6-8E473B8853E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.BusinessTests", "tests\Promocodes.BusinessTests\Promocodes.BusinessTests.csproj", "{86713CAA-4A0C-4FB1-8398-419AE2133255}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promocodes.Identity", "src\Promocodes.Identity\Promocodes.Identity.csproj", "{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,10 @@ Global
 		{86713CAA-4A0C-4FB1-8398-419AE2133255}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86713CAA-4A0C-4FB1-8398-419AE2133255}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86713CAA-4A0C-4FB1-8398-419AE2133255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF60B44-A34C-408C-B9DB-BF4F41B8C8E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@
 {
     public class OfferConstraints
     {
-        public const int MinDescriptionLength = 50;
+        public const int MinDescriptionLength = 10;
         public const int MaxDescriptionLength = 200;
 
         public const int MinTitleLength = 3;

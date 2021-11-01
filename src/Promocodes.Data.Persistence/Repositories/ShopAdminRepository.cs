@@ -3,7 +3,7 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 
 namespace Promocodes.Data.Persistence.Repositories
 {
-    public class ShopAdminRepository : RepositoryBase<ShopAdmin, int>, IShopAdminRepository
+    public class ShopAdminRepository : RepositoryBase<ShopAdmin, string>, IShopAdminRepository
     {
         public ShopAdminRepository(PromocodesDbContext context) : base(context)
         {

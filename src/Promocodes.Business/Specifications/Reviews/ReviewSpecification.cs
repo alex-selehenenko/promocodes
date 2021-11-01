@@ -11,13 +11,13 @@ namespace Promocodes.Business.Specifications.Reviews
         {
         }
 
-        public static ReviewSpecification ByCustomerAndShop(int customerId, int shopId) => 
+        public static ReviewSpecification ByCustomerAndShop(string customerId, int shopId) => 
             new(r => r.UserId == customerId && r.ShopId == shopId);
 
-        public static ReviewSpecification ByIdAndCustomer(int reviewId, int customerId) =>
+        public static ReviewSpecification ByIdAndCustomer(int reviewId, string customerId) =>
             new(r => r.Id == reviewId && r.UserId == customerId);
 
-        public static ReviewSpecification ByCustomer(int customerId) =>
+        public static ReviewSpecification ByCustomer(string customerId) =>
             new(r => r.UserId == customerId);
     }
 }

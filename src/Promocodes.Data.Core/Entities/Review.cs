@@ -5,7 +5,7 @@ namespace Promocodes.Data.Core.Entities
 {
     public class Review : EntityBase<int>, IEntity
     {
-        public byte Stars { get; set; }
+        public int Stars { get; set; }
 
         public string Text { get; set; }
 
@@ -15,11 +15,9 @@ namespace Promocodes.Data.Core.Entities
 
         public int ShopId { get; set; }
 
-        public int? UserId { get; set; }
+        public string UserId { get; set; }
 
         public Shop Shop { get; set; }
-
-        public Customer User { get; set; }
 
         public Review()
         {

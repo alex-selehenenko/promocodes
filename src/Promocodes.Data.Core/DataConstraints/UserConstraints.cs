@@ -2,7 +2,6 @@
 {
     public class UserConstraints
     {
-        public const int MinUserNameLength = 3;
-        public const int MaxUserNameLength = 50;        
+        public const int MaxUserIdLength = 40; 
     }
 }

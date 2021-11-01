@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Oleksandr Selehenenko</Authors>
+    <Product>Promocodes API</Product>
+    <Copyright>2021, Oleksandr Selehenenko</Copyright>
+    <RepositoryUrl>https://github.com/oleksandr-selehenenko/Promocodes</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Promocodes.Data.Core\Promocodes.Data.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

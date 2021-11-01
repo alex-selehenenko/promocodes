@@ -6,8 +6,6 @@ using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Extensions;
 using Promocodes.Business.Services.Dto;
 using Promocodes.Business.Specifications.Reviews;
-using Promocodes.Business.Managers;
-using Promocodes.Data.Core.Common.Types;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -15,21 +13,21 @@ namespace Promocodes.Business.Services.Implementation
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IShopRepository _shopRepository;
-        private readonly IUserManager _userManager;
+        private readonly IUserService _userService;
 
-        public ReviewService(IReviewRepository reviewRepository, IShopRepository shopRepository, IUserManager userManager)
+        public ReviewService(IReviewRepository reviewRepository, IShopRepository shopRepository, IUserService userService)
         {
             _reviewRepository = reviewRepository;
             _shopRepository = shopRepository;
-            _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<Review> CreateAsync(Review review)
         {
-            var customer = await GetUserAsync();
-            review.UserId = customer.Id;
+            var userId = _userService.GetCurrentUserId();
+            review.UserId = userId;
 
-            var specification = ReviewSpecification.ByCustomerAndShop(review.UserId.Value, review.ShopId);
+            var specification = ReviewSpecification.ByCustomerAndShop(userId, review.ShopId);
             var reviewExists = await _reviewRepository.ExistsAsync(specification);
 
             if (reviewExists)
@@ -68,21 +66,10 @@ namespace Promocodes.Business.Services.Implementation
             return review;
         }
 
-        private async Task<User> GetUserAsync()
-        {
-            var user = await _userManager.GetCurrentUserAsync(false);
-
-            if (user.Role != Role.Customer)
-            {
-                throw new AccessForbiddenException("Operation can be executed by customer only");
-            }
-            return user;
-        }
-
         private async Task<Review> GetReviewAsync(int reviewId)
         {
-            var customer = await GetUserAsync();
-            var specification = ReviewSpecification.ByIdAndCustomer(reviewId, customer.Id);
+            var userId= _userService.GetCurrentUserId();
+            var specification = ReviewSpecification.ByIdAndCustomer(reviewId, userId);
             return await _reviewRepository.FindAsync(specification) ?? throw new AccessForbiddenException("Review doesn't belong to the user");
         }
     }

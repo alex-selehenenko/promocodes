@@ -5,7 +5,6 @@ using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Exceptions;
 using Promocodes.Business.Extensions;
 using Promocodes.Business.Services.Dto;
-using Promocodes.Business.Managers;
 using Promocodes.Business.Specifications.Offers;
 
 namespace Promocodes.Business.Services.Implementation
@@ -14,13 +13,19 @@ namespace Promocodes.Business.Services.Implementation
     {
         private readonly IOfferRepository _offerRepository;
         private readonly IShopRepository _shopRepository;
-        private readonly IUserManager _userManager;
+        private readonly IShopAdminRepository _shopAdminRepository;
+        private readonly IUserService _userService;
 
-        public OfferService(IOfferRepository offerRepository, IShopRepository shopRepository, IUserManager userManager)
+        public OfferService(
+            IOfferRepository offerRepository,
+            IShopRepository shopRepository,
+            IShopAdminRepository shopAdminRepository,
+            IUserService userService)
         {
             _offerRepository = offerRepository;
             _shopRepository = shopRepository;
-            _userManager = userManager;
+            _shopAdminRepository = shopAdminRepository;
+            _userService = userService;
         }
 
         public async Task<Offer> CreateAsync(Offer offer)
@@ -61,12 +66,9 @@ namespace Promocodes.Business.Services.Implementation
 
         private async Task<ShopAdmin> GetAdminAsync()
         {
-            var user = await _userManager.GetCurrentUserAsync(true);
+            var userId = _userService.GetCurrentUserId();
+            var admin = await _shopAdminRepository.FindAsync(userId) ?? throw new OperationException("Shop admin set doesn't have any recods related to current user");
 
-            if (user is not ShopAdmin admin)
-            {
-                throw new AccessForbiddenException("Operation can be executed by admin only");
-            }
             if (!admin.ShopId.HasValue)
             {
                 throw new OperationException("The admin doesn't manage any shop");

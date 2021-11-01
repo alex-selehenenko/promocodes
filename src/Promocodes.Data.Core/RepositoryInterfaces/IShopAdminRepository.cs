@@ -2,7 +2,7 @@
 
 namespace Promocodes.Data.Core.RepositoryInterfaces
 {
-    public interface IShopAdminRepository : IRepository<ShopAdmin, int>
+    public interface IShopAdminRepository : IRepository<ShopAdmin, string>
     {
     }
 }

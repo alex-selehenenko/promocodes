@@ -51,21 +51,6 @@ namespace Promocodes.Data.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CustomerOffer", b =>
-                {
-                    b.Property<int>("OffersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OffersId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("CustomerOffer");
-                });
-
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -100,6 +85,28 @@ namespace Promocodes.Data.Persistence.Migrations
                             Id = 3,
                             Name = "Clothes"
                         });
+                });
+
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.CustomerOffer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerId")
+                        .HasMaxLength(40)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<int?>("OfferId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
@@ -149,6 +156,47 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Get 30% discount!",
+                            Discount = 0.3f,
+                            ExpirationDate = new DateTime(2021, 11, 29, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(6748),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            Promocode = "OCTOBER",
+                            ShopId = 1,
+                            StartDate = new DateTime(2021, 10, 30, 14, 40, 55, 441, DateTimeKind.Local).AddTicks(6615),
+                            Title = "Electron Plus October GRAND SALE"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Hurry up to get 70% discount on TOYS!",
+                            Discount = 0.7f,
+                            ExpirationDate = new DateTime(2021, 11, 9, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7920),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            Promocode = "OCTOBER",
+                            ShopId = 2,
+                            StartDate = new DateTime(2021, 10, 30, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7914),
+                            Title = "Baby Boom FRESH discount"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Get 50% discount on summer collection!",
+                            Discount = 0.5f,
+                            ExpirationDate = new DateTime(2021, 11, 29, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7928),
+                            IsDeleted = false,
+                            IsEnabled = true,
+                            Promocode = "OCTOBER",
+                            ShopId = 3,
+                            StartDate = new DateTime(2021, 10, 30, 14, 40, 55, 442, DateTimeKind.Local).AddTicks(7927),
+                            Title = "Zebra SALE"
+                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Review", b =>
@@ -166,27 +214,69 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ShopId")
+                    b.Property<int>("ShopId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Stars")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasMaxLength(40)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(40)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ShopId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(4854),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(4860),
+                            ShopId = 1,
+                            Stars = 10,
+                            Text = "Very good shop!",
+                            UserId = "698306d9-4478-4a58-8b38-b547e85e2289"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(4872),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(4873),
+                            ShopId = 2,
+                            Stars = 8,
+                            Text = "Like baby boom. But delivery taskes a wile",
+                            UserId = "698306d9-4478-4a58-8b38-b547e85e2289"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(5775),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(5778),
+                            ShopId = 3,
+                            Stars = 1,
+                            Text = "Awful service!",
+                            UserId = "698306d9-4478-4a58-8b38-b547e85e2289"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreationTime = new DateTime(2021, 10, 30, 14, 40, 55, 443, DateTimeKind.Local).AddTicks(5781),
+                            LastUpdateTime = new DateTime(2021, 10, 30, 14, 40, 55, 444, DateTimeKind.Local).AddTicks(5782),
+                            ShopId = 3,
+                            Stars = 9,
+                            Text = "Excellent!",
+                            UserId = "82b4753f-8f7f-43d1-a67d-13b531d9512b"
+                        });
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Shop", b =>
@@ -245,79 +335,16 @@ namespace Promocodes.Data.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Promocodes.Data.Core.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(14)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Phone" }, "UQ_User_Phone")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Promocodes.Data.Core.Entities.Customer", b =>
-                {
-                    b.HasBaseType("Promocodes.Data.Core.Entities.User");
-
-                    b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Phone = "+380631111111",
-                            Role = 1,
-                            UserName = "alex"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Phone = "+380632222222",
-                            Role = 1,
-                            UserName = "serg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Phone = "+380633333333",
-                            Role = 1,
-                            UserName = "jess"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Phone = "+380634444444",
-                            Role = 1,
-                            UserName = "qwerty"
-                        });
-                });
-
             modelBuilder.Entity("Promocodes.Data.Core.Entities.ShopAdmin", b =>
                 {
-                    b.HasBaseType("Promocodes.Data.Core.Entities.User");
+                    b.Property<string>("Id")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<int?>("ShopId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ShopId");
 
@@ -326,27 +353,18 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 6,
-                            Phone = "+30632526897",
-                            Role = 0,
-                            UserName = "Andrew Admin",
+                            Id = "e71a1ef0-fcdc-4069-87bb-2b38bdde23ac",
                             ShopId = 1
                         },
                         new
                         {
-                            Id = 7,
-                            Phone = "+30632526899",
-                            Role = 0,
-                            UserName = "Ben Admin",
-                            ShopId = 1
+                            Id = "b466992a-5ad2-4f8b-ab92-cd1abbbe22e9",
+                            ShopId = 2
                         },
                         new
                         {
-                            Id = 8,
-                            Phone = "+30632526890",
-                            Role = 0,
-                            UserName = "Alicia Admin",
-                            ShopId = 1
+                            Id = "766fdfbf-119d-45f7-a148-995bbe1009d0",
+                            ShopId = 3
                         });
                 });
 
@@ -365,19 +383,13 @@ namespace Promocodes.Data.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CustomerOffer", b =>
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.CustomerOffer", b =>
                 {
-                    b.HasOne("Promocodes.Data.Core.Entities.Offer", null)
-                        .WithMany()
-                        .HasForeignKey("OffersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Promocodes.Data.Core.Entities.Offer", "Offer")
+                        .WithMany("Customers")
+                        .HasForeignKey("OfferId");
 
-                    b.HasOne("Promocodes.Data.Core.Entities.Customer", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
@@ -395,34 +407,14 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Reviews")
                         .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Promocodes.Data.Core.Entities.Customer", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Shop");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Promocodes.Data.Core.Entities.Customer", b =>
-                {
-                    b.HasOne("Promocodes.Data.Core.Entities.User", null)
-                        .WithOne()
-                        .HasForeignKey("Promocodes.Data.Core.Entities.Customer", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Promocodes.Data.Core.Entities.ShopAdmin", b =>
                 {
-                    b.HasOne("Promocodes.Data.Core.Entities.User", null)
-                        .WithOne()
-                        .HasForeignKey("Promocodes.Data.Core.Entities.ShopAdmin", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
                     b.HasOne("Promocodes.Data.Core.Entities.Shop", "Shop")
                         .WithMany("Admins")
                         .HasForeignKey("ShopId")
@@ -431,17 +423,17 @@ namespace Promocodes.Data.Persistence.Migrations
                     b.Navigation("Shop");
                 });
 
+            modelBuilder.Entity("Promocodes.Data.Core.Entities.Offer", b =>
+                {
+                    b.Navigation("Customers");
+                });
+
             modelBuilder.Entity("Promocodes.Data.Core.Entities.Shop", b =>
                 {
                     b.Navigation("Admins");
 
                     b.Navigation("Offers");
 
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("Promocodes.Data.Core.Entities.Customer", b =>
-                {
                     b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
