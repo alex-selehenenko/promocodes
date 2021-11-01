@@ -47,11 +47,11 @@ namespace Promocodes.Data.Persistence.Extensions
             }
             if (offset.Skip.HasValue)
             {
-                query.Skip(offset.Skip.Value);
+                query = query.Skip(offset.Skip.Value);
             }
             if (offset.Take.HasValue)
             {
-                query.Take(offset.Take.Value);
+                query = query.Take(offset.Take.Value);
             }
             return query;
         }

@@ -15,7 +15,11 @@ namespace Promocodes.Business.Services.Interfaces
 
         Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter, Offset offset = null);
 
+        Task<int> CountShopsAsync(ShopFilter filter);
+
         Task<int> CountOffersAsync(int shopId, bool deleted = false);
+
+        Task<int> CountRemovedOffersAsync();
 
         Task<int> CountReviewsAsync(int shopId);
     }

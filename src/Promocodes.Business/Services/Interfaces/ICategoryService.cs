@@ -8,5 +8,7 @@ namespace Promocodes.Business.Services.Interfaces
     public interface ICategoryService
     {
         Task<IEnumerable<Shop>> GetShopsAsync(int categoryId, Offset offset = null);
+
+        Task<int> CountShopsAsync(int categoryId);
     }
 }

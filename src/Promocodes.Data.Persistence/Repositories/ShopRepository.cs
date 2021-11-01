@@ -15,6 +15,18 @@ namespace Promocodes.Data.Persistence.Repositories
         {
         }
 
+        public async Task<int> CountAsync(ShopFilter filter)
+        {
+            var query = Context.Shops.Include(s => s.Categories).AsQueryable();
+
+            if (filter.FirstChar.HasValue)
+            {
+                query = query.Where(s => s.Name.StartsWith(filter.FirstChar.Value.ToString()));
+            }
+
+            return await query.CountAsync();
+        }
+
         public async Task<IEnumerable<Shop>> FindAllAsync(ShopFilter filter, Offset offset = null)
         {
             var query = Context.Shops.Include(s => s.Categories).AsQueryable();

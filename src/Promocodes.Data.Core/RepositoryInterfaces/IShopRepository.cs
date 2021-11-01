@@ -8,5 +8,7 @@ namespace Promocodes.Data.Core.RepositoryInterfaces
     public interface IShopRepository : IRepository<Shop, int>
     {
         Task<IEnumerable<Shop>> FindAllAsync(ShopFilter filter, Offset offset = null);
+
+        Task<int> CountAsync(ShopFilter filter);
     }
 }

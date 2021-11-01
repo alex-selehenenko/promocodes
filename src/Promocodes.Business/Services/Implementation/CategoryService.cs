@@ -19,10 +19,16 @@ namespace Promocodes.Business.Services.Implementation
             _repository = repository;
         }
 
+        public async Task<int> CountShopsAsync(int categoryId)
+        {
+            var specification = ShopWithCategoriesSpecification.ByCategoryId(categoryId);
+            return await _repository.CountAsync(specification);
+        }
+
         public async Task<IEnumerable<Shop>> GetShopsAsync(int categoryId, Offset offset)
         {
             var specification = ShopWithCategoriesSpecification.ByCategoryId(categoryId);
-            var shops = await _repository.FindAllAsync(specification) ?? throw new NotFoundException();
+            var shops = await _repository.FindAllAsync(specification, offset) ?? throw new NotFoundException();
 
             return shops.Any() ? shops : throw new NotFoundException();
         }
