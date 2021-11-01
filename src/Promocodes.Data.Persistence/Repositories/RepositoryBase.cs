@@ -7,6 +7,7 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
@@ -46,14 +47,16 @@ namespace Promocodes.Data.Persistence.Repositories
 
         public virtual async Task<IEnumerable<TEntity>> FindAllAsync(Offset offset = null)
         {
-            return await DbSet.Offset(offset)
+            return await DbSet.OrderBy(e => e.Id)
+                .Offset(offset)                
                 .ToListAsync();
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification, Offset offset = null)
         {
             return await DbSet.Specify(specification)
-                .Offset(offset)
+                .OrderBy(e => e.Id)
+                .Offset(offset)                
                 .ToListAsync();
         }
 

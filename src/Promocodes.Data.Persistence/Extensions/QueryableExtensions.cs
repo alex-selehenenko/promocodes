@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Promocodes.Data.Core.Common;
 using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.QueryFilters;
@@ -39,7 +40,7 @@ namespace Promocodes.Data.Persistence.Extensions
             return await query.AnyAsync(specification.Criteria);
         }
 
-        public static IQueryable<T> Offset<T>(this IQueryable<T> query, Offset offset) where T : IEntity
+        public static IQueryable<TEntity> Offset<TEntity>(this IQueryable<TEntity> query, Offset offset)
         {
             if (offset is null)
             {

@@ -35,7 +35,7 @@ namespace Promocodes.Data.Persistence.Repositories
             {
                 query = query.Where(s => s.Name.StartsWith(filter.FirstChar.Value.ToString()));
             }           
-            return await query.Offset(offset).ToListAsync();
+            return await query.OrderBy(s => s.Id).Offset(offset).ToListAsync();
         }
     }
 }
