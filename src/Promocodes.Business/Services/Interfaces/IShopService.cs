@@ -7,13 +7,13 @@ namespace Promocodes.Business.Services.Interfaces
 {
     public interface IShopService
     {
-        Task<IEnumerable<Review>> GetReviewsAsync(int shopId, Offset offset = null);
+        Task<IEnumerable<Review>> GetReviewsAsync(int shopId, Offset offset);
 
-        Task<IEnumerable<Offer>> GetOffersAsync(int shopId, Offset offset = null);
+        Task<IEnumerable<Offer>> GetOffersAsync(int shopId, Offset offset);
 
-        Task<IEnumerable<Offer>> GetRemovedOffersAsync(Offset offset = null);
+        Task<IEnumerable<Offer>> GetRemovedOffersAsync(Offset offset);
 
-        Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter, Offset offset = null);
+        Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter, Offset offset);
 
         Task<int> CountShopsAsync(ShopFilter filter);
 

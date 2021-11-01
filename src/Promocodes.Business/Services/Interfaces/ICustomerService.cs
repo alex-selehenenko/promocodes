@@ -9,9 +9,9 @@ namespace Promocodes.Business.Services.Interfaces
     {
         Task TakeOfferAsync(int offerId);
 
-        Task<IEnumerable<Offer>> GetOffersAsync(Offset offset = null);
+        Task<IEnumerable<Offer>> GetOffersAsync(Offset offset);
 
-        Task<IEnumerable<Review>> GetReviewsAsync(string customerId, Offset offset = null);
+        Task<IEnumerable<Review>> GetReviewsAsync(string customerId, Offset offset);
 
         Task<int> CountReviewsAsync(string customerId);
 

@@ -60,7 +60,7 @@ namespace Promocodes.Api.Controllers
         {
             var offset = OffsetFactory.Create(page, PageSize);
 
-            var entities = await _shopService.GetReviewsAsync(id);
+            var entities = await _shopService.GetReviewsAsync(id, offset);
             var dtos = entities.Select(_mapper.Map<ReviewGetDto>);
             var count = await _shopService.CountReviewsAsync(id);
 
@@ -75,7 +75,7 @@ namespace Promocodes.Api.Controllers
         {
             var offset = OffsetFactory.Create(page, PageSize);
 
-            var entities = await _shopService.GetRemovedOffersAsync();
+            var entities = await _shopService.GetRemovedOffersAsync(offset);
             var dtos = entities.Select(_mapper.Map<OfferGetDto>);
             var count = await _shopService.CountRemovedOffersAsync();
 
