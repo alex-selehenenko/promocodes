@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.QueryFilters;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +37,23 @@ namespace Promocodes.Data.Persistence.Extensions
                     .Aggregate(query, (entities, includeString) => entities.Include(includeString));
             }
             return await query.AnyAsync(specification.Criteria);
+        }
+
+        public static IQueryable<T> Offset<T>(this IQueryable<T> query, Offset offset) where T : IEntity
+        {
+            if (offset is null)
+            {
+                return query;
+            }
+            if (offset.Skip.HasValue)
+            {
+                query.Skip(offset.Skip.Value);
+            }
+            if (offset.Take.HasValue)
+            {
+                query.Take(offset.Take.Value);
+            }
+            return query;
         }
     }
 }

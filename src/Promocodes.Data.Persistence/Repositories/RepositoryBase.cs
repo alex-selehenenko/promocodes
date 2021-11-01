@@ -2,11 +2,11 @@
 using Promocodes.Data.Core.Common;
 using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
+using Promocodes.Data.Core.QueryFilters;
 using Promocodes.Data.Core.RepositoryInterfaces;
 using Promocodes.Data.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Data.Persistence.Repositories
@@ -25,36 +25,42 @@ namespace Promocodes.Data.Persistence.Repositories
             DbSet = context.Set<TEntity>();
         }
 
+        public virtual async Task<int> CountAsync()
+        {
+            return await DbSet.AsNoTracking()
+                .CountAsync();
+        }
+
+        public async Task<int> CountAsync(ISpecification<TEntity> specification)
+        {
+            return await DbSet.AsNoTracking()
+                .Specify(specification)
+                .CountAsync();
+        }
+
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             var entry = await DbSet.AddAsync(entity);
             return entry.Entity;
         }        
 
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(Offset offset = null)
         {
-            return await DbSet.ToListAsync();
+            return await DbSet.Offset(offset)
+                .ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(int skip, int take)
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification, Offset offset = null)
         {
-            return await DbSet.Skip(skip).Take(take).ToListAsync();
+            return await DbSet.Specify(specification)
+                .Offset(offset)
+                .ToListAsync();
         }
 
         public virtual async Task<TEntity> FindAsync(ISpecification<TEntity> specification)
         {
             return await DbSet.Specify(specification).FirstOrDefaultAsync();
-        }
-
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification, int skip, int take)
-        {
-            return await DbSet.Specify(specification).Skip(skip).Take(take).ToListAsync();
-        }
-
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(ISpecification<TEntity> specification)
-        {
-            return await DbSet.Specify(specification).ToListAsync();
-        }
+        }        
 
         public virtual async Task<TEntity> FindAsync(TKey key)
         {
@@ -79,6 +85,6 @@ namespace Promocodes.Data.Persistence.Repositories
         public async Task<bool> ExistsAsync(TKey id)
         {
             return await DbSet.FindAsync(id) is not null;
-        }
+        }        
     }
 }

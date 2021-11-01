@@ -18,7 +18,7 @@ namespace Promocodes.Data.Core.Common.Specifications
             Criteria = criteria;            
         }
 
-        public SpecificationBase()
+        private SpecificationBase()
         {
             Includes = new();
             ThenIncludes = new();

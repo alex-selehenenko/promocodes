@@ -7,6 +7,7 @@ using Promocodes.Data.Core.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Promocodes.Data.Core.QueryFilters;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -29,19 +30,32 @@ namespace Promocodes.Business.Services.Implementation
             _customerOfferRepository = customerRepository;
         }
 
-        public async Task<IEnumerable<Offer>> GetOffersAsync()
+        public async Task<int> CountOffersAsync()
         {
             var userId = _userService.GetCurrentUserId();
             var specification = CustomerOfferSpecification.ByUserId(userId);
-            var customerOffers = await _customerOfferRepository.FindAllAsync(specification);
+            return await _customerOfferRepository.CountAsync(specification);
+        }
+
+        public async Task<int> CountReviewsAsync(string customerId)
+        {
+            var specification = ReviewSpecification.ByCustomer(customerId);
+            return await _reviewRepository.CountAsync(specification);
+        }
+
+        public async Task<IEnumerable<Offer>> GetOffersAsync(Offset offset)
+        {
+            var userId = _userService.GetCurrentUserId();
+            var specification = CustomerOfferSpecification.ByUserId(userId);
+            var customerOffers = await _customerOfferRepository.FindAllAsync(specification, offset);
 
             return customerOffers.Any() ? customerOffers.Select(c => c.Offer) : throw new NotFoundException();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewsAsync(string customerId)
+        public async Task<IEnumerable<Review>> GetReviewsAsync(string customerId, Offset offset)
         {
             var specification = ReviewSpecification.ByCustomer(customerId);
-            var reviews = await _reviewRepository.FindAllAsync(specification);
+            var reviews = await _reviewRepository.FindAllAsync(specification, offset);
 
             return reviews.Any() ? reviews : throw new NotFoundException();
         }
