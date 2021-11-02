@@ -39,12 +39,11 @@ namespace Promocodes.Business.Pagination
             {
                 throw new NotFoundException();
             }
-            
-            IEnumerable<TEntity> entities;
+
             var offset = new Offset().FromDefaultPage(page);
 
-            entities = specification is null ? await repository.FindAllAsync(offset) :
-                                               await repository.FindAllAsync(specification, offset);
+            var entities = specification is null ? await repository.FindAllAsync(offset) :
+                                                   await repository.FindAllAsync(specification, offset);
 
             return entities.Any() ? entities : throw new OperationException($"Invalid page number or page doesn't exist");
         }
