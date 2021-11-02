@@ -4,10 +4,8 @@ using Promocodes.Business.Specifications.Reviews;
 using Promocodes.Business.Specifications.CustomersOffers;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Promocodes.Data.Core.QueryFilters;
+using Promocodes.Business.Pagination;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -30,34 +28,18 @@ namespace Promocodes.Business.Services.Implementation
             _customerOfferRepository = customerRepository;
         }
 
-        public async Task<int> CountOffersAsync()
+        public async Task<IPage<Offer>> GetOffersAsync(int page = 1)
         {
-            var userId = _userService.GetCurrentUserId();
+            var userId = _userService.GetCurrentUserId();            
             var specification = CustomerOfferSpecification.ByUserId(userId);
-            return await _customerOfferRepository.CountAsync(specification);
+
+            return await PageFactory.New().CreateDefaultPageAsync(page, specification, _customerOfferRepository, entity => entity.Offer);
         }
 
-        public async Task<int> CountReviewsAsync(string customerId)
+        public async Task<IPage<Review>> GetReviewsAsync(string customerId, int page = 1)
         {
             var specification = ReviewSpecification.ByCustomer(customerId);
-            return await _reviewRepository.CountAsync(specification);
-        }
-
-        public async Task<IEnumerable<Offer>> GetOffersAsync(Offset offset)
-        {
-            var userId = _userService.GetCurrentUserId();
-            var specification = CustomerOfferSpecification.ByUserId(userId);
-            var customerOffers = await _customerOfferRepository.FindAllAsync(specification, offset);
-
-            return customerOffers.Any() ? customerOffers.Select(c => c.Offer) : throw new NotFoundException();
-        }
-
-        public async Task<IEnumerable<Review>> GetReviewsAsync(string customerId, Offset offset)
-        {
-            var specification = ReviewSpecification.ByCustomer(customerId);
-            var reviews = await _reviewRepository.FindAllAsync(specification, offset);
-
-            return reviews.Any() ? reviews : throw new NotFoundException();
+            return await PageFactory.New().CreateDefaultPageAsync(page, specification, _reviewRepository);
         }
 
         public async Task TakeOfferAsync(int offerId)

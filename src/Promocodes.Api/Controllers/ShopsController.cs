@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.AuthPolicy;
 using Promocodes.Api.Dto.Offers;
+using Promocodes.Api.Dto.Pagination;
 using Promocodes.Api.Dto.Reviews;
 using Promocodes.Api.Dto.Shops;
-using Promocodes.Api.Helpers;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Data.Core.QueryFilters;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
@@ -17,8 +16,6 @@ namespace Promocodes.Api.Controllers
     [ApiController]
     public class ShopsController : Controller
     {
-        private const int PageSize = 10;
-
         private readonly IShopService _shopService;
         private readonly IMapper _mapper;
 
@@ -29,68 +26,50 @@ namespace Promocodes.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] ShopFilterDto dto, int page = 1)
+        public async Task<IActionResult> GetAsync([FromQuery] ShopFilterDto filterDto, int page = 1)
         {
-            var offset = OffsetFactory.Create(page, PageSize);
+            var filter = _mapper.Map<ShopFilter>(filterDto);
+            var shops = await _shopService.GetAllAsync(filter, page);
+            var dto = _mapper.Map<PageDto<ShopGetDto>>(shops);
 
-            var filter = _mapper.Map<ShopFilter>(dto);
-            var entities = await _shopService.GetAllAsync(filter, offset);
-            var dtos = entities.Select(_mapper.Map<ShopGetDto>);
-            var count = await _shopService.CountShopsAsync(filter);
-
-            var response = PageFactory.Create(page, PageSize, count, dtos);
-            return Ok(response);
+            return Ok(dto);
         }
 
         [HttpGet("{id}/offers")]
         public async Task<IActionResult> GetOffersAsync(int id, int page = 1)
         {
-            var offset = OffsetFactory.Create(page, PageSize);
+            var offers = await _shopService.GetOffersAsync(id, page);
+            var dto = _mapper.Map<PageDto<OfferGetDto>>(offers);
 
-            var entities = await _shopService.GetOffersAsync(id, offset);
-            var dtos = entities.Select(_mapper.Map<OfferGetDto>);
-            var count = await _shopService.CountOffersAsync(id);
-
-            var response = PageFactory.Create(page, PageSize, count, dtos);
-            return Ok(response);
+            return Ok(dto);
         }
 
         [HttpGet("{id}/reviews")]
         public async Task<IActionResult> GetReviewsAsync(int id, int page = 1)
         {
-            var offset = OffsetFactory.Create(page, PageSize);
+            var reviews = await _shopService.GetReviewsAsync(id, page);
+            var dto = _mapper.Map<PageDto<ReviewGetDto>>(reviews);
 
-            var entities = await _shopService.GetReviewsAsync(id, offset);
-            var dtos = entities.Select(_mapper.Map<ReviewGetDto>);
-            var count = await _shopService.CountReviewsAsync(id);
-
-            var response = PageFactory.Create(page, PageSize, count, dtos);
-
-            return Ok(response);
+            return Ok(dto);
         }
 
         [HttpGet("offers/trash")]
         [Authorize(Policy = PolicyConstants.Name.ShopAdmin)]
         public async Task<IActionResult> GetRemovedOffers(int page = 1)
         {
-            var offset = OffsetFactory.Create(page, PageSize);
-
-            var entities = await _shopService.GetRemovedOffersAsync(offset);
-            var dtos = entities.Select(_mapper.Map<OfferGetDto>);
-            var count = await _shopService.CountRemovedOffersAsync();
-
-            var response = PageFactory.Create(page, PageSize, count, dtos);
+            var offers = await _shopService.GetRemovedOffersAsync(page);
+            var dto = _mapper.Map<PageDto<OfferGetDto>>(offers);
             
-            return Ok(response);
+            return Ok(dto);
         }
 
         [HttpGet("{id}/rating")]
         public async Task<IActionResult> GetShopRatingAsync(int id)
         {
             var result = await _shopService.GetShopRatingAsync(id);
-            var response = _mapper.Map<ShopRatingDto>(result);
+            var dto = _mapper.Map<ShopRatingDto>(result);
 
-            return Ok(response);
+            return Ok(dto);
         }
     }
 }

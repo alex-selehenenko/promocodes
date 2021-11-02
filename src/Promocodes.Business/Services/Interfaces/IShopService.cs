@@ -1,29 +1,21 @@
-﻿using Promocodes.Business.Services.Dto;
+﻿using Promocodes.Business.Pagination;
+using Promocodes.Business.Services.Dto;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.QueryFilters;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Interfaces
 {
     public interface IShopService
     {
-        Task<IEnumerable<Review>> GetReviewsAsync(int shopId, Offset offset);
+        Task<IPage<Review>> GetReviewsAsync(int shopId, int page = 1);
 
-        Task<IEnumerable<Offer>> GetOffersAsync(int shopId, Offset offset);
+        Task<IPage<Offer>> GetOffersAsync(int shopId, int page = 1);
 
-        Task<IEnumerable<Offer>> GetRemovedOffersAsync(Offset offset);
+        Task<IPage<Offer>> GetRemovedOffersAsync(int page = 1);
 
-        Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter, Offset offset);
+        Task<IPage<Shop>> GetAllAsync(ShopFilter filter, int page = 1);
 
         Task<ShopRating> GetShopRatingAsync(int shopId);
-
-        Task<int> CountShopsAsync(ShopFilter filter);
-
-        Task<int> CountOffersAsync(int shopId, bool deleted = false);
-
-        Task<int> CountRemovedOffersAsync();
-
-        Task<int> CountReviewsAsync(int shopId);
     }
 }

@@ -25,24 +25,24 @@ namespace Promocodes.Api.Controllers
 
         [HttpPost]
         [Authorize(Policy = PolicyConstants.Name.Customer)]
-        public async Task<IActionResult> PostAsync([FromBody] ReviewPostDto dto)
+        public async Task<IActionResult> PostAsync([FromBody] ReviewPostDto reviewDto)
         {
-            var review = _mapper.Map<Review>(dto);
+            var review = _mapper.Map<Review>(reviewDto);
             var entity = await _reviewService.CreateAsync(review);
-            var entityDto = _mapper.Map<ReviewGetDto>(entity);
+            var dto = _mapper.Map<ReviewGetDto>(entity);
 
-            return Ok(entityDto);
+            return Ok(dto);
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = PolicyConstants.Name.Customer)]
-        public async Task<IActionResult> PutAsync(int id, [FromBody] ReviewDto dto)
+        public async Task<IActionResult> PutAsync(int id, [FromBody] ReviewDto reviewDto)
         {
-            var update = _mapper.Map<ReviewUpdate>(dto);
+            var update = _mapper.Map<ReviewUpdate>(reviewDto);
             var entity = await _reviewService.UpdateAsync(id, update);
-            var entityDto = _mapper.Map<ReviewGetDto>(entity);
+            var dto = _mapper.Map<ReviewGetDto>(entity);
 
-            return Ok(entityDto);
+            return Ok(dto);
         }
 
         [HttpDelete("{id}")]

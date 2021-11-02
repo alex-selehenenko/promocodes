@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Promocodes.Data.Core.Common;
 using Promocodes.Data.Core.Common.Specifications;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.QueryFilters;

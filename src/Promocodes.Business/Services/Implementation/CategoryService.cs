@@ -1,11 +1,8 @@
-﻿using Promocodes.Business.Exceptions;
+﻿using Promocodes.Business.Pagination;
 using Promocodes.Business.Services.Interfaces;
 using Promocodes.Business.Specifications.Shops;
 using Promocodes.Data.Core.Entities;
-using Promocodes.Data.Core.QueryFilters;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Implementation
@@ -19,18 +16,10 @@ namespace Promocodes.Business.Services.Implementation
             _repository = repository;
         }
 
-        public async Task<int> CountShopsAsync(int categoryId)
-        {
+        public async Task<IPage<Shop>> GetShopsAsync(int categoryId, int page = 1)
+        {           
             var specification = ShopWithCategoriesSpecification.ByCategoryId(categoryId);
-            return await _repository.CountAsync(specification);
-        }
-
-        public async Task<IEnumerable<Shop>> GetShopsAsync(int categoryId, Offset offset)
-        {
-            var specification = ShopWithCategoriesSpecification.ByCategoryId(categoryId);
-            var shops = await _repository.FindAllAsync(specification, offset) ?? throw new NotFoundException();
-
-            return shops.Any() ? shops : throw new NotFoundException();
+            return await PageFactory.New().CreateDefaultPageAsync(page, specification, _repository);
         }
     }
 }
