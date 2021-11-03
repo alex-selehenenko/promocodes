@@ -1,11 +1,11 @@
-﻿using Promocodes.Data.Core.Entities;
-using System.Collections.Generic;
+﻿using Promocodes.Business.Pagination;
+using Promocodes.Data.Core.Entities;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Interfaces
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<Shop>> GetShopsAsync(int categoryId);
+        Task<IPage<Shop>> GetShopsAsync(int categoryId, int page = 1);
     }
 }

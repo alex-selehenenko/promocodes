@@ -1,18 +1,21 @@
-﻿using Promocodes.Data.Core.Entities;
+﻿using Promocodes.Business.Pagination;
+using Promocodes.Business.Services.Dto;
+using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.QueryFilters;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Interfaces
 {
     public interface IShopService
     {
-        Task<IEnumerable<Review>> GetReviewsAsync(int shopId);
+        Task<IPage<Review>> GetReviewsAsync(int shopId, int page = 1);
 
-        Task<IEnumerable<Offer>> GetOffersAsync(int shopId);
+        Task<IPage<Offer>> GetOffersAsync(int shopId, int page = 1);
 
-        Task<IEnumerable<Offer>> GetRemovedOffersAsync();
+        Task<IPage<Offer>> GetRemovedOffersAsync(int page = 1);
 
-        Task<IEnumerable<Shop>> GetAllAsync(ShopFilter filter);
+        Task<IPage<Shop>> GetAllAsync(ShopFilter filter, int page = 1);
+
+        Task<ShopRating> GetShopRatingAsync(int shopId);
     }
 }

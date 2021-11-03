@@ -4,9 +4,8 @@ using Promocodes.Business.Specifications.Reviews;
 using Promocodes.Business.Specifications.CustomersOffers;
 using Promocodes.Data.Core.Entities;
 using Promocodes.Data.Core.RepositoryInterfaces;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Promocodes.Business.Pagination;
 
 namespace Promocodes.Business.Services.Implementation
 {
@@ -29,21 +28,18 @@ namespace Promocodes.Business.Services.Implementation
             _customerOfferRepository = customerRepository;
         }
 
-        public async Task<IEnumerable<Offer>> GetOffersAsync()
+        public async Task<IPage<Offer>> GetOffersAsync(int page = 1)
         {
-            var userId = _userService.GetCurrentUserId();
+            var userId = _userService.GetCurrentUserId();            
             var specification = CustomerOfferSpecification.ByUserId(userId);
-            var customerOffers = await _customerOfferRepository.FindAllAsync(specification);
 
-            return customerOffers.Any() ? customerOffers.Select(c => c.Offer) : throw new NotFoundException();
+            return await PageFactory.New().CreateDefaultPageAsync(page, specification, _customerOfferRepository, entity => entity.Offer);
         }
 
-        public async Task<IEnumerable<Review>> GetReviewsAsync(string customerId)
+        public async Task<IPage<Review>> GetReviewsAsync(string customerId, int page = 1)
         {
             var specification = ReviewSpecification.ByCustomer(customerId);
-            var reviews = await _reviewRepository.FindAllAsync(specification);
-
-            return reviews.Any() ? reviews : throw new NotFoundException();
+            return await PageFactory.New().CreateDefaultPageAsync(page, specification, _reviewRepository);
         }
 
         public async Task TakeOfferAsync(int offerId)

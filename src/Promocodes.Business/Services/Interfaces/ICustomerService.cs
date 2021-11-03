@@ -1,5 +1,5 @@
-﻿using Promocodes.Data.Core.Entities;
-using System.Collections.Generic;
+﻿using Promocodes.Business.Pagination;
+using Promocodes.Data.Core.Entities;
 using System.Threading.Tasks;
 
 namespace Promocodes.Business.Services.Interfaces
@@ -8,8 +8,8 @@ namespace Promocodes.Business.Services.Interfaces
     {
         Task TakeOfferAsync(int offerId);
 
-        Task<IEnumerable<Offer>> GetOffersAsync();
+        Task<IPage<Offer>> GetOffersAsync(int page = 1);
 
-        Task<IEnumerable<Review>> GetReviewsAsync(string customerId);
+        Task<IPage<Review>> GetReviewsAsync(string customerId, int page = 1);
     }
 }

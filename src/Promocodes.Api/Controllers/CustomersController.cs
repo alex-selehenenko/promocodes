@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Promocodes.Api.AuthPolicy;
 using Promocodes.Api.Dto.Offers;
+using Promocodes.Api.Dto.Pagination;
 using Promocodes.Api.Dto.Reviews;
 using Promocodes.Business.Services.Interfaces;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Promocodes.Api.Controllers
@@ -25,19 +25,21 @@ namespace Promocodes.Api.Controllers
 
         [HttpGet("offers")]
         [Authorize(Policy = PolicyConstants.Name.Customer)]
-        public async Task<IActionResult> GetOffersAsync()
+        public async Task<IActionResult> GetOffersAsync(int page = 1)
         {
-            var offers = await _customerService.GetOffersAsync();
-            var dtos = offers.Select(_mapper.Map<OfferGetDto>);
-            return Ok(dtos);
+            var offers = await _customerService.GetOffersAsync(page);
+            var dto = _mapper.Map<PageDto<OfferGetDto>>(offers);
+            
+            return Ok(dto);
         }
 
         [HttpGet("{id}/reviews")]
-        public async Task<IActionResult> GetReviewsAsync(string id)
+        public async Task<IActionResult> GetReviewsAsync(string id, int page = 1)
         {
-            var reviews = await _customerService.GetReviewsAsync(id);
-            var dtos = reviews.Select(_mapper.Map<ReviewGetDto>);
-            return Ok(dtos);
+            var reviews = await _customerService.GetReviewsAsync(id, page);
+            var dto = _mapper.Map<PageDto<ReviewGetDto>>(reviews);
+
+            return Ok(dto);
         }
 
         [HttpPost("offers/{offerId}")]

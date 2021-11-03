@@ -19,5 +19,8 @@ namespace Promocodes.Business.Specifications.Reviews
 
         public static ReviewSpecification ByCustomer(string customerId) =>
             new(r => r.UserId == customerId);
+
+        public static ReviewSpecification ByShopId(int shopId) =>
+            new(r => r.ShopId == shopId);
     }
 }
