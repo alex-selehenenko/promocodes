@@ -21,17 +21,23 @@ namespace Promocodes.Api
 {
     public class Startup
     {
+        private readonly string _identityAccessToken;
+        private readonly string _identityAuthority;
+        private readonly string _connectionString;
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
+            _identityAccessToken = configuration["IDENTITY_ACCESS_TOKEN"] ?? configuration["IdentityServer:AccessToken"];
+            _identityAuthority = configuration["IDENTITY_AUTHORITY"] ?? configuration["IdentityServer:Authority"];
+            _connectionString = configuration["DATABASE_CONNECTION"] ?? configuration.GetConnectionString("LocalDb");
+
             Configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration["DATABASE_CONNECTION"] ?? Configuration.GetConnectionString("LocalDb");
-
             services.AddControllers().AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -39,7 +45,7 @@ namespace Promocodes.Api
 
             services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
-            services.AddPersistence(connectionString);
+            services.AddPersistence(_connectionString);
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
 
@@ -48,7 +54,7 @@ namespace Promocodes.Api
                     {
                         config.TokenValidationParameters.ValidateAudience = false;
                         config.RequireHttpsMetadata = false;
-                        config.Authority = Configuration["IDENTITY_AUTHORITY"] ?? Configuration["IdentityServer:Authority"];
+                        config.Authority = _identityAuthority;
                     });
 
             services.AddAuthorization(options =>
@@ -78,7 +84,7 @@ namespace Promocodes.Api
                     {
                         Password = new OpenApiOAuthFlow()
                         {
-                            TokenUrl = new Uri(Configuration["IdentityServer:AccessToken"])
+                            TokenUrl = new Uri(_identityAccessToken)
                         }
                     }
                 });

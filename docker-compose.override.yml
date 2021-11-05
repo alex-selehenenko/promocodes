@@ -4,6 +4,7 @@ services:
   api:
     environment:
       - DATABASE_CONNECTION=Server=sql-server-db;Initial catalog=Promocodes;User ID=SA;Password=DatabaseAdm1n
+      - IDENTITY_ACCESS_TOKEN=https://localhost:6001/connect/token
       - IDENTITY_AUTHORITY=http://identity
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
