@@ -21,10 +21,17 @@ namespace Promocodes.Api
 {
     public class Startup
     {
+        private readonly string _connectionString;
+
         public IConfiguration Configuration { get; }
+
+
 
         public Startup(IConfiguration configuration)
         {
+            _connectionString = configuration["DATABASE_CONNECTION"] ??
+                                configuration.GetConnectionString(ConfigConstants.Database.LocalConnection);
+
             Configuration = configuration;
         }
 
@@ -36,7 +43,7 @@ namespace Promocodes.Api
             });
             services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
-            services.AddPersistence(Configuration.GetConnectionString(ConfigConstants.Database.LocalConnection));
+            services.AddPersistence(_connectionString);
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
 
@@ -44,7 +51,9 @@ namespace Promocodes.Api
                     .AddJwtBearer(config =>
                     {
                         config.TokenValidationParameters.ValidateAudience = false;
-                        config.Authority = Configuration[ConfigConstants.IdentityServer.UrlKey];
+                        config.RequireHttpsMetadata = false;
+                        config.Authority = Configuration["IDENTITY_AUTHORITY"]/* ?? Configuration[ConfigConstants.IdentityServer.UrlKey]*/;
+                        /*config.Authority = Configuration[ConfigConstants.IdentityServer.UrlKey];*/
                     });
 
             services.AddAuthorization(options =>
@@ -74,7 +83,8 @@ namespace Promocodes.Api
                     {
                         Password = new OpenApiOAuthFlow()
                         {
-                            TokenUrl = new Uri(Configuration[ConfigConstants.IdentityServer.AccessTokenKey])
+                            TokenUrl = new Uri("https://localhost:6001/connect/token")
+                            //TokenUrl = new Uri(Configuration[ConfigConstants.IdentityServer.AccessTokenKey])
                         }
                     }
                 });

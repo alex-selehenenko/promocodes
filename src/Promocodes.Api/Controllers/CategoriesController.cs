@@ -28,5 +28,14 @@ namespace Promocodes.Api.Controllers
 
             return Ok(dto);
         }
+
+        [HttpGet("{id}/test")]
+        public async Task<IActionResult> GetSsAsync(int id, int page = 1)
+        {
+            var result = await _categoryService.GetShopsAsync(id, page);
+            var dto = _mapper.Map<PageDto<ShopGetDto>>(result);
+
+            return Ok(dto);
+        }
     }
 }

@@ -6,10 +6,15 @@
     <Product>Promocodes API</Product>
     <RepositoryUrl>https://github.com/oleksandr-selehenenko/Promocodes</RepositoryUrl>
     <Copyright>2021, Oleksandr Selehenenko</Copyright>
+    <UserSecretsId>22b7eb5e-69ac-459c-900f-bfc2baf4561f</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
   </ItemGroup>
 
 </Project>

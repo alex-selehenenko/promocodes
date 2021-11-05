@@ -12,6 +12,13 @@
     "Promocodes.Identity": {
       "commandName": "Project",
       "applicationUrl": "https://localhost:6001"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }

@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  api:
+    environment:
+      - DATABASE_CONNECTION=Server=sql-server-db;Initial catalog=Promocodes;User ID=SA;Password=DatabaseAdm1n
+      - IDENTITY_AUTHORITY=http://identity
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "7000:80"
+      - "7001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  identity:
+    environment:
+      - IDENTITY_ISSUER=http://identity
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "6000:80"
+      - "6001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
