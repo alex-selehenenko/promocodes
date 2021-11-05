@@ -21,29 +21,25 @@ namespace Promocodes.Api
 {
     public class Startup
     {
-        private readonly string _connectionString;
-
         public IConfiguration Configuration { get; }
-
-
 
         public Startup(IConfiguration configuration)
         {
-            _connectionString = configuration["DATABASE_CONNECTION"] ??
-                                configuration.GetConnectionString(ConfigConstants.Database.LocalConnection);
-
             Configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration["DATABASE_CONNECTION"] ?? Configuration.GetConnectionString("LocalDb");
+
             services.AddControllers().AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
+
             services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
-            services.AddPersistence(_connectionString);
+            services.AddPersistence(connectionString);
             services.AddBusinessServices();
             services.AddAutoMapper(typeof(MapperProfile));
 
@@ -52,8 +48,7 @@ namespace Promocodes.Api
                     {
                         config.TokenValidationParameters.ValidateAudience = false;
                         config.RequireHttpsMetadata = false;
-                        config.Authority = Configuration["IDENTITY_AUTHORITY"]/* ?? Configuration[ConfigConstants.IdentityServer.UrlKey]*/;
-                        /*config.Authority = Configuration[ConfigConstants.IdentityServer.UrlKey];*/
+                        config.Authority = Configuration["IDENTITY_AUTHORITY"] ?? Configuration["IdentityServer:Authority"];
                     });
 
             services.AddAuthorization(options =>
@@ -65,7 +60,7 @@ namespace Promocodes.Api
             services.AddSwaggerGen(options =>
             {
                 options.ResolveConflictingActions(d => d.First());
-                options.SwaggerDoc(ConfigConstants.Swagger.ApiVersionName, new OpenApiInfo
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "1.0.0",
                     Title = "Promocodes API",
@@ -76,15 +71,14 @@ namespace Promocodes.Api
                     }
                 });
 
-                options.AddSecurityDefinition(ConfigConstants.Swagger.AuthScheme, new OpenApiSecurityScheme()
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
                 {
                     Type = SecuritySchemeType.OAuth2,
                     Flows = new OpenApiOAuthFlows()
                     {
                         Password = new OpenApiOAuthFlow()
                         {
-                            TokenUrl = new Uri("https://localhost:6001/connect/token")
-                            //TokenUrl = new Uri(Configuration[ConfigConstants.IdentityServer.AccessTokenKey])
+                            TokenUrl = new Uri(Configuration["IdentityServer:AccessToken"])
                         }
                     }
                 });
@@ -93,7 +87,7 @@ namespace Promocodes.Api
                     {
                         new OpenApiSecurityScheme()
                         {
-                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = ConfigConstants.Swagger.AuthScheme }
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2" }
                         },
                         new List<string>()
                     }
@@ -116,9 +110,9 @@ namespace Promocodes.Api
 
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint(ConfigConstants.Swagger.EndpointUrl, ConfigConstants.Swagger.EndpointName);
-                options.OAuthClientId(Configuration[ConfigConstants.Swagger.ClientIdKey]);
-                options.OAuthClientSecret(Configuration[ConfigConstants.Swagger.SecretKey]);
+                options.SwaggerEndpoint($"/swagger/v1/swagger.json", "Promocodes API");
+                options.OAuthClientId(Configuration["Swagger:ClientId"]);
+                options.OAuthClientSecret(Configuration["Swagger:Secret"]);
             });
 
             app.UseRouting();
