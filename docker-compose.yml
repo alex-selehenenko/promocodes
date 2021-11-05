@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}promocodesapi
+    build:
+      context: .
+      dockerfile: src/Promocodes.Api/Dockerfile
+
+  identity:
+    image: ${DOCKER_REGISTRY-}promocodesidentity
+    build:
+      context: .
+      dockerfile: src/Promocodes.Identity/Dockerfile
+
+  sql-server-db:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports: 
+        - "1434:1433"
+    environment: 
+        SA_PASSWORD: "DatabaseAdm1n"
+        ACCEPT_EULA: "Y"
+

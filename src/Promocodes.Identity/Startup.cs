@@ -17,7 +17,7 @@ namespace Promocodes.Identity
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()                    
+            services.AddIdentityServer(config => config.IssuerUri = AppConfiguration["IDENTITY_ISSUER"])                    
                     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
                     .AddInMemoryApiScopes(Configuration.GetApiScopes())
                     .AddInMemoryClients(Configuration.GetClients())
