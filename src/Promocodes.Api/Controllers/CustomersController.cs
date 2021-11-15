@@ -12,7 +12,7 @@ namespace Promocodes.Api.Controllers
 {
     [ApiController]
     [Route("api/customers")]
-    public class CustomersController : Controller
+    public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;

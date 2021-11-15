@@ -1,5 +1,7 @@
 ﻿using IdentityModel;
 using IdentityServer4.Test;
+using Microsoft.AspNetCore.Identity;
+using Promocodes.Identity.Data;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -7,6 +9,18 @@ namespace Promocodes.Identity
 {
     public class TestUsers
     {
+        public static void SeedUsers()
+        {
+            var context = new IdentityServerDbContext(null);
+
+            var user = new IdentityUser()
+            {
+               
+            };
+
+            context.UserRoles.
+        }
+
         public static List<TestUser> Users => new()
         {
             new()

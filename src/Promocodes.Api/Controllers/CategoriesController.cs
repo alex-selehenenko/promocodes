@@ -9,7 +9,7 @@ namespace Promocodes.Api.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    public class CategoriesController : Controller
+    public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;

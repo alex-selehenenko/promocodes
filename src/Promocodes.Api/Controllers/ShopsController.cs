@@ -14,7 +14,7 @@ namespace Promocodes.Api.Controllers
 {
     [Route("api/shops")]
     [ApiController]
-    public class ShopsController : Controller
+    public class ShopsController : ControllerBase
     {
         private readonly IShopService _shopService;
         private readonly IMapper _mapper;

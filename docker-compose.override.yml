@@ -16,6 +16,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   identity:
     environment:
+      - IDENTITY_DATABASE_CONNECTION=Server=sql-server-db;Initial catalog=Identity;User ID=SA;Password=DatabaseAdm1n
       - IDENTITY_ISSUER=http://identity
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
