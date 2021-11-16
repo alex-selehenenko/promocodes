@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Promocodes.Identity.Data;
 using Microsoft.AspNetCore.Identity;
-using IdentityServer4.Validation;
-using Promocodes.Identity.Validation;
 
 namespace Promocodes.Identity
 {
@@ -26,7 +24,6 @@ namespace Promocodes.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerValidator>();
             services.AddDbContext<IdentityServerDbContext>(contextOptions => contextOptions.UseSqlServer(_connectionString))
                     .AddIdentity<IdentityUser, IdentityRole>(identityOptions =>
                     {

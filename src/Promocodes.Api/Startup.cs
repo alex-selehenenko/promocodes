@@ -31,7 +31,7 @@ namespace Promocodes.Api
         {
             _identityAccessToken = configuration["IDENTITY_ACCESS_TOKEN"] ?? configuration["IdentityServer:AccessToken"];
             _identityAuthority = configuration["IDENTITY_AUTHORITY"] ?? configuration["IdentityServer:Authority"];
-            _connectionString = configuration["DATABASE_CONNECTION"] ?? configuration.GetConnectionString("LocalDb");
+            _connectionString = configuration["DATABASE_CONNECTION"] ?? configuration.GetConnectionString("TestDb");
 
             Configuration = configuration;
         }

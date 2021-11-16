@@ -26,9 +26,10 @@ namespace Promocodes.Identity.Controllers
         public async Task<IActionResult> Register(RegisterViewModel registerModel)
         {
             var user = new IdentityUser(registerModel.Username);
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            var inserted = await _userManager.CreateAsync(user, registerModel.Password);
+            var roleAttached = await _userManager.AddToRoleAsync(user, "Customer");
             
-            if (result.Succeeded)
+            if (inserted.Succeeded && roleAttached.Succeeded)
             {
                 return Redirect(registerModel.RedirectUrl);
             }
