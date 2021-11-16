@@ -17,8 +17,6 @@ namespace Promocodes.Identity
             {
                
             };
-
-            context.UserRoles.
         }
 
         public static List<TestUser> Users => new()

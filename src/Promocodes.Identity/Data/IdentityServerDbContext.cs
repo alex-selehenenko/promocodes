@@ -11,7 +11,7 @@ namespace Promocodes.Identity.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
+            base.OnModelCreating(builder);
         }
     }
 }

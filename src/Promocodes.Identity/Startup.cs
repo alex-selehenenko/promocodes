@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using System.Reflection;
 using Promocodes.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using IdentityServer4.Validation;
+using Promocodes.Identity.Validation;
 
 namespace Promocodes.Identity
 {
@@ -17,19 +19,30 @@ namespace Promocodes.Identity
 
         public Startup(IConfiguration configuration)
         {
-            _connectionString = configuration["IDENTITY_DATABASE_CONNECTION"] ?? configuration.GetConnectionString("LocalSqlServer");
+            _connectionString = configuration["IDENTITY_DATABASE_CONNECTION"] ?? configuration.GetConnectionString(/*"LocalSqlServer"*/"TestDb");
             AppConfiguration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityServerDbContext>(options => options.UseSqlServer(_connectionString));
+            services.AddControllersWithViews();
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerValidator>();
+            services.AddDbContext<IdentityServerDbContext>(contextOptions => contextOptions.UseSqlServer(_connectionString))
+                    .AddIdentity<IdentityUser, IdentityRole>(identityOptions =>
+                    {
+                        identityOptions.Password.RequireUppercase = true;
+                        identityOptions.Password.RequireDigit = true;
+                        identityOptions.Password.RequireNonAlphanumeric = true;
+                        identityOptions.Password.RequiredLength = 8;
+                    })
+                    .AddEntityFrameworkStores<IdentityServerDbContext>()
+                    .AddDefaultTokenProviders();
 
             services.AddIdentityServer(config => config.IssuerUri = AppConfiguration["IDENTITY_ISSUER"])
+                    .AddAspNetIdentity<IdentityUser>()
                     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
                     .AddInMemoryApiScopes(Configuration.GetApiScopes())
                     .AddInMemoryClients(Configuration.GetClients())
-                    .AddTestUsers(TestUsers.Users)
                     .AddDeveloperSigningCredential();
         }
 
@@ -39,7 +52,9 @@ namespace Promocodes.Identity
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseIdentityServer();
+            app.UseRouting();
+            app.UseIdentityServer();            
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
         }
     }
 }

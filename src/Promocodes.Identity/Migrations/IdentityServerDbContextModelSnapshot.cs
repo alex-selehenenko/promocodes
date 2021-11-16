@@ -161,6 +161,7 @@ namespace Promocodes.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
+
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
 
