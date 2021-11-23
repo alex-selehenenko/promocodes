@@ -17,23 +17,26 @@ namespace Promocodes.Identity
 
         public Startup(IConfiguration configuration)
         {
-            _connectionString = configuration["IDENTITY_DATABASE_CONNECTION"] ?? configuration.GetConnectionString(/*"LocalSqlServer"*/"TestDb");
+            _connectionString = configuration["IDENTITY_DATABASE_CONNECTION"] ?? configuration.GetConnectionString("TestDb");
             AppConfiguration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
             services.AddControllersWithViews();
-            services.AddDbContext<IdentityServerDbContext>(contextOptions => contextOptions.UseSqlServer(_connectionString))
-                    .AddIdentity<IdentityUser, IdentityRole>(identityOptions =>
-                    {
-                        identityOptions.Password.RequireUppercase = true;
-                        identityOptions.Password.RequireDigit = true;
-                        identityOptions.Password.RequireNonAlphanumeric = true;
-                        identityOptions.Password.RequiredLength = 8;
-                    })
-                    .AddEntityFrameworkStores<IdentityServerDbContext>()
-                    .AddDefaultTokenProviders();
+
+            services.AddDbContext<IdentityServerDbContext>(options => options.UseSqlServer(_connectionString));            
+            services.AddDefaultIdentity<IdentityUser>(identityOptions => 
+            {
+                identityOptions.Password.RequireUppercase = true;
+                identityOptions.Password.RequireDigit = true;
+                identityOptions.Password.RequireNonAlphanumeric = true;
+                identityOptions.Password.RequiredLength = 8;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<IdentityServerDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddIdentityServer(config => config.IssuerUri = AppConfiguration["IDENTITY_ISSUER"])
                     .AddAspNetIdentity<IdentityUser>()
@@ -49,9 +52,18 @@ namespace Promocodes.Identity
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseIdentityServer();            
-            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
+            });
         }
     }
 }
