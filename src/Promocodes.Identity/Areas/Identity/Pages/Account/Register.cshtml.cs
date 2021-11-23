@@ -75,11 +75,9 @@ namespace Promocodes.Identity.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                
-                var userResult = await _userManager.CreateAsync(user, Input.Password);
-                var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
-                
-                if (userResult.Succeeded && roleResult.Succeeded)
+                var result = await _userManager.CreateAsync(user, Input.Password);
+                var role = await _userManager.AddToRoleAsync(user, "Customer");
+                if (result.Succeeded && role.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -104,7 +102,7 @@ namespace Promocodes.Identity.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
-                foreach (var error in userResult.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
