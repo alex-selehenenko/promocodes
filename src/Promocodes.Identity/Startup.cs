@@ -17,7 +17,7 @@ namespace Promocodes.Identity
 
         public Startup(IConfiguration configuration)
         {
-            _connectionString = configuration["IDENTITY_DATABASE_CONNECTION"] ?? configuration.GetConnectionString("TestDb");
+            _connectionString = configuration["IDENTITY_DATABASE_CONNECTION"] ?? configuration.GetConnectionString("LocalSqlServer");
             AppConfiguration = configuration;
         }
 
